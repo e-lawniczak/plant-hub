@@ -1,9 +1,9 @@
 import React from 'react';
+import { ProjectRouter } from './common/routing/Router';
 
 function App() {
-  return <div className="app-main">
-    <h1>Start</h1>
-  </div>;
+  return <ProjectRouter />
+ 
 }
 
 export default App;
