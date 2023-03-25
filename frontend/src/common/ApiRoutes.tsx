@@ -7,5 +7,5 @@ const rootRoute = {
 }
 
 export const apiRoutes = {
-   testMethod: rootRoute.user + "/hi"
+   testMethod: rootRoute.user + "/hi",
 }
