@@ -15,7 +15,7 @@ export const ProjectRouter = (props: any) => {
             path: c.path,
             element: <MasterPage className={c.name.split(" ").join("-").toLocaleLowerCase()}>{c.element}</MasterPage>,
             children: c.childComp ? c.childComp.map(c2 => MapRoute(c2)) : [],
-            errorElement: <NotFound />
+            errorElement: <MasterPage className={c.name.split(" ").join("-").toLocaleLowerCase()}><NotFound /></MasterPage>,
         } as RouteObject
     }),
         router = createBrowserRouter(routes)

@@ -10,4 +10,5 @@ export const MasterPage = (props: IBasicProps) => {
 
         <Footer />
     </div>
+  
 }
