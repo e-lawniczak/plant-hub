@@ -80,7 +80,7 @@ public class UserService implements UserDetailsService {
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 
-    public User getUser(Long id) throws ChangeSetPersister.NotFoundException {
-        return userRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+    public User getUser(String email) throws ChangeSetPersister.NotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(ChangeSetPersister.NotFoundException::new);
     }
 }

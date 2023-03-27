@@ -37,8 +37,8 @@ public class UserController {
     }
 
 
-    @GetMapping("/user/{id}")
-    public User getUser(@PathVariable("id") Long id) throws ChangeSetPersister.NotFoundException {
-        return userService.getUser(id);
+    @GetMapping("/user/{email}")
+    public User getUser(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
+        return userService.getUser(email);
     }
 }
