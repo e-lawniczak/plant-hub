@@ -32,7 +32,7 @@ export const callGet = async (url: string, isCsrf = true) => {
 
 }
 
-export const callPost = async (url: string, body = null, isCsrf = true, isFormData = false, isBlob = false) => {
+export const callPost = async (url: string, body:any = null, isCsrf = true, isFormData = false, isBlob = false) => {
 
 
     let headers

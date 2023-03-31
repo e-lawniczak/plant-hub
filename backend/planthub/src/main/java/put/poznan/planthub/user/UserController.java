@@ -12,6 +12,7 @@ import put.poznan.planthub.security.JwtGenerator;
 import put.poznan.planthub.security.projections.AuthResponseDTO;
 import put.poznan.planthub.user.projections.LoginDto;
 import put.poznan.planthub.user.projections.RegisterDto;
+import put.poznan.planthub.user.projections.UserDto;
 
 
 @RestController
@@ -38,7 +39,7 @@ public class UserController {
 
 
     @GetMapping("/user/{email}")
-    public User getUser(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<UserDto> getUser(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
         return userService.getUser(email);
     }
 }

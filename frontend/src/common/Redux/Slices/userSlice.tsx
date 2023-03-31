@@ -2,75 +2,28 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IUserModel } from '../models';
 
 
-
 export interface IUserSlice {
-    userData: IUserModel | null,
-    userRole: "TEACHER" | "STUDENT" | "ADMIN" | null,
-    userName: string,
-    confirmationProcess: {
-        active: boolean,
-        email: string,
-        password: string
-    },
-    [x: string]: any
+    user: IUserModel | null,
 }
 
-const initialState = {
-    userData: {
-        authenticated: false,
-        user: null
-    },
-    userName: "",
-    userRole: null,
-    confirmationProcess: {
-        active: false,
-        email: "",
-        password: ""
-    }
-
+const initialState =  {    
+    user: null,
 } as IUserSlice
 
 export const userSlice = createSlice({
     name: 'user',
-    initialState,
-    reducers: {},
-    extraReducers: {
-        "user/set": (state, action) => {
-            let user = action.payload
-            state.userData = { ...user };
-            state.userRole = user.user.role
-            state.userName = user.user.firstName + " " + user.user.lastName;
+    initialState : initialState,
+    reducers: {
+        login: (state, action) => {
+            state.user = action.payload;
         },
-        "user/set_role": (state, action) => {
-            let role = action.payload.role
-            state.userRole = role
-        },
-        "user/logout": (state, action) => {
-            state.userData = {
-                authenticated: false,
-                user: null
-            }
-        },
-        "user/confirmation_start": (state, action) => {
-            state.confirmationProcess = {
-                active: true,
-                email: action.payload.email,
-                password: action.payload.password
-            }
-        },
-        "user/confirmation_end": (state, action) => {
-            state.confirmationProcess = {
-                active: false,
-                email: "",
-                password: ""
-            }
-        },
+        logout: (state) => {
+            state.user = null;
+        }
     }
 })
 
-export const userObject = (state: any) => state.userSlice.userData;
-export const confirmationProcess = (state: any) => state.userSlice.confirmationProcess;
-export const userRole = (state: any) => state.userSlice.userRole;
-export const userName = (state: any) => state.userSlice.userName;
+export const {login, logout} = userSlice.actions
+export const selectUser = (state: any) => state.user.user;
 
 export default userSlice.reducer

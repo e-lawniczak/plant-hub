@@ -10,7 +10,7 @@ export const TestPage1 = () => {
     const handleButton = async () => {
         setAjax(true)
     
-        let req = await callGet(apiRoutes.testMethod)
+        //let req = await callGet(apiRoutes.testMethod)
         setAjax(false)
 
     }

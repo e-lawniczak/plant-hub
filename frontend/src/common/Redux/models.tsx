@@ -1,9 +1,13 @@
 export interface IUserModel {
-    authenticated: false,
     user: {
-        firstName: string,
-        lastName: string,
-        email: string;
+        firstName: string | null,
+        lastName: string | null,
+        email: string | null,
+        phone: string | null,
+        city: string | null,
+        votes: number | null,
+        accessToken: string | null,
+        tokenType: string | null,
     } | null
 
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import put.poznan.planthub.security.JwtGenerator;
 import put.poznan.planthub.security.projections.AuthResponseDTO;
 import put.poznan.planthub.user.projections.RegisterDto;
+import put.poznan.planthub.user.projections.UserDto;
 import put.poznan.planthub.user.roles.Role;
 import put.poznan.planthub.user.roles.RoleRepository;
 
@@ -68,7 +69,7 @@ public class UserService implements UserDetailsService {
             user.setRoles(Collections.singletonList(roles));
 
             userRepository.save(user);
-            return new ResponseEntity<>("User registered success!", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
@@ -80,7 +81,9 @@ public class UserService implements UserDetailsService {
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 
-    public User getUser(String email) throws ChangeSetPersister.NotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(ChangeSetPersister.NotFoundException::new);
+    public ResponseEntity<UserDto> getUser(String email) throws ChangeSetPersister.NotFoundException {
+        User user = userRepository.findByEmail(email).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        return new ResponseEntity<>(UserDto.of(user), HttpStatus.OK);
     }
 }
+
