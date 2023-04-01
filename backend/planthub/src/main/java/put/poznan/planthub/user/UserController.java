@@ -3,6 +3,7 @@ package put.poznan.planthub.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,5 +42,22 @@ public class UserController {
     @GetMapping("/user/{email}")
     public ResponseEntity<UserDto> getUser(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
         return userService.getUser(email);
+    }
+
+    @PostMapping("/user/{email}")
+    public ResponseEntity<String> test(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
+        return ResponseEntity.ok("Elo");
+    }
+    @PatchMapping("/user/{email}")
+    public ResponseEntity<String> test2(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
+        return ResponseEntity.ok("Elo2");
+    }
+    @PutMapping("/user/{email}")
+    public ResponseEntity<String> test3(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
+        return ResponseEntity.ok("Elo3");
+    }
+    @DeleteMapping("/user/{email}")
+    public ResponseEntity<String> test4(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
+        return ResponseEntity.ok("Elo4");
     }
 }

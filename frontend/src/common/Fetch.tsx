@@ -1,22 +1,15 @@
-
-import Cookies from 'js-cookie'
 export interface IApiProps {
     url: string,
     method?: string,
     body?: string,
 }
 
-export const callGet = async (url: string, isCsrf = true) => {
+export const callGet = async (url: string) => {
 
     let headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-    }
-
-    if (isCsrf) {
-        let csrf = Cookies.get('XSRF-TOKEN')
-        //headers['X-XSRF-TOKEN'] = csrf
     }
 
     let requestBody = {
@@ -32,20 +25,23 @@ export const callGet = async (url: string, isCsrf = true) => {
 
 }
 
-export const callPost = async (url: string, body:any = null, isCsrf = true, isFormData = false, isBlob = false) => {
-
+export const callPost = async (url: string, body:any = null, authorizationToken = null, isBlob = false) => {
 
     let headers
-    if (isFormData) {
-        headers = {
-            'Access-Control-Allow-Origin': '*',
-        }
-    }
-    else if (isBlob) {
+    if (isBlob && authorizationToken !== null) {
         headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
+            "Authorization": `Bearer ${authorizationToken}`
+        }
+    }
+    else if(authorizationToken !== null) {
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            "Authorization": `Bearer ${authorizationToken}`
         }
     }
     else {
@@ -56,18 +52,11 @@ export const callPost = async (url: string, body:any = null, isCsrf = true, isFo
         }
     }
 
-    if (isCsrf) {
-        const csrf = Cookies.get('XSRF-TOKEN')
-        const x = Cookies.get()
-        //headers['X-XSRF-TOKEN'] = csrf
-    }
-
     let requestBody = {
         method: "POST",
         headers: headers,
         mode: 'cors',
-        body: isFormData ? body : JSON.stringify(body)
-        // body: body
+        body: JSON.stringify(body)
     }
 
 
@@ -77,19 +66,24 @@ export const callPost = async (url: string, body:any = null, isCsrf = true, isFo
 
 }
 
-export const callDelete = async (url: string, body: any, isCsrf = true) => {
+export const callDelete = async (url: string, body: any, authorizationToken = null) => {
 
+    let headers;
 
-    let headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+    if(authorizationToken !== null) {
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            "Authorization": `Bearer ${authorizationToken}`
+        }
     }
-
-    if (isCsrf) {
-        const csrf = Cookies.get('XSRF-TOKEN')
-        const x = Cookies.get()
-        //headers['X-XSRF-TOKEN'] = csrf
+    else {
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
     }
 
     let requestBody = {
@@ -106,19 +100,24 @@ export const callDelete = async (url: string, body: any, isCsrf = true) => {
 
 }
 
-export const callPatch = async (url: string, body: any, isCsrf = true) => {
+export const callPatch = async (url: string, body: any, authorizationToken = null) => {
 
+    let headers;
 
-    let headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+    if(authorizationToken !== null) {
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            "Authorization": `Bearer ${authorizationToken}`
+        }
     }
-
-    if (isCsrf) {
-        const csrf = Cookies.get('XSRF-TOKEN')
-        const x = Cookies.get()
-        //headers['X-XSRF-TOKEN'] = csrf
+    else {
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
     }
 
     let requestBody = {
@@ -134,25 +133,31 @@ export const callPatch = async (url: string, body: any, isCsrf = true) => {
     return response
 
 }
-export const callPut = async (url: string, isCsrf = true) => {
+export const callPut = async (url: string, body: any, authorizationToken = null) => {
 
+    let headers;
 
-    let headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+    if(authorizationToken !== null) {
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            "Authorization": `Bearer ${authorizationToken}`
+        }
     }
-
-    if (isCsrf) {
-        const csrf = Cookies.get('XSRF-TOKEN')
-        const x = Cookies.get()
-        // //headers['X-XSRF-TOKEN'] = csrf
+    else {
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
     }
 
     let requestBody = {
         method: "PUT",
         headers: headers,
         mode: 'cors',
+        body: JSON.stringify(body)
     }
 
 

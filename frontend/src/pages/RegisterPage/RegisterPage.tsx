@@ -8,8 +8,6 @@ import { PageContainer } from "../../common/layouts/PageContainer"
 import { IRegisterInputs } from "../../common/models";
 
 export const RegisterPage = () =>{
-    const location = useLocation();
-    console.log(location.state)
     const navigate = useNavigate();
     const [isAjax, setAjax] = useState(false);
     const {register, handleSubmit} = useForm<IRegisterInputs>();

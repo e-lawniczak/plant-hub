@@ -4,7 +4,6 @@ const mainUrl = 'http://localhost:8080'
 const rootRoute = {
     user: mainUrl + '/users',
     auth: mainUrl + '/users/auth',
-  
 }
 
 export const apiRoutes = {

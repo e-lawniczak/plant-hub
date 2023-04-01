@@ -14,7 +14,6 @@ export const LoginPage = () =>{
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-    //const dispatch = useAppDispatch();
 
     const [isAjax, setAjax] = useState(false);
     const {register, handleSubmit} = useForm<ILoginInputs>();
@@ -23,7 +22,7 @@ export const LoginPage = () =>{
         setAjax(true)
         let res = await callPost(apiRoutes.login, data)
 
-        let user = await callGet(apiRoutes.getUser + '/' + data.email, false)
+        let user = await callGet(apiRoutes.getUser + '/' + data.email)
 
         setAjax(false)
 
