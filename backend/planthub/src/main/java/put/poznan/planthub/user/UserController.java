@@ -14,6 +14,7 @@ import put.poznan.planthub.security.projections.AuthResponseDTO;
 import put.poznan.planthub.user.projections.LoginDto;
 import put.poznan.planthub.user.projections.RegisterDto;
 import put.poznan.planthub.user.projections.UserDto;
+import put.poznan.planthub.user.projections.UserDtoFormUpdate;
 
 
 @RestController
@@ -44,20 +45,12 @@ public class UserController {
         return userService.getUser(email);
     }
 
-    @PostMapping("/user/{email}")
-    public ResponseEntity<String> test(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
-        return ResponseEntity.ok("Elo");
-    }
-    @PatchMapping("/user/{email}")
-    public ResponseEntity<String> test2(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
-        return ResponseEntity.ok("Elo2");
-    }
     @PutMapping("/user/{email}")
-    public ResponseEntity<String> test3(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
-        return ResponseEntity.ok("Elo3");
+    public ResponseEntity<UserDto> updateUser(@PathVariable("email") String email, @RequestBody UserDtoFormUpdate user) throws ChangeSetPersister.NotFoundException {
+        return userService.updateUser(email, user);
     }
     @DeleteMapping("/user/{email}")
-    public ResponseEntity<String> test4(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
-        return ResponseEntity.ok("Elo4");
+    public ResponseEntity<String> deleteUser(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
+        return userService.deleteUser(email);
     }
 }

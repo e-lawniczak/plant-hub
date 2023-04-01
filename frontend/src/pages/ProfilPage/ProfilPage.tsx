@@ -1,31 +1,38 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PageContainer } from "../../common/layouts/PageContainer";
-import { selectUser } from "../../common/Redux/Slices/userSlice";
+import { logout, selectUser } from "../../common/Redux/Slices/userSlice";
 import { useNavigate } from "react-router-dom";
-import { callDelete, callPatch, callPost, callPut } from "../../common/Fetch";
+import { callDelete} from "../../common/Fetch";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import { apiRoutes } from "../../common/ApiRoutes";
 import { useState } from "react";
 
 export const ProfilPage = ()=>{
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [isAjax, setAjax] = useState(false);
 
-    const navigate = useNavigate();
     const user = useSelector(selectUser)
 
-    console.log(user.user);
-    const modifyUser =  async () => {
-        setAjax(true)
-        let res = await callPut(apiRoutes.getUser + '/' + user.email, null, user.accessToken)
+    const modifyUser =  () => {
 
-        setAjax(false)
-
-        console.log(res);
     }
 
     const deleteUser = async () => {
+        setAjax(true)
+        let res = await callDelete(apiRoutes.user + '/' + user.email, null, user.accessToken)
 
+        setAjax(false)
+
+        if(res.status === 401) {
+            dispatch(logout())
+            navigate('/login', { replace: true })
+        }else {
+            dispatch(logout())
+            navigate('/', { replace: true })
+        }
     }
 
     return <PageContainer title="Mój profil">
@@ -34,8 +41,10 @@ export const ProfilPage = ()=>{
         <h2>Phone: {user.phone}</h2>
         <p>City: {user.city}</p>
         <p>Votes: {user.votes}</p>
-        <button onClick={modifyUser}>Modify</button>
-        <button onClick={deleteUser}>Delete</button>
+        <AjaxLoader isAjax={isAjax}>
+            <button onClick={modifyUser}>Modify</button>
+            <button onClick={deleteUser}>Delete</button>
+        </AjaxLoader>
     </PageContainer>
 }
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import { apiRoutes } from "../../common/ApiRoutes";
@@ -14,10 +14,10 @@ export const RegisterPage = () =>{
 
     const onSubmit: SubmitHandler<IRegisterInputs> = async (data) => {
         setAjax(true)
-        let req = await callPost(apiRoutes.register, data)
+        await callPost(apiRoutes.register, data)
         setAjax(false)
 
-        navigate(apiRoutes.main);
+        navigate('/');
     }
 
             

@@ -16,6 +16,7 @@ import put.poznan.planthub.security.JwtGenerator;
 import put.poznan.planthub.security.projections.AuthResponseDTO;
 import put.poznan.planthub.user.projections.RegisterDto;
 import put.poznan.planthub.user.projections.UserDto;
+import put.poznan.planthub.user.projections.UserDtoFormUpdate;
 import put.poznan.planthub.user.roles.Role;
 import put.poznan.planthub.user.roles.RoleRepository;
 
@@ -84,6 +85,19 @@ public class UserService implements UserDetailsService {
     public ResponseEntity<UserDto> getUser(String email) throws ChangeSetPersister.NotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(ChangeSetPersister.NotFoundException::new);
         return new ResponseEntity<>(UserDto.of(user), HttpStatus.OK);
+    }
+
+    public ResponseEntity<UserDto> updateUser(String email, UserDtoFormUpdate userToUpdate) throws ChangeSetPersister.NotFoundException {
+        User user = userRepository.findByEmail(email).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        userToUpdate.updateUser(user);
+        userRepository.save(user);
+        return new ResponseEntity<>(UserDto.of(user), HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> deleteUser(String email) throws ChangeSetPersister.NotFoundException {
+        User user = userRepository.findByEmail(email).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        userRepository.delete(user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

@@ -2,13 +2,12 @@
 // const mainUrl = 'http://localhost:3000/'
 const mainUrl = 'http://localhost:8080'
 const rootRoute = {
-    user: mainUrl + '/users',
+    users: mainUrl + '/users',
     auth: mainUrl + '/users/auth',
 }
 
 export const apiRoutes = {
-   getUser: rootRoute.user + '/user',
+   user: rootRoute.users + '/user',
    register: rootRoute.auth + '/register',
    login: rootRoute.auth + '/login',
-   main: "/",
 }

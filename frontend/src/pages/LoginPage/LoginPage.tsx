@@ -22,15 +22,16 @@ export const LoginPage = () =>{
         setAjax(true)
         let res = await callPost(apiRoutes.login, data)
 
-        let user = await callGet(apiRoutes.getUser + '/' + data.email)
+        if(res.status !== 401){
+            let user = await callGet(apiRoutes.user + '/' + data.email)
 
+            let resUser = Object.assign({}, user.body, res.body);
+
+            dispatch(login(resUser))
+        }
         setAjax(false)
+        navigate('/');
 
-        let resUser = Object.assign({}, user.body, res.body);
-
-        dispatch(login(resUser))
-
-        navigate(apiRoutes.main);
     }
 
     return <PageContainer>
