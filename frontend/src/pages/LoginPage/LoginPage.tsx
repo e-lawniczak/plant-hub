@@ -18,7 +18,7 @@ export const LoginPage = () =>{
     const [isAjax, setAjax] = useState(false);
     const {register, handleSubmit} = useForm<ILoginInputs>();
 
-    const onSubmit: SubmitHandler<ILoginInputs> = async (data) => {
+    const onSubmit: SubmitHandler<ILoginInputs> = async (data: any) => {
         setAjax(true)
         let res = await callPost(apiRoutes.login, data)
 
