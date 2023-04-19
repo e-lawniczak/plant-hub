@@ -17,7 +17,7 @@ export const ProfilPage = ()=>{
     const user = useSelector(selectUser)
 
     const modifyUser =  () => {
-
+        navigate('/profile/modify', { replace: false })
     }
 
     const deleteUser = async () => {

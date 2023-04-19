@@ -11,7 +11,7 @@ export const ProjectComponents =[
     { name: "Test", path: "/test", element: <TestPage1 />, auth: true },
     { name: "Register", path:"/register", element: <RegisterPage/>, auth: false},
     { name: "Login", path: "/login", element: <LoginPage />, auth: false },
-    { name: "Profil", path: "/profile", element: <ProfilPage />, auth: true,}
+    { name: "Profil", path: "/profile", element: <ProfilPage />, auth: true,},
+    { name: "Modify", path: "/profile/modify", element: <ModifyPage />, auth: true, hideInMenu: true}
 ] as IRouteElement[]
 
-/* , childComp: {name: "Modify Page", path: "/profile/modify", element: <ModifyPage />, auth: false }} */

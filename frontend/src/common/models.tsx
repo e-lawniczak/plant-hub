@@ -11,6 +11,12 @@ export interface IRegisterInputs{
     phone: string,
     city: string,
 }
+export interface IModifyInputs{
+    firstName: string,
+    lastName: string,
+    phone: string,
+    city: string,
+}
 export interface ILoginInputs{
     email: string,
     password: string,
