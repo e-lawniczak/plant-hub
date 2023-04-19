@@ -1,6 +1,6 @@
 package put.poznan.planthub.user.projections;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class LoginDto {

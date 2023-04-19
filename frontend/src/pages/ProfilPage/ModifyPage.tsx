@@ -6,7 +6,7 @@ import { login, logout, selectUser } from "../../common/Redux/Slices/userSlice";
 import { apiRoutes } from "../../common/ApiRoutes";
 import { callPut } from "../../common/Fetch";
 import { useNavigate } from "react-router-dom";
-import { IModifyInputs, IRegisterInputs } from "../../common/models";
+import { IModifyInputs} from "../../common/models";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export const ModifyPage = () => {

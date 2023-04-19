@@ -2,14 +2,12 @@ package put.poznan.planthub.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import put.poznan.planthub.security.JwtGenerator;
 import put.poznan.planthub.security.projections.AuthResponseDTO;
 import put.poznan.planthub.user.projections.LoginDto;
 import put.poznan.planthub.user.projections.RegisterDto;
@@ -36,21 +34,23 @@ public class UserController {
     @PostMapping("/auth/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
-        return userService.login(authentication);
+        return userService.login(authentication, loginDto.getEmail());
     }
-
-
+    @PostMapping("/user/{email}/logout")
+    public ResponseEntity<Void> logout(@PathVariable("email") String email) throws UsernameNotFoundException {
+        return userService.logout(email);
+    }
     @GetMapping("/user/{email}")
-    public ResponseEntity<UserDto> getUser(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<UserDto> getUser(@PathVariable("email") String email) throws UsernameNotFoundException {
         return userService.getUser(email);
     }
 
     @PutMapping("/user/{email}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("email") String email, @RequestBody UserDtoFormUpdate user) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<UserDto> updateUser(@PathVariable("email") String email, @RequestBody UserDtoFormUpdate user) throws UsernameNotFoundException {
         return userService.updateUser(email, user);
     }
     @DeleteMapping("/user/{email}")
-    public ResponseEntity<String> deleteUser(@PathVariable("email") String email) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<Void> deleteUser(@PathVariable("email") String email) throws UsernameNotFoundException {
         return userService.deleteUser(email);
     }
 }

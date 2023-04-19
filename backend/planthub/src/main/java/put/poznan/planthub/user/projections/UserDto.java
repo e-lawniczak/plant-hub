@@ -1,7 +1,6 @@
 package put.poznan.planthub.user.projections;
 
 import lombok.*;
-import org.springframework.http.ResponseEntity;
 import put.poznan.planthub.user.User;
 
 @AllArgsConstructor

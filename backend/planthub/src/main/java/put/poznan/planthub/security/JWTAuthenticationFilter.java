@@ -8,11 +8,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import put.poznan.planthub.user.User;
 import put.poznan.planthub.user.UserService;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
@@ -31,11 +33,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             if(request.getRequestURI().contains(email) || request.getMethod().equals("GET")){
                 User user = userService.loadUserByUsername(email);
 
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                if(Objects.equals(user.getToken(), token)){
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                } else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
             } else {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
