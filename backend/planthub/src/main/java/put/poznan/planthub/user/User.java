@@ -1,10 +1,14 @@
 package put.poznan.planthub.user;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import put.poznan.planthub.user.roles.Role;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -14,7 +18,7 @@ import java.util.*;
 @ToString
 @Entity
 @Table(name = "users")
-public class User{
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,5 +53,35 @@ public class User{
     @Override
     public int hashCode() {
         return Objects.hash(id, email, firstName, lastName, phone, password, city, votes);
+    }
+
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

@@ -4,10 +4,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +18,7 @@ import put.poznan.planthub.user.roles.Role;
 import put.poznan.planthub.user.roles.RoleRepository;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 
 @Service
@@ -43,13 +40,8 @@ public class UserService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
-    }
-
-    private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles){
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    public User loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
 
@@ -82,9 +74,8 @@ public class UserService implements UserDetailsService {
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 
-    public ResponseEntity<UserDto> getUser(String email) throws ChangeSetPersister.NotFoundException {
-        User user = userRepository.findByEmail(email).orElseThrow(ChangeSetPersister.NotFoundException::new);
-        return new ResponseEntity<>(UserDto.of(user), HttpStatus.OK);
+    public ResponseEntity<UserDto> getUser(String email) throws UsernameNotFoundException{
+        return new ResponseEntity<>(UserDto.of(loadUserByUsername(email)), HttpStatus.OK);
     }
 
     public ResponseEntity<UserDto> updateUser(String email, UserDtoFormUpdate userToUpdate) throws ChangeSetPersister.NotFoundException {
