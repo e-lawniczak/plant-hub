@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,10 @@ public class OfferController {
     @PatchMapping("/update/{id}")
     public ResponseEntity<OfferDto> update(@PathVariable("id") Long id, @RequestBody UpdateOfferDto offer) {
         return offerService.updateOffer(id, offer);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<OfferDto> delete(@PathVariable("id") Long id) {
+        return offerService.deleteOffer(id);
     }
 
     @GetMapping("/all")

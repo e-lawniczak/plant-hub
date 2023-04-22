@@ -43,6 +43,7 @@ public class OfferService {
         offer.setDate(offerDto.getDate());
         // offer.setFiles(null);
         offer.setActive(true);
+        offer.setDeleted(false);
         offer.setCategory(offerDto.getCategory());
         offer.setUser(user.get());
 
@@ -63,12 +64,22 @@ public class OfferService {
         offerRepository.save(offer.get());
         return new ResponseEntity<>(OfferDto.of(offer.get()), HttpStatus.OK);
     }
+    public ResponseEntity<OfferDto> deleteOffer(Long id) {
+        Optional<Offer> offer = offerRepository.findById(id);
+
+        if (offer.isEmpty() || offer.get().getDeleted().booleanValue())
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+        offer.get().setDeleted(true);
+        offerRepository.save(offer.get());
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 
     public ResponseEntity<List<AllOffersDto>> getAllOffers() {
 
         List<Offer> offers = offerRepository.findAll();
 
-        List<AllOffersDto> response = offers.stream().map(o -> AllOffersDto.of(o)).toList() ;
+        List<AllOffersDto> response = offers.stream().map(o -> AllOffersDto.of(o)).toList();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
