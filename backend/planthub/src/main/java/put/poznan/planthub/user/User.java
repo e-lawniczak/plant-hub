@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import put.poznan.planthub.offer.Offer;
 import put.poznan.planthub.user.roles.Role;
 
 import javax.persistence.*;
@@ -47,6 +49,9 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Offer> offers;
 
     @Override
     public boolean equals(Object o) {

@@ -30,9 +30,10 @@ public class SecurityConfig {
         this.authEntryPoint = authEntryPoint;
     }
 
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // TODO: zabezpieczenie pozwalające na wykonywanie niektórych metod tylko
+        // zalogowanym użytkownikom
         http
                 .csrf().disable()
                 .cors()
@@ -45,7 +46,10 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers(HttpMethod.POST).permitAll()
                 .antMatchers("/users/auth/**").permitAll()
+                .antMatchers("/offers/**").authenticated()
+                .antMatchers("/offers/all").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
@@ -54,7 +58,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
@@ -76,10 +80,11 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control",
                 "Content-Type", "File-Name", "Origin", "Access-Control-Allow-Origin",
-                "Accept","Origin, Accept", "X-Requested-With",
+                "Accept", "Origin, Accept", "X-Requested-With",
                 "Access-Control-Request-Method", "Access-Control-Request-Headers"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type", "File-Name",
-                "Origin", "Accept", "Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
+                "Origin", "Accept", "Access-Control-Allow-Origin", "Access-Control-Allow-Origin",
+                "Access-Control-Allow-Credentials"));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
