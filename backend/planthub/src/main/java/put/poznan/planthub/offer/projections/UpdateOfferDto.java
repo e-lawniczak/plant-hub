@@ -4,16 +4,14 @@ import java.util.Date;
 
 import lombok.*;
 import put.poznan.planthub.offer.Offer;
-import put.poznan.planthub.user.User;
-import put.poznan.planthub.user.projections.UserDto;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class AllOffersDto {
-    private Long id;
+public class UpdateOfferDto {
+
 
     private String title;
 
@@ -21,26 +19,26 @@ public class AllOffersDto {
 
     private String category;
 
-    private Date date;
-
     private Boolean active;
 
-    private UserDto user;
+    public void updateOffer(Offer offer){
+        offer.setActive(active);
+        offer.setTitle(title);
+        offer.setCategory(category);
+        offer.setDescription(description);
+    }
     
-    public static AllOffersDto of(Offer offer) {
+    public static UpdateOfferDto of(Offer offer) {
         if (offer == null) {
             return null;
         }
-        return new AllOffersDto(offer);
+        return new UpdateOfferDto(offer);
     }
 
-    private AllOffersDto(Offer offer) {
-        id = offer.getId();
+    private UpdateOfferDto(Offer offer) {
         title = offer.getTitle();
         description = offer.getDescription();
         category = offer.getCategory();
-        date = offer.getDate();
         active = offer.getActive();
-        user = UserDto.of(offer.getUser());
     }
 }

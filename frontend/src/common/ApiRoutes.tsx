@@ -13,4 +13,5 @@ export const apiRoutes = {
    login: rootRoute.auth + '/login',
    getOffers: rootRoute.offers + '/all',
    addOffer: rootRoute.offers + '/add',
+   updateOffer: rootRoute.offers + '/update',
 }

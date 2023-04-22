@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET).permitAll()
                 .antMatchers(HttpMethod.POST).permitAll()
+                .antMatchers(HttpMethod.PATCH).permitAll()
                 .antMatchers("/users/auth/**").permitAll()
                 .antMatchers("/offers/**").authenticated()
                 .antMatchers("/offers/all").permitAll()

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import put.poznan.planthub.offer.projections.AllOffersDto;
 import put.poznan.planthub.offer.projections.OfferDto;
+import put.poznan.planthub.offer.projections.UpdateOfferDto;
 import put.poznan.planthub.user.User;
 import put.poznan.planthub.user.UserRepository;
 
@@ -51,6 +52,16 @@ public class OfferService {
 
     public ResponseEntity<OfferDto> getOffer(Long id) throws NotFoundException {
         return new ResponseEntity<>(OfferDto.of(loadOfferById(id)), HttpStatus.OK);
+    }
+    public ResponseEntity<OfferDto> updateOffer(Long id, UpdateOfferDto offerUpdate) {
+        Optional<Offer> offer = offerRepository.findById(id);
+
+        if (offer.isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+        offerUpdate.updateOffer(offer.get());
+        offerRepository.save(offer.get());
+        return new ResponseEntity<>(OfferDto.of(offer.get()), HttpStatus.OK);
     }
 
     public ResponseEntity<List<AllOffersDto>> getAllOffers() {
