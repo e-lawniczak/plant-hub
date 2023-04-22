@@ -5,6 +5,7 @@ import App from './App';
 import { persistor, store } from './common/Redux/Store';
 import reportWebVitals from './reportWebVitals';
 import { PersistGate } from 'redux-persist/integration/react';
+import './style/style.scss'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

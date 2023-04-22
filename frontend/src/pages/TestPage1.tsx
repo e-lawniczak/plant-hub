@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { AjaxLoader } from "../common/AjaxLoader";
-import { apiRoutes } from "../common/ApiRoutes"
-import { callGet } from "../common/Fetch"
-import { PageContainer } from "../common/layouts/PageContainer"
+import { useState } from 'react';
+
+import { AjaxLoader } from '../common/AjaxLoader';
+import { PageContainer } from '../common/layouts/PageContainer';
 
 export const TestPage1 = () => {
 

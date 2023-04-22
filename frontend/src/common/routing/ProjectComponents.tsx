@@ -8,6 +8,7 @@ import { IRouteElement } from "./models";
 
 export const ProjectComponents =[
     { name: "Strona główna", path: "/", element: <HomePage />, auth: false },
+    { name: "Strona główna", path: "/", element: <HomePage />, auth: true },
     { name: "Test", path: "/test", element: <TestPage1 />, auth: true },
     { name: "Register", path:"/register", element: <RegisterPage/>, auth: false},
     { name: "Login", path: "/login", element: <LoginPage />, auth: false },

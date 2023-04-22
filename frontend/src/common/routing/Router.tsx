@@ -1,12 +1,11 @@
-import { RouteObject, createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HomePage } from "../../pages/HomePage";
-import { NotFound } from "../../pages/NotFound";
-import { TestPage1 } from "../../pages/TestPage1";
-import { MasterPage } from "../layouts/MasterPage";
-import { IRouteElement } from "./models";
-import { ProjectComponents } from "./ProjectComponents";
-import { useSelector } from "react-redux";
-import { selectUser } from "../Redux/Slices/userSlice";
+import { useSelector } from 'react-redux';
+import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-dom';
+
+import { NotFound } from '../../pages/NotFound';
+import { MasterPage } from '../layouts/MasterPage';
+import { selectUser } from '../Redux/Slices/userSlice';
+import { IRouteElement } from './models';
+import { ProjectComponents } from './ProjectComponents';
 
 
 export const ProjectRouter = (props: any) => {
@@ -15,7 +14,7 @@ export const ProjectRouter = (props: any) => {
 
     const routes = ProjectComponents.map((c: IRouteElement) => {
         let el = c.element
-        if(((user == null && c.auth) || (user != null && !c.auth)) && c.path !== "/")  el = <NotFound />
+        if (((user == null && c.auth) || (user != null && !c.auth))) return null as unknown as RouteObject
         return {
             path: c.path,
             element: <MasterPage className={c.name.split(" ").join("-").toLocaleLowerCase()}>{el}</MasterPage>,
