@@ -54,6 +54,9 @@ public class OfferService {
     public ResponseEntity<OfferDto> getOffer(Long id) throws NotFoundException {
         return new ResponseEntity<>(OfferDto.of(loadOfferById(id)), HttpStatus.OK);
     }
+    public ResponseEntity<AllOffersDto> getSingleOffer(Long id) throws NotFoundException {
+        return new ResponseEntity<>(AllOffersDto.of(loadOfferById(id)), HttpStatus.OK);
+    }
     public ResponseEntity<OfferDto> updateOffer(Long id, UpdateOfferDto offerUpdate) {
         Optional<Offer> offer = offerRepository.findById(id);
 

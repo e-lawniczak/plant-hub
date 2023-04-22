@@ -21,6 +21,14 @@ export const TestPage1 = () => {
         setAjax(false)
 
     }
+    const handleButton2 = async () => {
+        setAjax(true)
+        let req = await callGet(apiRoutes.getSingle + `/${5}`)
+        setOffers([req.body] as any)
+        console.log(offers);
+        setAjax(false)
+
+    }
     const handleButtonTest = async () => {
         setAjax(true)
 
@@ -62,6 +70,7 @@ export const TestPage1 = () => {
 
         <AjaxLoader isAjax={isAjax}>
             <Button onClick={handleButton}>Click me!</Button>
+            <Button onClick={handleButton2}>Get 5!</Button>
             <Button onClick={handleButtonTest}>Add test!</Button>
 
         </AjaxLoader>

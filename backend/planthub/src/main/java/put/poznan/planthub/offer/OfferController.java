@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,6 +37,7 @@ public class OfferController {
     public ResponseEntity<OfferDto> update(@PathVariable("id") Long id, @RequestBody UpdateOfferDto offer) {
         return offerService.updateOffer(id, offer);
     }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<OfferDto> delete(@PathVariable("id") Long id) {
         return offerService.deleteOffer(id);
@@ -44,5 +46,15 @@ public class OfferController {
     @GetMapping("/all")
     public ResponseEntity<List<AllOffersDto>> getAllOffers() {
         return offerService.getAllOffers();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AllOffersDto> getSingleOffer(@PathVariable("id") Long id) {
+        try {
+            return offerService.getSingleOffer(id);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
