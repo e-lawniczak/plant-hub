@@ -73,6 +73,8 @@ export const TestPage1 = () => {
     const handleSubmitCustom = async (e: any) => {
         e.preventDefault()
         let req = await callPostFiles(apiRoutes.uploadFile, uploaded)
+        console.log(req)
+        console.log(req.body)
     }
     const handleFileAdd = (event: any, file: any) => {
         let tmpUpload = [...uploaded]

@@ -34,8 +34,9 @@ public class FileController {
     private FileService fileService;
     @ResponseStatus(value = HttpStatus.OK)
 	@PostMapping("/upload")
-	public void uploadImage(@RequestPart MultipartFile files) throws IOException{
+	public void uploadImage(@RequestPart MultipartFile[] files) throws IOException{
         fileService.uploadImage(files);
+        // TODO: zwiększyć limit pliku
 	}
 	
 	@GetMapping("/download/{type}/{fileName}")
