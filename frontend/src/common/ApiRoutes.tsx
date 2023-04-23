@@ -5,6 +5,7 @@ const rootRoute = {
     users: mainUrl + '/users',
     auth: mainUrl + '/users/auth',
     offers: mainUrl + '/offers',
+    files: mainUrl + '/files',
 }
 
 export const apiRoutes = {
@@ -16,4 +17,6 @@ export const apiRoutes = {
    updateOffer: rootRoute.offers + '/update',
    deleteOffer: rootRoute.offers + '/delete',
    getSingle: rootRoute.offers ,
+   uploadFile: rootRoute.files + "/upload",
+   downloadFile: rootRoute.files + "/download"
 }

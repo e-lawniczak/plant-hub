@@ -2,17 +2,22 @@ import { useState } from 'react';
 
 import { AjaxLoader } from '../common/AjaxLoader';
 import { PageContainer } from '../common/layouts/PageContainer';
-import { callDelete, callGet, callPatch, callPost } from '../common/Fetch';
+import { callDelete, callGet, callPatch, callPost, callPostFiles } from '../common/Fetch';
 import { apiRoutes } from '../common/ApiRoutes';
-import { Button } from 'carbon-components-react';
+import { Button, FileUploader, FileUploaderDropContainer, FormItem } from 'carbon-components-react';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../common/Redux/Slices/userSlice';
+import { ILoginInputs } from '../common/models';
+import { useForm, SubmitHandler } from "react-hook-form";
 
 export const TestPage1 = () => {
 
     const user = useSelector(selectUser),
         [offers, setOffers] = useState<any[]>(),
-        [isAjax, setAjax] = useState(false);
+        [isAjax, setAjax] = useState(false),
+        [uploaded, setFiles] = useState<any[]>([]),
+        { register, handleSubmit } = useForm();
+
     const handleButton = async () => {
         setAjax(true)
         let req = await callGet(apiRoutes.getOffers)
@@ -64,7 +69,15 @@ export const TestPage1 = () => {
 
         handleButton()
     }
-
+    const handleSubmitCustom = async (e: any) => {
+        e.preventDefault()
+        let req = await callPostFiles(apiRoutes.uploadFile, uploaded)
+    }
+    const handleFileAdd = (event: any, file: any) => {
+        let tmpUpload = [...uploaded]
+        tmpUpload.push(file.addedFiles[0])
+        setFiles(tmpUpload)
+    }
     return <PageContainer>
         <h1 >Test page1</h1>
 
@@ -72,6 +85,27 @@ export const TestPage1 = () => {
             <Button onClick={handleButton}>Click me!</Button>
             <Button onClick={handleButton2}>Get 5!</Button>
             <Button onClick={handleButtonTest}>Add test!</Button>
+            <form onSubmit={handleSubmitCustom}>
+                <FormItem>
+                    <FileUploaderDropContainer
+                        accept={[
+                            'image/jpeg',
+                            'image/png'
+                        ]}
+                        // itemRef={'[Circular]'}
+                        labelText="Drag and drop files here or click to upload"
+                        multiple
+                        onAddFiles={(e, x) => handleFileAdd(e, x)}
+                        onChange={(e) => { console.log(e) }}
+                        tabIndex={0}
+
+                    />
+                    <div className="uploaded-files">
+                        {uploaded.map(f => <p>{f.name}</p>)}
+                    </div>
+                </FormItem>
+                <Button type='submit'>Wylij plik</Button>
+            </form>
 
         </AjaxLoader>
         {offers && <>

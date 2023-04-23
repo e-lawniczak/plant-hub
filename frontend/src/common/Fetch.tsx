@@ -65,6 +65,26 @@ export const callPost = async (url: string, body:any = null, authorizationToken 
     return response
 
 }
+export const callPostFiles = async (url: string, body:any[] = [], authorizationToken = null, isBlob = false) => {
+
+    const formData = new FormData()
+
+    body.forEach(e => {
+        formData.append(e.name, e)
+    });
+    
+    let requestBody = {
+        method: "POST",
+        mode: 'cors',
+        body: formData
+    }
+
+
+    let response = await callApi(url, requestBody, isBlob)
+
+    return response
+
+}
 
 export const callDelete = async (url: string, body: any, authorizationToken = null) => {
 

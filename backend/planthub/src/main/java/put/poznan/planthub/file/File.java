@@ -31,7 +31,8 @@ public class File {
     private Long id;
 
     private String name;
-    private Byte file;
+    private String type;
+    private byte[] fileData;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.REFRESH })
