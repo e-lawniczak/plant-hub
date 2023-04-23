@@ -1,3 +1,5 @@
+import { store } from "./Redux/Store"
+
 export interface IApiProps {
     url: string,
     method?: string,
@@ -192,6 +194,7 @@ export const callPut = async (url: string, body: any, authorizationToken = null)
 }
 
 const callApi = async (url:any, requestBody:any, isBlob = false) => {
+    console.log((store.getState().user as any)?.accessToken, "xdddd")
     const response = await fetch(url, requestBody)
     let responseObject = {
         response: null as any,

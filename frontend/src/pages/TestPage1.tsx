@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../common/Redux/Slices/userSlice';
 import { ILoginInputs } from '../common/models';
 import { useForm, SubmitHandler } from "react-hook-form";
+import { store } from '../common/Redux/Store';
 
 export const TestPage1 = () => {
 
@@ -79,6 +80,7 @@ export const TestPage1 = () => {
         console.log(file.addedFiles[0])
         setFiles(tmpUpload)
     }
+    console.log()
     return <PageContainer>
         <h1 >Test page1</h1>
 
