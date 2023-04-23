@@ -67,16 +67,20 @@ export const callPost = async (url: string, body:any = null, authorizationToken 
 }
 export const callPostFiles = async (url: string, body:any[] = [], authorizationToken = null, isBlob = false) => {
 
-    const formData = new FormData()
+    const files = new FormData()
 
     body.forEach(e => {
-        formData.append(e.name, e)
+        files.append(e.name, e)
     });
+    
     
     let requestBody = {
         method: "POST",
         mode: 'cors',
-        body: formData
+        headers:{
+            'Content-Disposition': 'form-data; name="files",'
+        },
+        body: files
     }
 
 

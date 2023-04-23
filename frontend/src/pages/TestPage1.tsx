@@ -76,6 +76,7 @@ export const TestPage1 = () => {
     const handleFileAdd = (event: any, file: any) => {
         let tmpUpload = [...uploaded]
         tmpUpload.push(file.addedFiles[0])
+        console.log(file.addedFiles[0])
         setFiles(tmpUpload)
     }
     return <PageContainer>

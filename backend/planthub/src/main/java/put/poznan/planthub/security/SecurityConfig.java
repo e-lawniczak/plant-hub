@@ -82,7 +82,7 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control",
                 "Content-Type", "File-Name", "Origin", "Access-Control-Allow-Origin",
-                "Accept", "Origin, Accept", "X-Requested-With",
+                "Accept", "Origin, Accept", "X-Requested-With", "Content-Disposition",
                 "Access-Control-Request-Method", "Access-Control-Request-Headers"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type", "File-Name",
                 "Origin", "Accept", "Access-Control-Allow-Origin", "Access-Control-Allow-Origin",
