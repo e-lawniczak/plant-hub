@@ -21,10 +21,12 @@ public class FileService {
 
     public File uploadImage(MultipartFile file) throws IOException {
         File pFile = new File();
-        pFile.setName(file.getOriginalFilename());
-        pFile.setType(file.getContentType());
-        pFile.setFileData(FileUtil.compressImage(file.getBytes()));
-        return fileRepository.save(pFile);
+        System.out.println(file);
+        // pFile.setName(file.getOriginalFilename());
+        // pFile.setType(file.getContentType());
+        // pFile.setFileData(FileUtil.compressImage(file.getBytes()));
+        // return fileRepository.save(pFile);
+        return null;
     }
     // public List<File> uploadImage(MultipartFile file) throws IOException {
     // List<File> resList = new ArrayList<File>();

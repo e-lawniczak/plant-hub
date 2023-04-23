@@ -72,7 +72,7 @@ export const callPostFiles = async (url: string, body:any[] = [], authorizationT
     const files = new FormData()
 
     body.forEach(e => {
-        files.append(e.name, e)
+        files.append("files", e)
     });
     
     
