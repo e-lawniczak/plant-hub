@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import put.poznan.planthub.offer.Offer;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +20,5 @@ public interface FileRepository extends JpaRepository<File, Long> {
 
     boolean existsById(Long id);
 
-    @Query(
-        value = "Select * from files where files.offer_id = ?1",
-        nativeQuery = true
-    )
-    List<File> findAllForOffer(Long offerId);
-    
+    List<File> findAllByOffer(Offer offerId);
 }

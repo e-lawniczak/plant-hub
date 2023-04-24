@@ -6,6 +6,10 @@ import put.poznan.planthub.file.File;
 import put.poznan.planthub.user.User;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +37,7 @@ public class Offer {
     
     private Boolean deleted;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.REFRESH })
     @JoinColumn(name = "user_id")
     private User user;

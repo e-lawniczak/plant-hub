@@ -36,10 +36,9 @@ public class FileController {
 	private FileService fileService;
 
 	@ResponseStatus(value = HttpStatus.OK)
-	@PostMapping("/upload/{offerId}")
+	@PostMapping("/upload/{email}/{offerId}")
 	public ResponseEntity<String> uploadImage(@PathVariable Long offerId, @RequestPart MultipartFile[] files)
 			throws IOException {
-		// TODO: zwiększyć limit pliku
 
 		List<File> image = fileService.uploadImage(offerId, files);
 		if (image == null)
@@ -56,7 +55,12 @@ public class FileController {
 
 	@GetMapping("/download/all/{offerId}")
 	public ResponseEntity<List<File>> getAllFilesForOffer(@PathVariable Long offerId) {
-		return ResponseEntity.status(HttpStatus.OK).body(fileService.loadAllFiles(offerId));
+
+		List<File> files = fileService.loadAllFiles(offerId);
+		if (files == null)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+		return ResponseEntity.status(HttpStatus.OK).body(files);
 
 	}
 }

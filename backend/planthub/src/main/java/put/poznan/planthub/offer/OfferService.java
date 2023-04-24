@@ -29,10 +29,10 @@ public class OfferService {
         return offerRepository.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
-    public ResponseEntity<String> addOffer( OfferDto offerDto) {
+    public ResponseEntity<String> addOffer( OfferDto offerDto, String email) {
 
         Offer offer = new Offer();
-        Optional<User> user = userRepository.findByEmail(offerDto.getEmail());
+        Optional<User> user = userRepository.findByEmail(email);
 
 
         if (user.isEmpty())

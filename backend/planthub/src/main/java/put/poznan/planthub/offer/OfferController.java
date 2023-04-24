@@ -28,17 +28,17 @@ public class OfferController {
     @Autowired
     private OfferService offerService;
 
-    @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody OfferDto offer) {
-        return offerService.addOffer(offer);
+    @PostMapping("/add/{email}")
+    public ResponseEntity<String> add(@RequestBody OfferDto offer, @PathVariable String email) {
+        return offerService.addOffer(offer, email);
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/update/{email}/{id}")
     public ResponseEntity<OfferDto> update(@PathVariable("id") Long id, @RequestBody UpdateOfferDto offer) {
         return offerService.updateOffer(id, offer);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{email}/{id}")
     public ResponseEntity<OfferDto> delete(@PathVariable("id") Long id) {
         return offerService.deleteOffer(id);
     }

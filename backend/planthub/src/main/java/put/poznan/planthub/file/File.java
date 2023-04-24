@@ -34,7 +34,7 @@ public class File {
     private String type;
     private byte[] fileData;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.REFRESH })
     @JoinColumn(name = "offer_id")
     private Offer offer;

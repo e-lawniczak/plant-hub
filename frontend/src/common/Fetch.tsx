@@ -1,5 +1,6 @@
 import { isValidDateValue } from "@testing-library/user-event/dist/utils"
 import { store } from "./Redux/Store"
+import { useLocation } from "react-router-dom"
 
 export interface IApiProps {
     url: string,
@@ -22,38 +23,38 @@ export const callGet = async (url: string, isBlob = false) => {
 
     }
 
-    let response = await callApi(url, requestBody, isBlob)
+    let response = await callApi(url, requestBody, false, isBlob)
     return response
 
 
 }
 
-export const callPost = async (url: string, body:any = null, authorizationToken = null, isBlob = false) => {
+export const callPost = async (url: string, body: any = null, authorizationToken = null, isBlob = false) => {
 
     let headers
-    if (isBlob && authorizationToken !== null) {
+    // if (isBlob && authorizationToken !== null) {
+    //     headers = {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json',
+    //         'Access-Control-Allow-Origin': '*',
+    //         "Authorization": `Bearer ${authorizationToken}`
+    //     }
+    // }
+    // else if (authorizationToken !== null) {
+    //     headers = {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json',
+    //         'Access-Control-Allow-Origin': '*',
+    //         "Authorization": `Bearer ${authorizationToken}`
+    //     }
+    // }
+    // else {
         headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            "Authorization": `Bearer ${authorizationToken}`
         }
-    }
-    else if(authorizationToken !== null) {
-        headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            "Authorization": `Bearer ${authorizationToken}`
-        }
-    }
-    else {
-        headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-        }
-    }
+    // }
 
     let requestBody = {
         method: "POST",
@@ -63,31 +64,31 @@ export const callPost = async (url: string, body:any = null, authorizationToken 
     }
 
 
-    let response = await callApi(url, requestBody, isBlob)
+    let response = await callApi(url, requestBody, true, isBlob)
 
     return response
 
 }
-export const callPostFiles = async (url: string, body:any[] = [], authorizationToken = null, isBlob = false) => {
+export const callPostFiles = async (url: string, body: any[] = [], authorizationToken = null, isBlob = false) => {
 
     const files = new FormData()
 
     body.forEach(e => {
         files.append("files", e)
     });
-    
-    
+
+
     let requestBody = {
         method: "POST",
         mode: 'cors',
-        headers:{
+        headers: {
             'Content-Disposition': 'form-data; name="files",'
         },
         body: files
     }
 
 
-    let response = await callApi(url, requestBody, isBlob)
+    let response = await callApi(url, requestBody, true, isBlob)
 
     return response
 
@@ -97,7 +98,7 @@ export const callDelete = async (url: string, body: any, authorizationToken = nu
 
     let headers;
 
-    if(authorizationToken !== null) {
+    if (authorizationToken !== null) {
         headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -121,7 +122,7 @@ export const callDelete = async (url: string, body: any, authorizationToken = nu
     }
 
 
-    let response = await callApi(url, requestBody)
+    let response = await callApi(url, requestBody, true)
 
     return response
 
@@ -131,7 +132,7 @@ export const callPatch = async (url: string, body: any, authorizationToken = nul
 
     let headers;
 
-    if(authorizationToken !== null) {
+    if (authorizationToken !== null) {
         headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -155,7 +156,7 @@ export const callPatch = async (url: string, body: any, authorizationToken = nul
     }
 
 
-    let response = await callApi(url, requestBody)
+    let response = await callApi(url, requestBody, true)
 
     return response
 
@@ -164,7 +165,7 @@ export const callPut = async (url: string, body: any, authorizationToken = null)
 
     let headers;
 
-    if(authorizationToken !== null) {
+    if (authorizationToken !== null) {
         headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -194,8 +195,12 @@ export const callPut = async (url: string, body: any, authorizationToken = null)
 
 }
 
-const callApi = async (url:any, requestBody:any, isBlob = false) => {
-    // console.log((store.getState().user as any)?.accessToken, "xdddd")
+const callApi = async (url: any, requestBody: any, isAuth = false, isBlob = false) => {
+    let authorizationToken = (store.getState().user as any)?.accessToken;
+    if (isAuth) {
+        requestBody.headers["Authorization"] = `Bearer ${authorizationToken}`;
+        console.log(requestBody)
+    }
     const response = await fetch(url, requestBody)
     let responseObject = {
         response: null as any,

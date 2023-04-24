@@ -63,9 +63,15 @@ public class FileService {
     }
 
     public List<File> loadAllFiles(Long offerId) {
-        List<File> data = fileRepository.findAllForOffer(offerId);
+        Optional<Offer> offer = offerRepository.findById(offerId);
+        if (offer.isEmpty())
+            return null;
+        System.out.println("XDDD2");
+
+        List<File> data = fileRepository.findAllByOffer(offer.get());
         System.out.println("XDDD");
-        // List<FileDataDto> response = data.stream().map(f -> FileDataDto.of(f)).toList();
+        // List<FileDataDto> response = data.stream().map(f ->
+        // FileDataDto.of(f)).toList();
 
         return data;
     }

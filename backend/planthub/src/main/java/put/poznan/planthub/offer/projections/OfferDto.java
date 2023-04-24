@@ -13,7 +13,6 @@ import put.poznan.planthub.offer.Offer;
 public class OfferDto {
     // private Long id;
 
-    private String email;
 
     private String title;
 
@@ -34,7 +33,6 @@ public class OfferDto {
 
     private OfferDto(Offer offer) {
         // id = offer.getId();
-        email = offer.getUser().getEmail();
         title = offer.getTitle();
         description = offer.getDescription();
         category = offer.getCategory();

@@ -27,7 +27,7 @@ export const LoginPage = () => {
             let user = await callGet(apiRoutes.user + '/' + data.email)
 
             let resUser = Object.assign({}, user.body, res.body);
-
+            console.log(resUser)
             dispatch(login(resUser))
         }
         setAjax(false)

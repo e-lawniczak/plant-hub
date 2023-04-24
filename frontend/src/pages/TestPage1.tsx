@@ -29,7 +29,7 @@ export const TestPage1 = () => {
     }
     const handleButton2 = async () => {
         setAjax(true)
-        let req = await callGet(apiRoutes.getSingle + `/${5}`)
+        let req = await callGet(apiRoutes.getSingle + `/${10}`)
         setOffers([req.body] as any)
         console.log(offers);
         setAjax(false)
@@ -39,13 +39,12 @@ export const TestPage1 = () => {
         setAjax(true)
 
         let body = {
-            email: user?.email || "",
             title: "test",
             description: "test test",
             category: "kategoria1",
             date: new Date()
         }
-        let req = await callPost(apiRoutes.addOffer, body)
+        let req = await callPost(apiRoutes.addOffer  + `/${user.email}`, body)
         console.log(req);
         setAjax(false)
 
@@ -59,22 +58,20 @@ export const TestPage1 = () => {
             category: offer.category,
             active: offer.active
         }
-        let req = await callPatch(apiRoutes.updateOffer + `/${offer.id}`, body)
+        let req = await callPatch(apiRoutes.updateOffer + `/${user.email}` + `/${offer.id}`, body)
 
         handleButton()
     }
     const handleDelete = async (offer: any) => {
         console.log(offer);
 
-        let req = await callDelete(apiRoutes.deleteOffer + `/${offer.id}`, null)
+        let req = await callDelete(apiRoutes.deleteOffer + `/${user.email}` + `/${offer.id}`, null)
 
         handleButton()
     }
     const handleSubmitCustom = async (e: any) => {
         e.preventDefault()
-        let req = await callPostFiles(apiRoutes.uploadFile + `/${5}`, uploaded)
-        console.log(req)
-        console.log(req.body)
+        let req = await callPostFiles(apiRoutes.uploadFile + `/${user.email}` + `/${10}`, uploaded)
     }
     const handleFileAdd = (event: any, file: any) => {
         let tmpUpload = [...uploaded]
@@ -83,7 +80,7 @@ export const TestPage1 = () => {
         setFiles(tmpUpload)
     }
     const handleAllImages = async () =>{
-        let req = await callGet(apiRoutes.getOfferFiles + `/${5}`)
+        let req = await callGet(apiRoutes.getOfferFiles + `/${10}`)
         console.log(req)
     }
     return <PageContainer>
