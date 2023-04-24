@@ -1,5 +1,7 @@
 package put.poznan.planthub.offer;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +31,10 @@ public class OfferService {
         return offerRepository.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
-    public ResponseEntity<String> addOffer( OfferDto offerDto, String email) {
+    public ResponseEntity<String> addOffer(OfferDto offerDto, String email) {
 
         Offer offer = new Offer();
         Optional<User> user = userRepository.findByEmail(email);
-
 
         if (user.isEmpty())
             return new ResponseEntity<>("User does not exist!", HttpStatus.BAD_REQUEST);
@@ -54,9 +55,11 @@ public class OfferService {
     public ResponseEntity<OfferDto> getOffer(Long id) throws NotFoundException {
         return new ResponseEntity<>(OfferDto.of(loadOfferById(id)), HttpStatus.OK);
     }
+
     public ResponseEntity<AllOffersDto> getSingleOffer(Long id) throws NotFoundException {
         return new ResponseEntity<>(AllOffersDto.of(loadOfferById(id)), HttpStatus.OK);
     }
+
     public ResponseEntity<OfferDto> updateOffer(Long id, UpdateOfferDto offerUpdate) {
         Optional<Offer> offer = offerRepository.findById(id);
 
@@ -67,6 +70,7 @@ public class OfferService {
         offerRepository.save(offer.get());
         return new ResponseEntity<>(OfferDto.of(offer.get()), HttpStatus.OK);
     }
+
     public ResponseEntity<OfferDto> deleteOffer(Long id) {
         Optional<Offer> offer = offerRepository.findById(id);
 
@@ -82,8 +86,8 @@ public class OfferService {
 
         List<Offer> offers = offerRepository.findAll();
 
+        Collections.sort(offers, Comparator.comparingLong(Offer::getId));
         List<AllOffersDto> response = offers.stream().map(o -> AllOffersDto.of(o)).toList();
-
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

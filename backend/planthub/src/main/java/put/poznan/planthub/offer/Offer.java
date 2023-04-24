@@ -21,7 +21,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "offers")
-public class Offer {
+public class Offer  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,5 +45,7 @@ public class Offer {
 
     @OneToMany(mappedBy = "offer")
     private List<File> files;
+
+  
 
 }

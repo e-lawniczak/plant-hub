@@ -48,7 +48,7 @@ export const TestPage1 = () => {
             date: new Date()
         }
         let req = await callPost(apiRoutes.addOffer + `/${user.email}`, body)
-        console.log(req);
+        handleButton()
         setAjax(false)
 
     }
@@ -142,22 +142,23 @@ export const TestPage1 = () => {
                 </form>
                 <Button onClick={handleAllImages}>GetImages</Button>
                 {userToRep && <div className="user-rep">
-                    <p>{userToRep.email}</p>
-                    <p>{userToRep.votes}</p>
+                    <p>Sample user: {userToRep.email}</p>
+                    <p>Rep: {userToRep.votes}</p>
                     {!checkRep && <Button onClick={() => repuser(userToRep)}>+1</Button>}
                 </div>}
             </div>
 
 
         </AjaxLoader>
-        {offers && <>
+        {offers && <div className='obrazki'>
             {offers.map((o, idx) => <div key={idx}>
+                <p key={"xxxz" + idx}>{o.id}</p>
                 <p key={"xxx" + idx}>{o.title}</p>
                 <p key={"xxxx" + idx}>{o.description}</p>
                 <Button key={"x" + idx} onClick={() => handleEdit(o)}>Edit</Button>
                 {!o.deleted && <Button key={"xx" + idx} onClick={() => handleDelete(o)}>Delete</Button>}
             </div>)}
-        </>}
+        </div>}
         {images && <div className='obrazki'>
             {images.map((i, idx) => <div onClick={() => handleSingleImg(i)} key={"zz" + idx} className="img-container">
                 <img key={"zzz" + idx} src={`data:${i.type};base64, ${i.fileData}`} alt="" />
