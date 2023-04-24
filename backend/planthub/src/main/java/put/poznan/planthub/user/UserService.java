@@ -20,8 +20,6 @@ import put.poznan.planthub.user.roles.RoleRepository;
 import java.util.Collections;
 import java.util.List;
 
-
-
 @Service
 public class UserService implements UserDetailsService {
 
@@ -32,13 +30,14 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
-    public UserService(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtGenerator jwtGenerator) {
+
+    public UserService(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder,
+            JwtGenerator jwtGenerator) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
     }
-
 
     @Override
     public User loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -46,7 +45,7 @@ public class UserService implements UserDetailsService {
     }
 
     public ResponseEntity<String> register(RegisterDto registerDto) {
-        if(userRepository.existsByEmail(registerDto.getEmail())) {
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         } else {
             User user = new User();
@@ -80,17 +79,20 @@ public class UserService implements UserDetailsService {
 
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
+
     public ResponseEntity<Void> logout(String email) {
         User user = loadUserByUsername(email);
         user.setToken("");
         userRepository.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     public ResponseEntity<UserDto> getUser(String email) throws UsernameNotFoundException {
         return new ResponseEntity<>(UserDto.of(loadUserByUsername(email)), HttpStatus.OK);
     }
 
-    public ResponseEntity<UserDto> updateUser(String email, UserDtoFormUpdate userToUpdate) throws UsernameNotFoundException {
+    public ResponseEntity<UserDto> updateUser(String email, UserDtoFormUpdate userToUpdate)
+            throws UsernameNotFoundException {
         User user = loadUserByUsername(email);
         userToUpdate.updateUser(user);
         userRepository.save(user);
@@ -103,12 +105,11 @@ public class UserService implements UserDetailsService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     public ResponseEntity<Void> repUser(String email, String repEmail) throws UsernameNotFoundException {
-        User user = loadUserByUsername(email); //user który daje +1
+        User user = loadUserByUsername(email); // user który daje +1
         User userRep = loadUserByUsername(repEmail); // user który otzymuje +1
 
-        if(userRep.getReppingUsers().contains(user))
+        if (userRep.getReppingUsers().contains(user) || userRep.getEmail().equals(user.getEmail()))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // List<User> currentRep = user.getReppingUsers();
@@ -119,16 +120,15 @@ public class UserService implements UserDetailsService {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     public ResponseEntity<Boolean> isUserRepped(String email, String repEmail) throws UsernameNotFoundException {
-        User user = loadUserByUsername(email); //user który daje +1
+        User user = loadUserByUsername(email); // user który daje +1
         User userRep = loadUserByUsername(repEmail); // user który otzymuje +1
 
-        if(userRep.getReppingUsers().contains(user))
+        if (userRep.getReppingUsers().contains(user) || userRep.getEmail().equals(user.getEmail()))
             return new ResponseEntity<>(true, HttpStatus.OK);
 
         return new ResponseEntity<>(false, HttpStatus.OK);
     }
 
-
 }
-
