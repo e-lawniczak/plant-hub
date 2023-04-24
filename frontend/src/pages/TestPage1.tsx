@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AjaxLoader } from '../common/AjaxLoader';
 import { PageContainer } from '../common/layouts/PageContainer';
-import { callDelete, callGet, callPatch, callPost, callPostFiles } from '../common/Fetch';
+import { callDelete, callGet, callPatch, callPost, callPostFiles, callPut } from '../common/Fetch';
 import { apiRoutes } from '../common/ApiRoutes';
 import { Button, FileUploader, FileUploaderDropContainer, FormItem } from 'carbon-components-react';
 import { useSelector } from 'react-redux';
@@ -17,6 +17,8 @@ export const TestPage1 = () => {
         [offers, setOffers] = useState<any[]>(),
         [isAjax, setAjax] = useState(false),
         [images, setImages] = useState<any[]>([]),
+        [userToRep, setRep] = useState<any>(null),
+        [checkRep, setCheckRep] = useState(false),
         [uploaded, setFiles] = useState<any[]>([]),
         { register, handleSubmit } = useForm();
 
@@ -90,35 +92,61 @@ export const TestPage1 = () => {
         console.log(req);
         setImages([req.body as any])
     }
+    const getRepUser = async () => {
+        let req = await callGet(apiRoutes.user + `/user@1.pl`)
+        setRep(req.body);
+    }
+    const checkRepepd = async () => {
+        let req = await callGet(apiRoutes.isUserRep + `/${user.email}/user@1.pl`)
+        setCheckRep(req.body as any);
+        console.log("XDD", req);
+    }
+    const repuser = async (userToRep: any) => {
+        let req = await callPost(apiRoutes.userRep + `/${user.email}/${userToRep.email}`, null)
+        console.log(req);
+    }
+    useEffect(() => {
+        getRepUser();
+        checkRepepd();
+    }, [])
     return <PageContainer>
         <h1 >Test page1</h1>
 
         <AjaxLoader isAjax={isAjax}>
-            <Button onClick={handleButton}>Click me!</Button>
-            <Button onClick={handleButton2}>Get 5!</Button>
-            <Button onClick={handleButtonTest}>Add test!</Button>
-            <form onSubmit={handleSubmitCustom}>
-                <FormItem>
-                    <FileUploaderDropContainer
-                        accept={[
-                            'image/jpeg',
-                            'image/png'
-                        ]}
-                        // itemRef={'[Circular]'}
-                        labelText="Drag and drop files here or click to upload"
-                        multiple
-                        onAddFiles={(e, x) => handleFileAdd(e, x)}
-                        onChange={(e) => { console.log(e) }}
-                        tabIndex={0}
+            <div className="obrazki">
+                <Button onClick={handleButton}>Click me!</Button>
+                <Button onClick={handleButton2}>Get 5!</Button>
+                <Button onClick={handleButtonTest}>Add test!</Button>
+            </div>
+            <div className="obrazki">
+                <form onSubmit={handleSubmitCustom}>
+                    <FormItem>
+                        <FileUploaderDropContainer
+                            accept={[
+                                'image/jpeg',
+                                'image/png'
+                            ]}
+                            // itemRef={'[Circular]'}
+                            labelText="Drag and drop files here or click to upload"
+                            multiple
+                            onAddFiles={(e, x) => handleFileAdd(e, x)}
+                            onChange={(e) => { console.log(e) }}
+                            tabIndex={0}
 
-                    />
-                    <div className="uploaded-files">
-                        {uploaded.map(f => <p>{f.name}</p>)}
-                    </div>
-                </FormItem>
-                <Button type='submit'>Wylij plik</Button>
-            </form>
-            <Button onClick={handleAllImages}>GetImages</Button>
+                        />
+                        <div className="uploaded-files">
+                            {uploaded.map(f => <p>{f.name}</p>)}
+                        </div>
+                    </FormItem>
+                    <Button type='submit'>Wylij plik</Button>
+                </form>
+                <Button onClick={handleAllImages}>GetImages</Button>
+                {userToRep && <div className="user-rep">
+                    <p>{userToRep.email}</p>
+                    <p>{userToRep.votes}</p>
+                    {!checkRep && <Button onClick={() => repuser(userToRep)}>+1</Button>}
+                </div>}
+            </div>
 
 
         </AjaxLoader>

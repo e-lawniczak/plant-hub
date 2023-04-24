@@ -14,6 +14,8 @@ const rootRoute = {
 
 export const apiRoutes = {
    user: rootRoute.users + '/user',
+   userRep: rootRoute.users + '/user/repuser',
+   isUserRep: rootRoute.users + '/user/checkrepuser',
    register: rootRoute.auth + '/register',
    login: rootRoute.auth + '/login',
    getOffers: rootRoute.offers + '/all',

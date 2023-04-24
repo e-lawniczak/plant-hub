@@ -40,6 +40,14 @@ public class UserController {
     public ResponseEntity<Void> logout(@PathVariable("email") String email) throws UsernameNotFoundException {
         return userService.logout(email);
     }
+    @PostMapping("/user/repuser/{email}/{repemail}")
+    public ResponseEntity<Void> repUser(@PathVariable("email") String email, @PathVariable("repemail") String repEmail) throws UsernameNotFoundException {
+        return userService.repUser(email, repEmail);
+    }
+    @GetMapping("/user/checkrepuser/{email}/{repemail}")
+    public ResponseEntity<Boolean> checkRepUser(@PathVariable("email") String email, @PathVariable("repemail") String repEmail) throws UsernameNotFoundException {
+        return userService.isUserRepped(email, repEmail);
+    }
     @GetMapping("/user/{email}")
     public ResponseEntity<UserDto> getUser(@PathVariable("email") String email) throws UsernameNotFoundException {
         return userService.getUser(email);

@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 import put.poznan.planthub.security.JwtGenerator;
 import put.poznan.planthub.security.projections.AuthResponseDTO;
 import put.poznan.planthub.user.projections.RegisterDto;
+import put.poznan.planthub.user.projections.RepUserDto;
 import put.poznan.planthub.user.projections.UserDto;
 import put.poznan.planthub.user.projections.UserDtoFormUpdate;
 import put.poznan.planthub.user.roles.Role;
 import put.poznan.planthub.user.roles.RoleRepository;
 
 import java.util.Collections;
+import java.util.List;
 
 
 
@@ -100,6 +102,33 @@ public class UserService implements UserDetailsService {
         userRepository.delete(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+    public ResponseEntity<Void> repUser(String email, String repEmail) throws UsernameNotFoundException {
+        User user = loadUserByUsername(email); //user który daje +1
+        User userRep = loadUserByUsername(repEmail); // user który otzymuje +1
+
+        if(userRep.getReppingUsers().contains(user))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // List<User> currentRep = user.getReppingUsers();
+        // user.setReppingUsers(null);
+        RepUserDto updateRep = new RepUserDto(userRep.getReppingUsers(), userRep.getVotes());
+        updateRep.repUser(userRep, user);
+        userRepository.save(userRep);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    public ResponseEntity<Boolean> isUserRepped(String email, String repEmail) throws UsernameNotFoundException {
+        User user = loadUserByUsername(email); //user który daje +1
+        User userRep = loadUserByUsername(repEmail); // user który otzymuje +1
+
+        if(userRep.getReppingUsers().contains(user))
+            return new ResponseEntity<>(true, HttpStatus.OK);
+
+        return new ResponseEntity<>(false, HttpStatus.OK);
+    }
+
 
 }
 

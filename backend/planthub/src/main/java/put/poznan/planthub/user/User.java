@@ -50,10 +50,20 @@ public class User implements UserDetails {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
 
-    // @OneToMany()
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
         CascadeType.REFRESH })
     private List<Offer> offers;
+
+    // // wielu użytkowników może repować jednego użytkownika 
+    // @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
+    // @JoinTable(name = "user_rep", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rep_user_id", referencedColumnName = "id"))
+    // private User reppedUser; // tylko jedno id może być w tabeli
+
+    // jeden użytkownik może repować wielu użytkowników
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name = "user_rep", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rep_user_id", referencedColumnName = "id"))
+    private List<User> reppingUsers; // może się powtarzać
+    
 
     @Override
     public boolean equals(Object o) {
