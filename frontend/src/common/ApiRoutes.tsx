@@ -22,6 +22,7 @@ export const apiRoutes = {
    addOffer: rootRoute.offers + '/add' ,
    updateOffer: rootRoute.offers + '/update',
    deleteOffer: rootRoute.offers + '/delete',
+   deactivateOffer: rootRoute.offers + '/toggleactive',
    getSingle: rootRoute.offers,
    uploadFile: rootRoute.files + "/upload",
    downloadFile: rootRoute.files + "/download",

@@ -38,6 +38,10 @@ public class OfferController {
         return offerService.updateOffer(id, offer);
     }
 
+    @PatchMapping("/toggleactive/{email}/{id}")
+    public ResponseEntity<OfferDto> toggleActive(@PathVariable("id") Long id) {
+        return offerService.toggleActiveOffer(id);
+    }
     @DeleteMapping("/delete/{email}/{id}")
     public ResponseEntity<OfferDto> delete(@PathVariable("id") Long id) {
         return offerService.deleteOffer(id);

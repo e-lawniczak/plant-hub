@@ -66,9 +66,12 @@ export const TestPage1 = () => {
         handleButton()
     }
     const handleDelete = async (offer: any) => {
-        console.log(offer);
-
         let req = await callDelete(apiRoutes.deleteOffer + `/${user.email}` + `/${offer.id}`, null)
+
+        handleButton()
+    }
+    const handleDeactivate = async (offer: any) => {
+        let req = await callPatch(apiRoutes.deactivateOffer + `/${user.email}` + `/${offer.id}`, null)
 
         handleButton()
     }
@@ -151,12 +154,17 @@ export const TestPage1 = () => {
 
         </AjaxLoader>
         {offers && <div className='obrazki'>
-            {offers.map((o, idx) => <div key={idx}>
+            {offers.map((o, idx) => <div className={o.active ? "active" : "inactive"} key={idx}>
                 <p key={"xxxz" + idx}>{o.id}</p>
                 <p key={"xxx" + idx}>{o.title}</p>
                 <p key={"xxxx" + idx}>{o.description}</p>
                 <Button key={"x" + idx} onClick={() => handleEdit(o)}>Edit</Button>
                 {!o.deleted && <Button key={"xx" + idx} onClick={() => handleDelete(o)}>Delete</Button>}
+                {o.active ?
+                    <Button key={"xx" + idx} onClick={() => handleDeactivate(o)}>Deactivate</Button>
+                    :
+                    <Button key={"xx" + idx} onClick={() => handleDeactivate(o)}>Activate</Button>
+                }
             </div>)}
         </div>}
         {images && <div className='obrazki'>

@@ -82,6 +82,17 @@ public class OfferService {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    public ResponseEntity<OfferDto> toggleActiveOffer(Long id) {
+        Optional<Offer> offer = offerRepository.findById(id);
+
+        if (offer.isEmpty() || offer.get().getDeleted().booleanValue())
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+        offer.get().setActive(!offer.get().getActive());
+        offerRepository.save(offer.get());
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
     public ResponseEntity<List<AllOffersDto>> getAllOffers() {
 
         List<Offer> offers = offerRepository.findAllNotDeleted();
