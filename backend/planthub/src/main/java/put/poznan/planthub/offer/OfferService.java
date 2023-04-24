@@ -84,7 +84,7 @@ public class OfferService {
 
     public ResponseEntity<List<AllOffersDto>> getAllOffers() {
 
-        List<Offer> offers = offerRepository.findAll();
+        List<Offer> offers = offerRepository.findAllNotDeleted();
 
         Collections.sort(offers, Comparator.comparingLong(Offer::getId));
         List<AllOffersDto> response = offers.stream().map(o -> AllOffersDto.of(o)).toList();
