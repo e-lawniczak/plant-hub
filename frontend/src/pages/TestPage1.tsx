@@ -16,6 +16,7 @@ export const TestPage1 = () => {
     const user = useSelector(selectUser),
         [offers, setOffers] = useState<any[]>(),
         [isAjax, setAjax] = useState(false),
+        [images, setImages] = useState<any[]>([]),
         [uploaded, setFiles] = useState<any[]>([]),
         { register, handleSubmit } = useForm();
 
@@ -44,7 +45,7 @@ export const TestPage1 = () => {
             category: "kategoria1",
             date: new Date()
         }
-        let req = await callPost(apiRoutes.addOffer  + `/${user.email}`, body)
+        let req = await callPost(apiRoutes.addOffer + `/${user.email}`, body)
         console.log(req);
         setAjax(false)
 
@@ -79,9 +80,15 @@ export const TestPage1 = () => {
         console.log(file.addedFiles[0])
         setFiles(tmpUpload)
     }
-    const handleAllImages = async () =>{
+    const handleAllImages = async () => {
         let req = await callGet(apiRoutes.getOfferFiles + `/${10}`)
-        console.log(req)
+        console.log(req.body)
+        setImages(req.body as any);
+    }
+    const handleSingleImg = async (image: any) => {
+        let req = await callGet(apiRoutes.downloadFile + `/${image.type}/${image.id}`)
+        console.log(req);
+        setImages([req.body as any])
     }
     return <PageContainer>
         <h1 >Test page1</h1>
@@ -119,10 +126,15 @@ export const TestPage1 = () => {
             {offers.map((o, idx) => <div key={idx}>
                 <p key={"xxx" + idx}>{o.title}</p>
                 <p key={"xxxx" + idx}>{o.description}</p>
-                <Button key={"x"+ idx} onClick={() => handleEdit(o)}>Edit</Button>
-                {!o.deleted && <Button key={"xx"+ idx} onClick={() => handleDelete(o)}>Delete</Button>}
+                <Button key={"x" + idx} onClick={() => handleEdit(o)}>Edit</Button>
+                {!o.deleted && <Button key={"xx" + idx} onClick={() => handleDelete(o)}>Delete</Button>}
             </div>)}
         </>}
+        {images && <div className='obrazki'>
+            {images.map((i, idx) => <div onClick={() => handleSingleImg(i)} key={"zz" + idx} className="img-container">
+                <img key={"zzz" + idx} src={`data:${i.type};base64, ${i.fileData}`} alt="" />
+            </div>)}
+        </div>}
     </PageContainer>
 }
 

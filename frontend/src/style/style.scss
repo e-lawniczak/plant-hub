@@ -1,16 +1,23 @@
 //carbon
 @use '@carbon/react';
 //normalize
-@import './partials/normalize'; 
+@import './partials/normalize';
 
 
 
 //globals
-@import './partials/global'; 
-@import './partials/layouts'; 
+@import './partials/global';
+@import './partials/layouts';
 
 
 //components
 
 
 //pages
+
+
+.obrazki {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+}

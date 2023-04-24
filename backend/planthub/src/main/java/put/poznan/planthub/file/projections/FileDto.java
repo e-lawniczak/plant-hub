@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import put.poznan.planthub.file.File;
+import put.poznan.planthub.file.FileUtil;
 import put.poznan.planthub.offer.Offer;
 import put.poznan.planthub.offer.projections.AllOffersDto;
 
@@ -14,21 +15,25 @@ import put.poznan.planthub.offer.projections.AllOffersDto;
 @Getter
 @Setter
 @ToString
-public class FileDataDto {
+public class FileDto {
     private Long id;
     private String name;
     private String type;
+    private byte[] fileData;
+    private AllOffersDto offer;
 
-    public static FileDataDto of(File file) {
+    public static FileDto of(File file) {
         if (file == null) {
             return null;
         }
-        return new FileDataDto(file);
+        return new FileDto(file);
     }
 
-    private FileDataDto(File file) {
+    private FileDto(File file) {
         id = file.getId();
         name = file.getName();
-        type = file.getType();
+        type = file.getType().replace("/", "_");
+        fileData = FileUtil.decompressImage(file.getFileData());
+        offer = AllOffersDto.of(file.getOffer());
     }
 }

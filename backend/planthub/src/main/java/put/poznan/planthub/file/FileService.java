@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import put.poznan.planthub.file.projections.FileDataDto;
+import put.poznan.planthub.file.projections.FileDto;
 import put.poznan.planthub.offer.Offer;
 import put.poznan.planthub.offer.OfferRepository;
 
@@ -57,23 +58,23 @@ public class FileService {
         return resList;
     }
 
-    public byte[] downloadImage(Long fileId) {
+    public File downloadImage(Long fileId) {
         Optional<File> imageData = fileRepository.findById(fileId);
-        return FileUtil.decompressImage(imageData.get().getFileData());
+        if (imageData.isEmpty())
+            return null;
+        return imageData.get();
+        // return FileUtil.decompressImage(imageData.get().getFileData());
     }
 
-    public List<File> loadAllFiles(Long offerId) {
+    public List<FileDto> loadAllFiles(Long offerId) {
         Optional<Offer> offer = offerRepository.findById(offerId);
         if (offer.isEmpty())
             return null;
-        System.out.println("XDDD2");
 
         List<File> data = fileRepository.findAllByOffer(offer.get());
-        System.out.println("XDDD");
-        // List<FileDataDto> response = data.stream().map(f ->
-        // FileDataDto.of(f)).toList();
+        List<FileDto> response = data.stream().map(d -> FileDto.of(d)).toList();
 
-        return data;
+        return response;
     }
 
 }

@@ -3,6 +3,7 @@ package put.poznan.planthub.offer;
 import lombok.*;
 
 import put.poznan.planthub.file.File;
+import put.poznan.planthub.file.projections.FileDto;
 import put.poznan.planthub.user.User;
 
 import javax.persistence.*;

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import put.poznan.planthub.file.projections.FileDataDto;
+import put.poznan.planthub.file.projections.FileDto;
 import put.poznan.planthub.offer.projections.AllOffersDto;
 import put.poznan.planthub.offer.projections.OfferDto;
 import put.poznan.planthub.offer.projections.UpdateOfferDto;
@@ -47,16 +48,19 @@ public class FileController {
 	}
 
 	@GetMapping("/download/{type}/{fileId}")
-	public ResponseEntity<byte[]> downloadImage(@PathVariable Long fileId, @PathVariable String type) {
-		byte[] image = fileService.downloadImage(fileId);
-		String fileType = type;
-		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf(fileType)).body(image);
+	public ResponseEntity<FileDto> downloadImage(@PathVariable Long fileId, @PathVariable String type) {
+		File image = fileService.downloadImage(fileId);
+		if (image == null)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		String fileType = type.replace("_", "/");
+
+		return ResponseEntity.status(HttpStatus.OK).body(FileDto.of(image));
 	}
 
 	@GetMapping("/download/all/{offerId}")
-	public ResponseEntity<List<File>> getAllFilesForOffer(@PathVariable Long offerId) {
+	public ResponseEntity<List<FileDto>> getAllFilesForOffer(@PathVariable Long offerId) {
 
-		List<File> files = fileService.loadAllFiles(offerId);
+		List<FileDto> files = fileService.loadAllFiles(offerId);
 		if (files == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
