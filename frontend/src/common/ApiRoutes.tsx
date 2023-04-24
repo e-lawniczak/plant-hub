@@ -18,5 +18,6 @@ export const apiRoutes = {
    deleteOffer: rootRoute.offers + '/delete',
    getSingle: rootRoute.offers ,
    uploadFile: rootRoute.files + "/upload",
-   downloadFile: rootRoute.files + "/download"
+   downloadFile: rootRoute.files + "/download",
+   getOfferFiles: rootRoute.files+ "/download/all"
 }

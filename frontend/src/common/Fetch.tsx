@@ -1,3 +1,4 @@
+import { isValidDateValue } from "@testing-library/user-event/dist/utils"
 import { store } from "./Redux/Store"
 
 export interface IApiProps {
@@ -6,7 +7,7 @@ export interface IApiProps {
     body?: string,
 }
 
-export const callGet = async (url: string) => {
+export const callGet = async (url: string, isBlob = false) => {
 
     let headers = {
         'Accept': 'application/json',
@@ -21,7 +22,7 @@ export const callGet = async (url: string) => {
 
     }
 
-    let response = await callApi(url, requestBody)
+    let response = await callApi(url, requestBody, isBlob)
     return response
 
 
@@ -194,7 +195,7 @@ export const callPut = async (url: string, body: any, authorizationToken = null)
 }
 
 const callApi = async (url:any, requestBody:any, isBlob = false) => {
-    console.log((store.getState().user as any)?.accessToken, "xdddd")
+    // console.log((store.getState().user as any)?.accessToken, "xdddd")
     const response = await fetch(url, requestBody)
     let responseObject = {
         response: null as any,

@@ -72,7 +72,7 @@ export const TestPage1 = () => {
     }
     const handleSubmitCustom = async (e: any) => {
         e.preventDefault()
-        let req = await callPostFiles(apiRoutes.uploadFile, uploaded)
+        let req = await callPostFiles(apiRoutes.uploadFile + `/${5}`, uploaded)
         console.log(req)
         console.log(req.body)
     }
@@ -82,7 +82,10 @@ export const TestPage1 = () => {
         console.log(file.addedFiles[0])
         setFiles(tmpUpload)
     }
-    console.log()
+    const handleAllImages = async () =>{
+        let req = await callGet(apiRoutes.getOfferFiles + `/${5}`)
+        console.log(req)
+    }
     return <PageContainer>
         <h1 >Test page1</h1>
 
@@ -111,14 +114,16 @@ export const TestPage1 = () => {
                 </FormItem>
                 <Button type='submit'>Wylij plik</Button>
             </form>
+            <Button onClick={handleAllImages}>GetImages</Button>
+
 
         </AjaxLoader>
         {offers && <>
             {offers.map((o, idx) => <div key={idx}>
-                <p>{o.title}</p>
-                <p>{o.description}</p>
-                <Button onClick={() => handleEdit(o)}>Edit</Button>
-                {!o.deleted && <Button onClick={() => handleDelete(o)}>Delete</Button>}
+                <p key={"xxx" + idx}>{o.title}</p>
+                <p key={"xxxx" + idx}>{o.description}</p>
+                <Button key={"x"+ idx} onClick={() => handleEdit(o)}>Edit</Button>
+                {!o.deleted && <Button key={"xx"+ idx} onClick={() => handleDelete(o)}>Delete</Button>}
             </div>)}
         </>}
     </PageContainer>
