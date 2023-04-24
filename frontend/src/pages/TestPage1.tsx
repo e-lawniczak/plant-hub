@@ -14,7 +14,7 @@ import { store } from '../common/Redux/Store';
 export const TestPage1 = () => {
 
     const user = useSelector(selectUser),
-        [offers, setOffers] = useState<any[]>(),
+        [offers, setOffers] = useState<any[]>([]),
         [isAjax, setAjax] = useState(false),
         [images, setImages] = useState<any[]>([]),
         [userToRep, setRep] = useState<any>(null),
@@ -30,9 +30,9 @@ export const TestPage1 = () => {
         setAjax(false)
 
     }
-    const handleButton2 = async () => {
+    const handleButton2 = async (offer: any) => {
         setAjax(true)
-        let req = await callGet(apiRoutes.getSingle + `/${10}`)
+        let req = await callGet(apiRoutes.getSingle + `/${offer.id}`)
         setOffers([req.body] as any)
         console.log(offers);
         setAjax(false)
@@ -75,9 +75,9 @@ export const TestPage1 = () => {
 
         handleButton()
     }
-    const handleSubmitCustom = async (e: any) => {
+    const handleSubmitCustom = async (e: any, offer: any) => {
         e.preventDefault()
-        let req = await callPostFiles(apiRoutes.uploadFile + `/${user.email}` + `/${10}`, uploaded)
+        let req = await callPostFiles(apiRoutes.uploadFile + `/${user.email}` + `/${offer.id}`, uploaded)
     }
     const handleFileAdd = (event: any, file: any) => {
         let tmpUpload = [...uploaded]
@@ -85,8 +85,8 @@ export const TestPage1 = () => {
         console.log(file.addedFiles[0])
         setFiles(tmpUpload)
     }
-    const handleAllImages = async () => {
-        let req = await callGet(apiRoutes.getOfferFiles + `/${10}`)
+    const handleAllImages = async (offer: any) => {
+        let req = await callGet(apiRoutes.getOfferFiles + `/${offer.id}`)
         console.log(req.body)
         setImages(req.body as any);
     }
@@ -117,12 +117,11 @@ export const TestPage1 = () => {
 
         <AjaxLoader isAjax={isAjax}>
             <div className="obrazki">
-                <Button onClick={handleButton}>Click me!</Button>
-                <Button onClick={handleButton2}>Get 5!</Button>
-                <Button onClick={handleButtonTest}>Add test!</Button>
+                <Button onClick={handleButton}>Get all offers!</Button>
+                <Button onClick={handleButtonTest}>Add test offer!</Button>
             </div>
             <div className="obrazki">
-                <form onSubmit={handleSubmitCustom}>
+                {offers.length > 0 && <form onSubmit={(e) =>handleSubmitCustom(e, offers[0])}>
                     <FormItem>
                         <FileUploaderDropContainer
                             accept={[
@@ -130,7 +129,7 @@ export const TestPage1 = () => {
                                 'image/png'
                             ]}
                             // itemRef={'[Circular]'}
-                            labelText="Drag and drop files here or click to upload"
+                            labelText={`Drag and drop files here or click to upload files for offer ${offers[0].id}`}
                             multiple
                             onAddFiles={(e, x) => handleFileAdd(e, x)}
                             onChange={(e) => { console.log(e) }}
@@ -138,12 +137,12 @@ export const TestPage1 = () => {
 
                         />
                         <div className="uploaded-files">
-                            {uploaded.map(f => <p>{f.name}</p>)}
+                            {uploaded.map((f, idx) => <p key={"f" + idx}>{f.name}</p>)}
                         </div>
                     </FormItem>
                     <Button type='submit'>Wylij plik</Button>
-                </form>
-                <Button onClick={handleAllImages}>GetImages</Button>
+                </form>}
+                {offers.length > 0 && <Button onClick={() => handleAllImages(offers[0])}>GetImages</Button>}
                 {userToRep && <div className="user-rep">
                     <p>Sample user: {userToRep.email}</p>
                     <p>Rep: {userToRep.votes}</p>
@@ -154,18 +153,20 @@ export const TestPage1 = () => {
 
         </AjaxLoader>
         {offers && <div className='obrazki'>
-            {offers.map((o, idx) => <div className={o.active ? "active" : "inactive"} key={idx}>
-                <p key={"xxxz" + idx}>{o.id}</p>
-                <p key={"xxx" + idx}>{o.title}</p>
-                <p key={"xxxx" + idx}>{o.description}</p>
-                <Button key={"x" + idx} onClick={() => handleEdit(o)}>Edit</Button>
-                {!o.deleted && <Button key={"xx" + idx} onClick={() => handleDelete(o)}>Delete</Button>}
-                {o.active ?
-                    <Button key={"xx" + idx} onClick={() => handleDeactivate(o)}>Deactivate</Button>
-                    :
-                    <Button key={"xx" + idx} onClick={() => handleDeactivate(o)}>Activate</Button>
-                }
-            </div>)}
+            {offers.map((o, idx) =>
+                <div onClick={() => handleButton2(o)} className={o.active ? "active" : "inactive"} key={idx}>
+                    <p key={"xxz" + idx}>{o.id}</p>
+                    <p key={"xxxs" + idx}>{o.title}</p>
+                    <p key={"xxxxq" + idx}>{o.description}</p>
+                    <Button key={"x" + idx} onClick={() => handleEdit(o)}>Edit</Button>
+                    {!o.deleted && <Button key={"xx" + idx} onClick={() => handleDelete(o)}>Delete</Button>}
+                    {o.active ?
+                        <Button key={"xxxz" + idx} onClick={() => handleDeactivate(o)}>Deactivate</Button>
+                        :
+                        <Button key={"xxy" + idx} onClick={() => handleDeactivate(o)}>Activate</Button>
+                    }
+                </div>
+            )}
         </div>}
         {images && <div className='obrazki'>
             {images.map((i, idx) => <div onClick={() => handleSingleImg(i)} key={"zz" + idx} className="img-container">
