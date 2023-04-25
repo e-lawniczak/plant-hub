@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import put.poznan.planthub.offer.Offer;
+import put.poznan.planthub.offer.OfferRepository;
+import put.poznan.planthub.offer.projections.AllOffersDto;
 import put.poznan.planthub.security.JwtGenerator;
 import put.poznan.planthub.security.projections.AuthResponseDTO;
 import put.poznan.planthub.user.projections.RegisterDto;
@@ -19,6 +23,8 @@ import put.poznan.planthub.user.roles.RoleRepository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -30,11 +36,14 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
+    private OfferRepository offerRepository;
 
-    public UserService(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder,
+    public UserService(RoleRepository roleRepository, UserRepository userRepository, OfferRepository offerRepository,
+            PasswordEncoder passwordEncoder,
             JwtGenerator jwtGenerator) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.offerRepository = offerRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
     }
@@ -129,6 +138,62 @@ public class UserService implements UserDetailsService {
             return new ResponseEntity<>(true, HttpStatus.OK);
 
         return new ResponseEntity<>(false, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> addFavOffer(String email, Long offerId) {
+        User user = loadUserByUsername(email);
+        Optional<Offer> offer = offerRepository.findById(offerId);
+
+        if (user == null || offer.isEmpty() || offer.get().getDeleted().booleanValue())
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+
+        List<Offer> likedOffers = user.getLikedOffers();
+
+        if (user.getLikedOffers().contains(offer.get())) {
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } else {
+            likedOffers.add(offer.get());
+            offer.get().setLikes(offer.get().getLikes() + 1);
+        }
+
+        user.setLikedOffers(likedOffers);
+        userRepository.save(user);
+        offerRepository.save(offer.get());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> deleteFavOffer(String email, Long offerId) {
+        User user = loadUserByUsername(email);
+        Optional<Offer> offer = offerRepository.findById(offerId);
+
+        if (user == null || offer.isEmpty() || offer.get().getDeleted().booleanValue())
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+
+        List<Offer> likedOffers = user.getLikedOffers();
+
+        if (user.getLikedOffers().contains(offer.get())) {
+            likedOffers.remove(offer.get());
+            offer.get().setLikes(offer.get().getLikes() - 1);
+        } else {
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }
+
+        user.setLikedOffers(likedOffers);
+        userRepository.save(user);
+        offerRepository.save(offer.get());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<AllOffersDto>> getAllFavs(String email) {
+        User user = loadUserByUsername(email);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<Offer> liked = user.getLikedOffers();
+        List<AllOffersDto> response = liked.stream().map(o->AllOffersDto.of(o)).collect(Collectors.toList());
+
+        return new ResponseEntity<List<AllOffersDto>>(response, HttpStatus.OK);
+
     }
 
 }

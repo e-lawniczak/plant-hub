@@ -18,6 +18,7 @@ export const TestPage1 = () => {
         [isAjax, setAjax] = useState(false),
         [images, setImages] = useState<any[]>([]),
         [userToRep, setRep] = useState<any>(null),
+        [offerToLike, setFav] = useState<any>(null),
         [checkRep, setCheckRep] = useState(false),
         [uploaded, setFiles] = useState<any[]>([]),
         { register, handleSubmit } = useForm();
@@ -108,9 +109,23 @@ export const TestPage1 = () => {
         let req = await callPost(apiRoutes.userRep + `/${user.email}/${userToRep.email}`, null)
         console.log(req);
     }
+    const likeOffer = async (offer: any) => {
+        let req = await callPatch(apiRoutes.likeOffer + `/${user.email}/${offer.id}`, null)
+
+    }
+    const dislikeOffer = async (offer: any) => {
+        let req = await callPatch(apiRoutes.dislikeOffer + `/${user.email}/${offer.id}`, null)
+
+    }
+    const getOffer = async () => {
+        let req = await callGet(apiRoutes.getSingle + `/${10}`)
+        setFav(req.body )
+        console.log(req.body);
+    }
     useEffect(() => {
         getRepUser();
         checkRepepd();
+        getOffer()
     }, [])
     return <PageContainer>
         <h1 >Test page1</h1>
@@ -121,7 +136,7 @@ export const TestPage1 = () => {
                 <Button onClick={handleButtonTest}>Add test offer!</Button>
             </div>
             <div className="obrazki">
-                {offers.length > 0 && <form onSubmit={(e) =>handleSubmitCustom(e, offers[0])}>
+                {offers.length > 0 && <form onSubmit={(e) => handleSubmitCustom(e, offers[0])}>
                     <FormItem>
                         <FileUploaderDropContainer
                             accept={[
@@ -147,6 +162,14 @@ export const TestPage1 = () => {
                     <p>Sample user: {userToRep.email}</p>
                     <p>Rep: {userToRep.votes}</p>
                     {!checkRep && <Button onClick={() => repuser(userToRep)}>+1</Button>}
+                </div>}
+                {offerToLike && <div>
+                    {offerToLike.id}<br />
+                    {offerToLike.title}<br />
+                    {offerToLike.description}<br />
+                    {offerToLike.likes}<br />
+                    <Button onClick={() => likeOffer(offerToLike)}>like offer</Button>
+                    <Button onClick={() => dislikeOffer(offerToLike)}>dislike offer</Button>
                 </div>}
             </div>
 

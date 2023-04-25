@@ -48,6 +48,7 @@ public class OfferService {
         offer.setDeleted(false);
         offer.setCategory(offerDto.getCategory());
         offer.setUser(user.get());
+        offer.setLikes(0);
 
         offerRepository.save(offer);
         return new ResponseEntity<>(HttpStatus.OK);

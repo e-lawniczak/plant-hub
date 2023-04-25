@@ -1,6 +1,9 @@
 package put.poznan.planthub.user;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,6 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import put.poznan.planthub.offer.projections.AllOffersDto;
 import put.poznan.planthub.security.projections.AuthResponseDTO;
 import put.poznan.planthub.user.projections.LoginDto;
 import put.poznan.planthub.user.projections.RegisterDto;
@@ -43,6 +48,18 @@ public class UserController {
     @PostMapping("/user/repuser/{email}/{repemail}")
     public ResponseEntity<Void> repUser(@PathVariable("email") String email, @PathVariable("repemail") String repEmail) throws UsernameNotFoundException {
         return userService.repUser(email, repEmail);
+    }
+    @PatchMapping("/user/favorites/add/{email}/{offerId}")
+    public ResponseEntity<Void> addFav(@PathVariable("email") String email, @PathVariable("offerId") Long offerId) throws UsernameNotFoundException {
+        return userService.addFavOffer(email, offerId);
+    }
+    @PatchMapping("/user/favorites/delete/{email}/{offerId}")
+    public ResponseEntity<Void> deleteFav(@PathVariable("email") String email, @PathVariable("offerId") Long offerId) throws UsernameNotFoundException {
+        return userService.deleteFavOffer(email, offerId);
+    }
+    @GetMapping("/user/favorites/{email}")
+    public ResponseEntity<List<AllOffersDto>> getAllFavs(@PathVariable("email") String email) throws UsernameNotFoundException {
+        return userService.getAllFavs(email);
     }
     @GetMapping("/user/checkrepuser/{email}/{repemail}")
     public ResponseEntity<Boolean> checkRepUser(@PathVariable("email") String email, @PathVariable("repemail") String repEmail) throws UsernameNotFoundException {

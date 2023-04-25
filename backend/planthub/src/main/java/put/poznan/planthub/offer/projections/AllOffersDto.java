@@ -12,7 +12,7 @@ import put.poznan.planthub.user.projections.UserDto;
 @Getter
 @Setter
 @ToString
-public class AllOffersDto  {
+public class AllOffersDto {
     private Long id;
 
     private String title;
@@ -25,6 +25,7 @@ public class AllOffersDto  {
 
     private Boolean active;
 
+    private Integer likes;
     private UserDto user;
 
     public static AllOffersDto of(Offer offer) {
@@ -40,6 +41,7 @@ public class AllOffersDto  {
         description = offer.getDescription();
         category = offer.getCategory();
         date = offer.getDate();
+        likes = offer.getLikes();
         active = offer.getActive();
         user = UserDto.of(offer.getUser());
     }
