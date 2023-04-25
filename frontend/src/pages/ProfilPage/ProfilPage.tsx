@@ -6,6 +6,7 @@ import { callDelete } from "../../common/Fetch";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import { apiRoutes } from "../../common/ApiRoutes";
 import { useState } from "react";
+import { Button } from "carbon-components-react";
 
 export const ProfilPage = () => {
 
@@ -22,7 +23,7 @@ export const ProfilPage = () => {
 
     const deleteUser = async () => {
         setAjax(true)
-        let res = await callDelete(apiRoutes.user + '/' + user.email, null, user.accessToken)
+        let res = await callDelete(apiRoutes.user + '/' + user.email, true)
 
         setAjax(false)
 
@@ -36,17 +37,19 @@ export const ProfilPage = () => {
     }
 
     return <PageContainer title="Mój profil">
-        {user != null && <>
+        {user != null && <section className="profile-page">
             <h1>Email: {user.email}</h1>
-            <h2>Name: {user.firstName} {user.lastName}</h2>
-            <h2>Phone: {user.phone}</h2>
+            <h1>Name: {user.firstName} {user.lastName}</h1>
+            <h1>Phone: {user.phone}</h1>
             <p>City: {user.city}</p>
             <p>Votes: {user.votes}</p>
             <AjaxLoader isAjax={isAjax}>
-                <button onClick={modifyUser}>Modify</button>
-                <button onClick={deleteUser}>Delete</button>
+                <div className="profile-buttons">
+                    <Button onClick={modifyUser}>Modify</Button>
+                    <Button onClick={deleteUser}>Delete</Button>
+                </div>
             </AjaxLoader>
-        </>}
+        </section>}
     </PageContainer>
 }
 

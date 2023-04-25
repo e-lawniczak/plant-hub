@@ -8,7 +8,7 @@ import { callGet, callPost } from "../../common/Fetch";
 import { ILoginInputs } from "../../common/models";
 import { login } from "../../common/Redux/Slices/userSlice";
 import { useDispatch } from "react-redux";
-import { Button, FormGroup, TextInput } from "carbon-components-react";
+import { Button, TextInput } from "carbon-components-react";
 
 export const LoginPage = () => {
 
@@ -21,7 +21,7 @@ export const LoginPage = () => {
 
     const onSubmit: SubmitHandler<ILoginInputs> = async (data: any) => {
         setAjax(true)
-        let res = await callPost(apiRoutes.login, data)
+        let res = await callPost(apiRoutes.login, data, false);
 
         if (res.status !== 401) {
             let user = await callGet(apiRoutes.user + '/' + data.email)

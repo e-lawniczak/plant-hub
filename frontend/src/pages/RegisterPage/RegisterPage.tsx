@@ -6,6 +6,7 @@ import { apiRoutes } from "../../common/ApiRoutes";
 import { callPost } from "../../common/Fetch";
 import { PageContainer } from "../../common/layouts/PageContainer"
 import { IRegisterInputs } from "../../common/models";
+import { Button, TextInput } from "carbon-components-react";
 
 export const RegisterPage = () =>{
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ export const RegisterPage = () =>{
 
     const onSubmit: SubmitHandler<IRegisterInputs> = async (data) => {
         setAjax(true)
-        await callPost(apiRoutes.register, data)
+        await callPost(apiRoutes.register, data, false)
         setAjax(false)
 
         navigate('/');
@@ -25,13 +26,13 @@ export const RegisterPage = () =>{
         <h1>Register</h1>
         <AjaxLoader isAjax={isAjax}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <input placeholder="Email" {...register("email")}/>
-                <input placeholder="Password" type="password" {...register("password")}/>
-                <input placeholder="First name" {...register("firstName")}/>
-                <input placeholder="Last name" {...register("lastName")}/>
-                <input placeholder="Phone" {...register("phone")}/>
-                <input placeholder="City" {...register("city")}/>
-                <input type="submit" value="Register"/>
+                <TextInput id={"email"} labelText={"Email"} placeholder="Email" {...register("email")}/>
+                <TextInput id={"password"} labelText={"Password"}  placeholder="Password" type="password" {...register("password")}/>
+                <TextInput id={"firstName"} labelText={"First Name"}  placeholder="First name" {...register("firstName")}/>
+                <TextInput id={"lastName"} labelText={"Last Name"} placeholder="Last name" {...register("lastName")}/>
+                <TextInput id={"phone"} labelText={"Phone"} placeholder="Phone" {...register("phone")}/>
+                <TextInput id={"city"} labelText={"City"} placeholder="City" {...register("city")}/>
+                <Button type="submit" value="Register">Register</Button>
             </form>
         </AjaxLoader>
     </PageContainer>

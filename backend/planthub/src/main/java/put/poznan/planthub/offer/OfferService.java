@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -98,7 +99,7 @@ public class OfferService {
         List<Offer> offers = offerRepository.findAllNotDeleted();
 
         Collections.sort(offers, Comparator.comparingLong(Offer::getId));
-        List<AllOffersDto> response = offers.stream().map(o -> AllOffersDto.of(o)).toList();
+        List<AllOffersDto> response = offers.stream().map(o -> AllOffersDto.of(o)).collect(Collectors.toList());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

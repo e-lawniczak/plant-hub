@@ -5,8 +5,26 @@
  body, div#root, .master-page{
     height: 100vh;
  }
+ form {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+ }
  .master-page{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
+ }
+ .profile-page {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+ }
+ .profile-buttons {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-around;
+   align-items: center;
  }

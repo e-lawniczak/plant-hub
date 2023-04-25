@@ -8,7 +8,7 @@ export interface IApiProps {
     body?: string,
 }
 
-export const callGet = async (url: string, isBlob = false) => {
+export const callGet = async (url: string, auth:boolean=false, isBlob = false) => {
 
     let headers = {
         'Accept': 'application/json',
@@ -23,38 +23,19 @@ export const callGet = async (url: string, isBlob = false) => {
 
     }
 
-    let response = await callApi(url, requestBody, false, isBlob)
+    let response = await callApi(url, requestBody, auth, isBlob)
     return response
 
 
 }
 
-export const callPost = async (url: string, body: any = null, authorizationToken = null, isBlob = false) => {
+export const callPost = async (url: string, body: any = null, auth: boolean = true, isBlob = false) => {
 
-    let headers
-    // if (isBlob && authorizationToken !== null) {
-    //     headers = {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json',
-    //         'Access-Control-Allow-Origin': '*',
-    //         "Authorization": `Bearer ${authorizationToken}`
-    //     }
-    // }
-    // else if (authorizationToken !== null) {
-    //     headers = {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json',
-    //         'Access-Control-Allow-Origin': '*',
-    //         "Authorization": `Bearer ${authorizationToken}`
-    //     }
-    // }
-    // else {
-        headers = {
+    let headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
         }
-    // }
 
     let requestBody = {
         method: "POST",
@@ -64,12 +45,12 @@ export const callPost = async (url: string, body: any = null, authorizationToken
     }
 
 
-    let response = await callApi(url, requestBody, true, isBlob)
+    let response = await callApi(url, requestBody, auth, isBlob)
 
     return response
 
 }
-export const callPostFiles = async (url: string, body: any[] = [], authorizationToken = null, isBlob = false) => {
+export const callPostFiles = async (url: string, body: any[] = [], auth: boolean = true, isBlob = false) => {
 
     const files = new FormData()
 
@@ -88,31 +69,21 @@ export const callPostFiles = async (url: string, body: any[] = [], authorization
     }
 
 
-    let response = await callApi(url, requestBody, true, isBlob)
+    let response = await callApi(url, requestBody, auth, isBlob)
 
     return response
 
 }
 
-export const callDelete = async (url: string, body: any, authorizationToken = null) => {
+export const callDelete = async (url: string, body: any, auth: boolean = true) => {
 
-    let headers;
-
-    if (authorizationToken !== null) {
-        headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            "Authorization": `Bearer ${authorizationToken}`
-        }
-    }
-    else {
-        headers = {
+    
+    let headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
         }
-    }
+    
 
     let requestBody = {
         method: "DELETE",
@@ -122,31 +93,19 @@ export const callDelete = async (url: string, body: any, authorizationToken = nu
     }
 
 
-    let response = await callApi(url, requestBody, true)
+    let response = await callApi(url, requestBody, auth)
 
     return response
 
 }
 
-export const callPatch = async (url: string, body: any, authorizationToken = null) => {
+export const callPatch = async (url: string, body: any, auth: boolean = true) => {
 
-    let headers;
-
-    if (authorizationToken !== null) {
-        headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            "Authorization": `Bearer ${authorizationToken}`
-        }
-    }
-    else {
-        headers = {
+    let headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
         }
-    }
 
     let requestBody = {
         method: "PATCH",
@@ -156,30 +115,18 @@ export const callPatch = async (url: string, body: any, authorizationToken = nul
     }
 
 
-    let response = await callApi(url, requestBody, true)
+    let response = await callApi(url, requestBody, auth)
 
     return response
 
 }
-export const callPut = async (url: string, body: any, authorizationToken = null) => {
+export const callPut = async (url: string, body: any, auth: boolean = true) => {
 
-    let headers;
-
-    if (authorizationToken !== null) {
-        headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            "Authorization": `Bearer ${authorizationToken}`
-        }
-    }
-    else {
-        headers = {
+    let headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
         }
-    }
 
     let requestBody = {
         method: "PUT",
@@ -189,13 +136,13 @@ export const callPut = async (url: string, body: any, authorizationToken = null)
     }
 
 
-    let response = await callApi(url, requestBody)
+    let response = await callApi(url, requestBody, auth)
 
     return response
 
 }
 
-const callApi = async (url: any, requestBody: any, isAuth = false, isBlob = false) => {
+const callApi = async (url: any, requestBody: any, isAuth:boolean = false, isBlob = false) => {
     let authorizationToken = (store.getState().user as any)?.accessToken;
     if (isAuth) {
         requestBody.headers["Authorization"] = `Bearer ${authorizationToken}`;

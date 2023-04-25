@@ -8,6 +8,7 @@ import { callPut } from "../../common/Fetch";
 import { useNavigate } from "react-router-dom";
 import { IModifyInputs} from "../../common/models";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Button, TextInput } from "carbon-components-react";
 
 export const ModifyPage = () => {
 
@@ -29,7 +30,7 @@ export const ModifyPage = () => {
 
     const onSubmit: SubmitHandler<IModifyInputs> = async (data) => {
         setAjax(true)
-        let res = await callPut(apiRoutes.user + '/' + user.email, data, user.accessToken)
+        let res = await callPut(apiRoutes.user + '/' + user.email, data, true)
 
         setAjax(false)
         if(res.status === 200) {
@@ -50,14 +51,13 @@ export const ModifyPage = () => {
     
 
     return <PageContainer title="Update information">
-            <h1>Update</h1>
             <AjaxLoader isAjax={isAjax}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <input placeholder="First name" {...register("firstName")}/>
-                    <input placeholder="Last name" {...register("lastName")}/>
-                    <input placeholder="Phone" {...register("phone")}/>
-                    <input placeholder="City" {...register("city")}/>
-                    <input type="submit" value="Update"/>
+                    <TextInput id={"firstName"} labelText={"First Name"}  placeholder="First name" {...register("firstName")}/>
+                    <TextInput id={"lastName"} labelText={"Last Name"}  placeholder="Last name" {...register("lastName")}/>
+                    <TextInput id={"phone"} labelText={"Phone"}  placeholder="Phone" {...register("phone")}/>
+                    <TextInput id={"city"} labelText={"City"}  placeholder="City" {...register("city")}/>
+                    <Button type="submit" value="Update">Update </Button>
                 </form>
             </AjaxLoader>
 </PageContainer>

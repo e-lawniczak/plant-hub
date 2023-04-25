@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cassandra.CassandraProperties.Throttler;
@@ -72,7 +73,7 @@ public class FileService {
             return null;
 
         List<File> data = fileRepository.findAllByOffer(offer.get());
-        List<FileDto> response = data.stream().map(d -> FileDto.of(d)).toList();
+        List<FileDto> response = data.stream().map(d -> FileDto.of(d)).collect(Collectors.toList());
 
         return response;
     }
