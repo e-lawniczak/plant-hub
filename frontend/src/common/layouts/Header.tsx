@@ -6,6 +6,8 @@ import { callPost } from "../Fetch";
 import { selectUser, logout } from "../Redux/Slices/userSlice";
 import { IBasicProps } from "../models";
 import { MainMenu } from "../routing/Menu";
+import  logo from "../img/logo.png";
+import { count } from "console";
 
 export const Header = (props: IBasicProps) => {
     const user = useSelector(selectUser),
@@ -21,9 +23,12 @@ export const Header = (props: IBasicProps) => {
             navigate('/');
         }
     }
+    const logoStyle = {
+        width: 100
+    }
     return <header>
         <div className="logo">
-            Tu bedzie logo
+            <img src = {logo} style = {logoStyle}/>
         </div>
         <MainMenu />
         <div onClick={handleClick} className="user-bubble">
