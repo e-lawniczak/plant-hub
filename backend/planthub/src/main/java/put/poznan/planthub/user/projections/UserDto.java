@@ -9,6 +9,7 @@ import put.poznan.planthub.user.User;
 @Setter
 @ToString
 public class UserDto {
+    private Long id;
     private String email;
 
     private String firstName;
@@ -29,6 +30,7 @@ public class UserDto {
     }
 
     private UserDto(User user) {
+                id = user.getId();
                 email = user.getEmail();
                 firstName = user.getFirstName();
                 lastName = user.getLastName();
