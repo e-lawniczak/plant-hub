@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import { PageContainer } from "../../common/layouts/PageContainer"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { apiRoutes } from "../../common/ApiRoutes";
 import { callGet, callPost } from "../../common/Fetch";
 import { ILoginInputs } from "../../common/models";
-import { login } from "../../common/Redux/Slices/userSlice";
+import { login, logout } from "../../common/Redux/Slices/userSlice";
 import { useDispatch } from "react-redux";
 import { Button, TextInput } from "carbon-components-react";
 
@@ -15,6 +15,10 @@ export const LoginPage = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(logout())
+    }, [])
 
     const [isAjax, setAjax] = useState(false);
     const { register, handleSubmit } = useForm<ILoginInputs>();
