@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5c0521e0-36bf-4589-8147-0a1422f047c3" name="Changes" comment="" />
+    <list default="true" id="5c0521e0-36bf-4589-8147-0a1422f047c3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/pages/MyOffers/MyOffers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planthub/src/main/java/put/poznan/planthub/offer/OfferController.java" beforeDir="false" afterPath="$PROJECT_DIR$/planthub/src/main/java/put/poznan/planthub/offer/OfferController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planthub/src/main/java/put/poznan/planthub/offer/OfferRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/planthub/src/main/java/put/poznan/planthub/offer/OfferRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planthub/src/main/java/put/poznan/planthub/offer/OfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/planthub/src/main/java/put/poznan/planthub/offer/OfferService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/common/routing/ProjectComponents.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/common/routing/ProjectComponents.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/yarn.lock" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,12 +37,21 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/Users/Jakub/IdeaProjects/plant-hub/backend",
-    "project.structure.last.edited": "Project",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/Users/Jakub/IdeaProjects/plant-hub/backend/planthub",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.editor"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Users\Jakub\IdeaProjects\plant-hub\backend\planthub\src\main\java\put\poznan\planthub\offer\projections" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="planthub [spring-boot:run]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
       <MavenSettings>

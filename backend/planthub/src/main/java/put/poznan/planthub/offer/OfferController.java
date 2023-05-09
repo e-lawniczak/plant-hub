@@ -1,5 +1,6 @@
 package put.poznan.planthub.offer;
 
+import java.io.Console;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,12 @@ public class OfferController {
     @GetMapping("/all")
     public ResponseEntity<List<AllOffersDto>> getAllOffers() {
         return offerService.getAllOffers();
+    }
+
+    @GetMapping("/all/{email}")
+    public ResponseEntity<List<AllOffersDto>> getAllOffers(@PathVariable("email") String email) {
+        System.out.println(email);
+        return offerService.getUserOffers(email);
     }
 
     @GetMapping("/{id}")

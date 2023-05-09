@@ -21,4 +21,7 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
     // TODO: zwracanie tylko nieusuniętych
     @Query(value = "SELECT * FROM offers WHERE offers.deleted = false", nativeQuery = true)
     List<Offer> findAllNotDeleted();
+
+    @Query(value = "SELECT * FROM offers WHERE offers.user_id = :id", nativeQuery = true)
+    List<Offer> findAllById(@Param("id") Long id);
 }

@@ -104,4 +104,11 @@ public class OfferService {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    public ResponseEntity<List<AllOffersDto>> getUserOffers(String email) {
+        long id = userRepository.findByEmail(email).get().getId();
+        List<Offer> offers = offerRepository.findAllById(id);
+        Collections.sort(offers, Comparator.comparing(Offer::getActive).thenComparingLong(Offer::getId));
+        List<AllOffersDto> response = offers.stream().map(o -> AllOffersDto.of(o)).collect(Collectors.toList());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
