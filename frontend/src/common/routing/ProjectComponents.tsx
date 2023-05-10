@@ -8,12 +8,16 @@ import { TestPage2 } from "../../pages/TestPage2";
 import { MessagePage } from "../../pages/MessagePage/MessagePage";
 import { IRouteElement } from "./models";
 import { MyOffers } from "../../pages/MyOffers/MyOffers";
+import { CreateOffer } from "../../pages/Offer/CreateOffer";
+import { OfferPage } from "../../pages/Offer/OfferPage";
 
 export const ProjectComponents =[
     { name: "Main page", path: "/", element: <HomePage />, auth: false },
     { name: "Main page", path: "/", element: <HomePage />, auth: true },
     { name: "Test", path: "/test", element: <TestPage1 />, auth: true },
     { name: "My offers", path: "/offers", element: <MyOffers />, auth: true},
+    { name: "Add offer", path: "/add-offer", element: <CreateOffer  />, auth: true},
+    { name: "OfferPage", path: "/offer/:user/:id", element: <OfferPage  />, auth: true, hideInMenu:true},
     { name: "Liked offers", path: "/test2", element: <TestPage2 />, auth: true },
     { name: "Register", path:"/register", element: <RegisterPage/>, auth: false},
     { name: "Login", path: "/login", element: <LoginPage />, auth: false },

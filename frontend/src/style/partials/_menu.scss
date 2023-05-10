@@ -1,0 +1,23 @@
+.main-menu {
+    display: flex;
+    gap: 5px;
+
+    .menu-opt {
+        border-bottom: 2px solid transparent;
+        transition: all .3s;
+        display: flex;
+        transform: scale(0.9);
+
+
+        &:hover {
+            border-color: blue;
+            transform: scale(1);
+        }
+
+        a {
+            padding: 8px 16px;
+            border-bottom: 1px solid blue;
+           
+        }
+    }
+}

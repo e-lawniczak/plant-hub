@@ -6,9 +6,11 @@ export const MasterPage = (props: IBasicProps) => {
     const { children, className } = props;
     return <div className={["master-page", className].join(' ')}>
         <Header />
-        {children}
+        <div className="content-wrapper">
+            {children}
+        </div>
 
         <Footer />
     </div>
-  
+
 }

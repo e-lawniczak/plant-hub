@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../common/Redux/Slices/userSlice';
 import { apiRoutes } from '../../common/ApiRoutes';
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 export const Offer = (props: any) => {
 
@@ -26,7 +27,7 @@ export const Offer = (props: any) => {
 
     return <Content>
     <Tile>
-      <h2>{props.offer.title}</h2>
+      <NavLink to={`/offer/${props.offer.user.id}/${props.offer.id}`}><h2>{props.offer.title}</h2></NavLink>
       <h4>{props.offer.category}</h4>
       <p>{props.offer.description}</p>
       <div>Date: {props.offer.date}</div>

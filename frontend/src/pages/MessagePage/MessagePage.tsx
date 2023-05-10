@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Talk from 'talkjs';
-import crypto from 'crypto';
 import { selectUser } from "../../common/Redux/Slices/userSlice";
 import { useSelector } from "react-redux";
+import {sha256} from 'js-sha256';
 
 export const MessagePage = (props: any = null) => {
     const inboxEl = useRef<HTMLDivElement | null>(null);
@@ -37,7 +37,8 @@ export const MessagePage = (props: any = null) => {
               const session = new Talk.Session({
                 appId: 'tFS6jO4a',
                 me: currentUser,
-                signature: crypto.createHmac('sha256', "sk_test_Ll6S8AaOALijGH2NDdHXGnxd6cGPUhQd").update(String(user.id)).digest('hex').toUpperCase()
+                // signature: crypto.createHmac('sha256', "sk_test_Ll6S8AaOALijGH2NDdHXGnxd6cGPUhQd").update(String(user.id)).digest('hex').toUpperCase()
+                signature: sha256.create().update(user.id).hex().toUpperCase()
               });
               
               /*

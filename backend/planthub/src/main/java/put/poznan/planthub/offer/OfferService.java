@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import put.poznan.planthub.file.File;
+import put.poznan.planthub.file.FileService;
 import put.poznan.planthub.offer.projections.AllOffersDto;
 import put.poznan.planthub.offer.projections.OfferDto;
 import put.poznan.planthub.offer.projections.UpdateOfferDto;
@@ -21,6 +25,8 @@ import put.poznan.planthub.user.UserRepository;
 public class OfferService {
     private UserRepository userRepository;
     private OfferRepository offerRepository;
+    @Autowired
+    private FileService fileService;
 
     public OfferService(OfferRepository offerRepository, UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -44,14 +50,18 @@ public class OfferService {
         offer.setDescription(offerDto.getDescription());
         offer.setDate(offerDto.getDate());
         // offer.setFiles(null);
-        offer.setActive(true);
+        offer.setActive(offerDto.getActive());
         offer.setDeleted(false);
         offer.setCategory(offerDto.getCategory());
         offer.setUser(user.get());
         offer.setLikes(0);
 
-        offerRepository.save(offer);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Offer added = offerRepository.save(offer);
+        if (added != null)
+            return new ResponseEntity<>(added.getId().toString(), HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
 
     public ResponseEntity<OfferDto> getOffer(Long id) throws NotFoundException {

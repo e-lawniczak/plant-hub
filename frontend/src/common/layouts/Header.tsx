@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { apiRoutes } from "../ApiRoutes";
 import { callPost } from "../Fetch";
 import { selectUser, logout } from "../Redux/Slices/userSlice";
 import { IBasicProps } from "../models";
 import { MainMenu } from "../routing/Menu";
-import  logo from "../img/logo.png";
+import logo from "../img/logo.png";
 import { count } from "console";
 
 export const Header = (props: IBasicProps) => {
@@ -28,11 +28,19 @@ export const Header = (props: IBasicProps) => {
     }
     return <header>
         <div className="logo">
-            <img src = {logo} style = {logoStyle}/>
+            <img src={logo} style={logoStyle} />
         </div>
         <MainMenu />
-        <div onClick={handleClick} className="user-bubble">
-            "U"
-        </div>
+    <UserBubble />
     </header>
+}
+
+const UserBubble = (props: any) => {
+    const user = useSelector(selectUser)
+    console.log(user);
+    return <div className="user-bubble d-flex">
+        <NavLink className={"profile-link"} to={"/profile"} >
+            {user?.firstName[0].toUpperCase() + user?.lastName[0].toUpperCase()}
+        </NavLink>
+    </div>
 }

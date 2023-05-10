@@ -1,8 +1,12 @@
 package put.poznan.planthub.offer.projections;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.*;
+import put.poznan.planthub.file.File;
 import put.poznan.planthub.offer.Offer;
 
 @AllArgsConstructor
@@ -11,7 +15,6 @@ import put.poznan.planthub.offer.Offer;
 @Setter
 @ToString
 public class OfferDto {
-    // private Long id;
 
 
     private String title;
@@ -21,8 +24,7 @@ public class OfferDto {
     private String category;
 
     private Date date;
-
-    // private Boolean active;
+    private Boolean active;
     
     public static OfferDto of(Offer offer) {
         if (offer == null) {
@@ -32,11 +34,10 @@ public class OfferDto {
     }
 
     private OfferDto(Offer offer) {
-        // id = offer.getId();
         title = offer.getTitle();
         description = offer.getDescription();
         category = offer.getCategory();
         date = offer.getDate();
-        // active = offer.getActive();
+        active = offer.getActive();
     }
 }

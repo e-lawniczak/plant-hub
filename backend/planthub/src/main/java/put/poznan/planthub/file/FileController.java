@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,6 +66,14 @@ public class FileController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
 		return ResponseEntity.status(HttpStatus.OK).body(files);
+
+	}
+	@DeleteMapping("/delete/{email}/{offerId}/{fileId}")
+	public ResponseEntity<String> deleteImg(@PathVariable String email, @PathVariable Long offerId,@PathVariable Long fileId) {
+
+		ResponseEntity<String> res = fileService.deleteImg(email, offerId, fileId);
+		
+		return res;
 
 	}
 }

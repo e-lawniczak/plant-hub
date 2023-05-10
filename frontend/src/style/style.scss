@@ -1,19 +1,24 @@
 //carbon
+// scss-lint:disable ImportantRule
 @use '@carbon/react';
 //normalize
 @import './partials/normalize';
 
 
-
+ 
 //globals
 @import './partials/global';
 @import './partials/layouts';
+@import './partials/menu';
 
 
 //components
 
 
 //pages
+@import './partials/createOffer';
+@import './partials/offerPage';
+
 
 
 .obrazki {

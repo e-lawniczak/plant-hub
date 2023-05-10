@@ -78,4 +78,23 @@ public class FileService {
         return response;
     }
 
+    public ResponseEntity<String> deleteImg(String email, Long offerId, Long fileId) {
+
+        Optional<File> file = fileRepository.findById(fileId);
+        if (file.isEmpty())
+            return new ResponseEntity<>("File not found", HttpStatus.BAD_REQUEST);
+        File fileObj = file.get();
+
+        if (fileObj.getOffer().getId() != offerId)
+            return new ResponseEntity<>("Offer error", HttpStatus.BAD_REQUEST);
+
+        if (!fileObj.getOffer().getUser().getEmail().equals(email))
+            return new ResponseEntity<>("User error ",
+                    HttpStatus.BAD_REQUEST);
+
+        fileRepository.delete(fileObj);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

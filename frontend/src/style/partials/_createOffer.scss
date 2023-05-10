@@ -1,0 +1,45 @@
+.mini-img {
+
+    max-width: 150px;
+
+    .img-container {
+        width: 150px;
+        height: 150px;
+        overflow-y: hidden;
+    }
+
+}
+
+.uploaded-files {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    form {
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+}
+
+.delete-file {
+    color: rgb(192, 1, 1);
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+}
+
+.file-opt {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
