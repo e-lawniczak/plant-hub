@@ -57,6 +57,10 @@ public class UserController {
     public ResponseEntity<Void> deleteFav(@PathVariable("email") String email, @PathVariable("offerId") Long offerId) throws UsernameNotFoundException {
         return userService.deleteFavOffer(email, offerId);
     }
+    @GetMapping("/user/favorites/checkfav/{email}/{offerId}")
+    public ResponseEntity<Boolean> checkFavorite(@PathVariable("email") String email, @PathVariable("offerId") Long offerId) throws UsernameNotFoundException {
+        return userService.checkFavOffer(email,offerId);
+    }
     @GetMapping("/user/favorites/{email}")
     public ResponseEntity<List<AllOffersDto>> getAllFavs(@PathVariable("email") String email) throws UsernameNotFoundException {
         return userService.getAllFavs(email);

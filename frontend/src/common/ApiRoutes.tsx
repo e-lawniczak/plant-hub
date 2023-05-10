@@ -18,6 +18,7 @@ export const apiRoutes = {
    isUserRep: rootRoute.users + '/user/checkrepuser',
    likeOffer: rootRoute.users + '/user/favorites/add',
    dislikeOffer: rootRoute.users + '/user/favorites/delete',
+   checkFavOffer: rootRoute.users + '/user/favorites/checkfav',
    getFavs: rootRoute.users + '/user/favorites',
    register: rootRoute.auth + '/register',
    login: rootRoute.auth + '/login',

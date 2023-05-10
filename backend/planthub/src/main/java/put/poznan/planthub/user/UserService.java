@@ -190,10 +190,22 @@ public class UserService implements UserDetailsService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<Offer> liked = user.getLikedOffers();
-        List<AllOffersDto> response = liked.stream().map(o->AllOffersDto.of(o)).collect(Collectors.toList());
+        List<AllOffersDto> response = liked.stream().map(o -> AllOffersDto.of(o)).collect(Collectors.toList());
 
         return new ResponseEntity<List<AllOffersDto>>(response, HttpStatus.OK);
 
+    }
+
+    public ResponseEntity<Boolean> checkFavOffer(String email, Long offerId) {
+        User user = loadUserByUsername(email);
+        Optional<Offer> offer = offerRepository.findById(offerId);
+
+        if (user == null || offer.isEmpty())
+            return new ResponseEntity<Boolean>(true, HttpStatus.BAD_REQUEST);
+
+        if (user.getLikedOffers().contains(offer.get()))
+            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        return new ResponseEntity<Boolean>(false, HttpStatus.OK);
     }
 
 }

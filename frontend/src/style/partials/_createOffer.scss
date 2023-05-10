@@ -43,17 +43,19 @@
         text-overflow: ellipsis;
     }
 }
-.offer-create-header{
+
+.offer-create-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-   
-    .close{
+
+    .close {
         cursor: pointer;
     }
 }
-.edit-overlay .offer-create-header{
-    h1{
+
+.edit-overlay .offer-create-header {
+    h1 {
         margin-top: 0;
     }
 }

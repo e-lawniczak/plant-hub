@@ -41,6 +41,8 @@ export const OfferPage = () => {
         [isEdit, setIsEdit] = useState(false),
         { register, handleSubmit } = useForm<IOfferInputs>(),
         [uploaded, setFiles] = useState<any[]>([]),
+        [isRepped, setIsRepped] = useState(false),
+        [isFaved, setIsFaved] = useState(false),
         { userId, id } = useParams(),
         getOffer = async () => {
             setAjax(true);
@@ -57,6 +59,8 @@ export const OfferPage = () => {
                     setIsOwner(true);
                 } else {
                     setIsOwner(false);
+                    checkRep((req.body as unknown as Offer).user);
+                    checkFav((req.body as unknown as Offer))
                 }
             }
             setAjax(false);
@@ -111,19 +115,30 @@ export const OfferPage = () => {
         },
         repuser = async (userToRep: UserObj) => {
             let req = await callPost(apiRoutes.userRep + `/${user.email}/${userToRep.email}`, null)
-            console.log(req);
+            getOffer();
         },
         likeOffer = async (offer: any) => {
             let req = await callPatch(apiRoutes.likeOffer + `/${user.email}/${offer.id}`, null)
+            getOffer();
         },
         dislikeOffer = async (offer: any) => {
             let req = await callPatch(apiRoutes.dislikeOffer + `/${user.email}/${offer.id}`, null)
+            getOffer();
+        },
+        checkRep = async (offerOwnerLocal: UserObj) => {
+            let req = await callGet(apiRoutes.isUserRep + `/${user.email}/${offerOwnerLocal.email}`)
+            setIsRepped(req.body as any);
+        },
+        checkFav = async (offerToCheck: Offer) => {
+            let req = await callGet(apiRoutes.checkFavOffer + `/${user.email}/${offerToCheck.id}`)
+            setIsFaved(req.body as any)
         }
 
 
 
     useEffect(() => {
         getOffer()
+
     }, [])
 
 
@@ -149,8 +164,10 @@ export const OfferPage = () => {
                                 </div>
                             </div> :
                             <div className="offer-opt">
-                                <Button onClick={() => likeOffer(offer)}>like offer</Button>
-                                <Button onClick={() => dislikeOffer(offer)}>dislike offer</Button>
+                                {isFaved ?
+                                    <Button onClick={() => dislikeOffer(offer)}>dislike offer</Button> :
+                                    <Button onClick={() => likeOffer(offer)}>like offer</Button>
+                                }
                             </div>}
                         <div className="text">
                             <h4>Description</h4>
@@ -162,48 +179,58 @@ export const OfferPage = () => {
                                 {offer?.category}
                             </p>
                         </div>
-                        <h4>Photos</h4>
-                        <div className={`images ${isOfferOwner ? "grid-2" : "grid-1"}`}>
-                            {images && <div className='mini-imgs'>
-                                {images.map((i, idx) => <div key={"zz" + idx} className="mini-img">
-                                    {isOfferOwner && <div className="overlay" onClick={() => deleteImgFromOffer(i)}>X</div>}
-                                    <div className="img-container">
-                                        <img key={"zzz" + idx} src={`data:${i.type};base64, ${i.fileData}`} alt="" />
-                                    </div>
-                                </div>)}
-                            </div>}
-                            {isOfferOwner &&
-                                <div className="upload-img">
-                                    <form onSubmit={handleSubmit((data) => handleForm(data))}>
-                                        <FormItem>
-                                            <FileUploaderDropContainer
-                                                accept={[
-                                                    'image/jpeg',
-                                                    'image/png'
-                                                ]}
-                                                labelText={`Drag and drop files here or click to upload files for offer`}
-                                                multiple
-                                                onAddFiles={(e, x) => handleFileAdd(e, x)}
-                                                onChange={(e) => { console.log(e) }}
-                                                tabIndex={0}
 
-                                            />
-                                        </FormItem>
-                                        {uploaded.length > 0 && <Button type='submit'>Dodaj zdjęcia</Button>}
-                                    </form>
-                                    <div className="uploaded-files">
-                                        {uploaded.map((f, idx) => <div className="mini-img" key={"f" + idx}>
-                                            <div className=" img-container">
-                                                {/* <img src={`data:${f};base64, ${f.fileData}`} alt={f.name} /> */}
-                                                <img src={`${URL.createObjectURL(f)}`} alt={f.name} />
-                                            </div>
-                                            <div className="file-opt">
-                                                <p>{f.name}</p>
-                                                <div className="delete-file" onClick={() => removeFile(idx)}>x</div>
-                                            </div>
-                                        </div>)}
+                        <div className={`images ${isOfferOwner ? "grid-2" : "grid-1"}`}>
+                            {images && <div className="existing-img">
+                                <h4>Photos</h4>
+                                <div className='mini-imgs'>
+
+                                    {images.map((i, idx) => <div key={"zz" + idx} className="mini-img">
+                                        {isOfferOwner && <div className="overlay" onClick={() => deleteImgFromOffer(i)}>X</div>}
+                                        <div className="img-container">
+                                            <img key={"zzz" + idx} src={`data:${i.type};base64, ${i.fileData}`} alt="" />
+                                        </div>
+                                    </div>)}
+                                </div>
+                            </div>
+
+                            }
+                            {isOfferOwner &&
+                                <div className="upload-col">
+                                    <h4>Upload photos</h4>
+                                    <div className="upload-img">
+                                        <form onSubmit={handleSubmit((data) => handleForm(data))}>
+                                            <FormItem>
+                                                <FileUploaderDropContainer
+                                                    accept={[
+                                                        'image/jpeg',
+                                                        'image/png'
+                                                    ]}
+                                                    labelText={`Drag and drop files here or click to upload files for offer`}
+                                                    multiple
+                                                    onAddFiles={(e, x) => handleFileAdd(e, x)}
+                                                    onChange={(e) => { console.log(e) }}
+                                                    tabIndex={0}
+
+                                                />
+                                            </FormItem>
+                                            {uploaded.length > 0 && <Button type='submit'>Dodaj zdjęcia</Button>}
+                                        </form>
+                                        <div className="uploaded-files">
+                                            {uploaded.map((f, idx) => <div className="mini-img" key={"f" + idx}>
+                                                <div className=" img-container">
+                                                    {/* <img src={`data:${f};base64, ${f.fileData}`} alt={f.name} /> */}
+                                                    <img src={`${URL.createObjectURL(f)}`} alt={f.name} />
+                                                </div>
+                                                <div className="file-opt">
+                                                    <p>{f.name}</p>
+                                                    <div className="delete-file" onClick={() => removeFile(idx)}>x</div>
+                                                </div>
+                                            </div>)}
+                                        </div>
                                     </div>
-                                </div>}
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -220,9 +247,9 @@ export const OfferPage = () => {
                         <p>
                             Likes: {offerOwner?.votes}
                         </p>
-                        {offerOwner === user && <>
-                            <Button type="button" onClick={() => handleChat()}>Wyślij wiadomość</Button>
-                            <Button type="button" onClick={() => repuser(offerOwner)}>Wyślij wiadomość</Button>
+                        {offerOwner?.id !== user?.id && <>
+                            <Button type="button" onClick={() => handleChat()}>Send a chat</Button>
+                            {!isRepped && offerOwner !== user && <Button type="button" onClick={() => repuser(offerOwner)}>Rep user</Button>}
                         </>}
                     </div>
                 </div>
