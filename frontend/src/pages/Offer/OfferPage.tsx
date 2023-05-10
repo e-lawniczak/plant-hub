@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { Button, Checkbox, Dropdown, FileUploaderDropContainer, FormItem, TextArea, TextInput } from "carbon-components-react";
 import { IOfferInputs, Offer, OfferData } from "./models";
 import { useForm } from "react-hook-form";
+import { UserObj } from "../ProfilPage/models";
+import { CreateOffer } from "./CreateOffer";
 
 const categories = [
     { id: '1', text: "Pot plant" },
@@ -34,7 +36,9 @@ export const OfferPage = () => {
         [isAjax, setAjax] = useState(false),
         [isOfferOwner, setIsOwner] = useState(false),
         [offer, setOffer] = useState<Offer>((null) as any),
+        [offerOwner, setOwner] = useState<UserObj>((null) as any),
         [images, setUploaded] = useState<any[]>(),
+        [isEdit, setIsEdit] = useState(false),
         { register, handleSubmit } = useForm<IOfferInputs>(),
         [uploaded, setFiles] = useState<any[]>([]),
         { userId, id } = useParams(),
@@ -44,6 +48,7 @@ export const OfferPage = () => {
             console.log(req.body);
             if (req.ok) {
                 setOffer((req.body as any))
+                setOwner((req.body as unknown as Offer).user)
                 let reqImg = await callGet(apiRoutes.getOfferFiles + `/${id}`)
                 if (reqImg.ok) {
                     setUploaded((reqImg.body as any))
@@ -99,7 +104,20 @@ export const OfferPage = () => {
             }
         },
         handleEdit = (offer: Offer) => {
-            throw new Error("Function not implemented.");
+            setIsEdit(true);
+        },
+        handleChat = () => {
+            alert("chat not implemented")
+        },
+        repuser = async (userToRep: UserObj) => {
+            let req = await callPost(apiRoutes.userRep + `/${user.email}/${userToRep.email}`, null)
+            console.log(req);
+        },
+        likeOffer = async (offer: any) => {
+            let req = await callPatch(apiRoutes.likeOffer + `/${user.email}/${offer.id}`, null)
+        },
+        dislikeOffer = async (offer: any) => {
+            let req = await callPatch(apiRoutes.dislikeOffer + `/${user.email}/${offer.id}`, null)
         }
 
 
@@ -110,81 +128,106 @@ export const OfferPage = () => {
 
 
     return <PageContainer className="offer-page" title={`Offer ${offer ? "#" + offer?.id : ""} ${offer ? offer?.title : ""}`}>
-        <AjaxLoader isAjax={isAjax}>
-            <div className="offer-col col">
-                <div className="offer-info">
-                    {isOfferOwner &&
-                        <div className="offer-opt">
-                            <h5>{offer?.active ? "Offer is active" : "Offer is inactive"}</h5>
-                            <Button onClick={() => handleDeactivate(offer)}>{offer?.active ? "Activate" : "Deactivate"}</Button>
-                            <div className="img-container icon edit" onClick={() => handleEdit(offer)}>
-                                <img src={edit} alt="" />
-                            </div>
-                            <div className="img-container icon delete" onClick={() => handleDelete(offer)}>
-                                <img src={deleteImg} alt="" />
-                            </div>
-                        </div>}
-                    <div className="text">
-                        <h4>Description</h4>
-                        <p>
-                            {offer?.description}
-                        </p>
-                        <h4>Category</h4>
-                        <p>
-                            {offer?.category}
-                        </p>
-                    </div>
-                    <h4>Photos</h4>
-                    <div className={`images ${isOfferOwner ? "grid-2" : "grid-1"}`}>
-                        {images && <div className='mini-imgs'>
-                            {images.map((i, idx) => <div key={"zz" + idx} className="mini-img">
-                                {isOfferOwner && <div className="overlay" onClick={() => deleteImgFromOffer(i)}>X</div>}
-                                <div className="img-container">
-                                    <img key={"zzz" + idx} src={`data:${i.type};base64, ${i.fileData}`} alt="" />
+        <div className="page-content">
+            {isEdit &&
+                <div className="edit-overlay">
+                    <CreateOffer isEdit={true} offer={offer} getOffer={getOffer} setEdit={setIsEdit} />
+                </div>
+            }
+            <AjaxLoader isAjax={isAjax}>
+                <div className="offer-col col">
+                    <div className="offer-info">
+                        {isOfferOwner ?
+                            <div className="offer-opt">
+                                <h5>{offer?.active ? "Offer is active" : "Offer is inactive"}</h5>
+                                <Button onClick={() => handleDeactivate(offer)}>{offer?.active ? "Activate" : "Deactivate"}</Button>
+                                <div className="img-container icon edit" onClick={() => handleEdit(offer)}>
+                                    <img src={edit} alt="" />
                                 </div>
-                            </div>)}
-                        </div>}
-                        {isOfferOwner &&
-                            <div className="upload-img">
-                                <form onSubmit={handleSubmit((data) => handleForm(data))}>
-                                    <FormItem>
-                                        <FileUploaderDropContainer
-                                            accept={[
-                                                'image/jpeg',
-                                                'image/png'
-                                            ]}
-                                            labelText={`Drag and drop files here or click to upload files for offer`}
-                                            multiple
-                                            onAddFiles={(e, x) => handleFileAdd(e, x)}
-                                            onChange={(e) => { console.log(e) }}
-                                            tabIndex={0}
-
-                                        />
-                                    </FormItem>
-                                    {uploaded.length > 0 && <Button type='submit'>Dodaj zdjęcia</Button>}
-                                </form>
-                                <div className="uploaded-files">
-                                    {uploaded.map((f, idx) => <div className="mini-img" key={"f" + idx}>
-                                        <div className=" img-container">
-                                            {/* <img src={`data:${f};base64, ${f.fileData}`} alt={f.name} /> */}
-                                            <img src={`${URL.createObjectURL(f)}`} alt={f.name} />
-                                        </div>
-                                        <div className="file-opt">
-                                            <p>{f.name}</p>
-                                            <div className="delete-file" onClick={() => removeFile(idx)}>x</div>
-                                        </div>
-                                    </div>)}
+                                <div className="img-container icon delete" onClick={() => handleDelete(offer)}>
+                                    <img src={deleteImg} alt="" />
                                 </div>
+                            </div> :
+                            <div className="offer-opt">
+                                <Button onClick={() => likeOffer(offer)}>like offer</Button>
+                                <Button onClick={() => dislikeOffer(offer)}>dislike offer</Button>
                             </div>}
+                        <div className="text">
+                            <h4>Description</h4>
+                            <p>
+                                {offer?.description}
+                            </p>
+                            <h4>Category</h4>
+                            <p>
+                                {offer?.category}
+                            </p>
+                        </div>
+                        <h4>Photos</h4>
+                        <div className={`images ${isOfferOwner ? "grid-2" : "grid-1"}`}>
+                            {images && <div className='mini-imgs'>
+                                {images.map((i, idx) => <div key={"zz" + idx} className="mini-img">
+                                    {isOfferOwner && <div className="overlay" onClick={() => deleteImgFromOffer(i)}>X</div>}
+                                    <div className="img-container">
+                                        <img key={"zzz" + idx} src={`data:${i.type};base64, ${i.fileData}`} alt="" />
+                                    </div>
+                                </div>)}
+                            </div>}
+                            {isOfferOwner &&
+                                <div className="upload-img">
+                                    <form onSubmit={handleSubmit((data) => handleForm(data))}>
+                                        <FormItem>
+                                            <FileUploaderDropContainer
+                                                accept={[
+                                                    'image/jpeg',
+                                                    'image/png'
+                                                ]}
+                                                labelText={`Drag and drop files here or click to upload files for offer`}
+                                                multiple
+                                                onAddFiles={(e, x) => handleFileAdd(e, x)}
+                                                onChange={(e) => { console.log(e) }}
+                                                tabIndex={0}
+
+                                            />
+                                        </FormItem>
+                                        {uploaded.length > 0 && <Button type='submit'>Dodaj zdjęcia</Button>}
+                                    </form>
+                                    <div className="uploaded-files">
+                                        {uploaded.map((f, idx) => <div className="mini-img" key={"f" + idx}>
+                                            <div className=" img-container">
+                                                {/* <img src={`data:${f};base64, ${f.fileData}`} alt={f.name} /> */}
+                                                <img src={`${URL.createObjectURL(f)}`} alt={f.name} />
+                                            </div>
+                                            <div className="file-opt">
+                                                <p>{f.name}</p>
+                                                <div className="delete-file" onClick={() => removeFile(idx)}>x</div>
+                                            </div>
+                                        </div>)}
+                                    </div>
+                                </div>}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </AjaxLoader>
-        <AjaxLoader isAjax={isAjax} >
-            <div className="user-col col">
-                <div className="user-info"></div>
-            </div>
-        </AjaxLoader>
+            </AjaxLoader>
+            <AjaxLoader isAjax={isAjax} >
+                <div className="user-col col">
+                    <div className="user-info">
+                        <p>
+                            {offerOwner?.firstName} {offerOwner?.lastName}
+                        </p>
+                        <p>
+                            <a style={{ color: "blue", textDecoration: "underline" }} href={`mailto:${offerOwner?.email}`}>{offerOwner?.email}</a>
+                        </p>
+                        <p>
+                            Likes: {offerOwner?.votes}
+                        </p>
+                        {offerOwner === user && <>
+                            <Button type="button" onClick={() => handleChat()}>Wyślij wiadomość</Button>
+                            <Button type="button" onClick={() => repuser(offerOwner)}>Wyślij wiadomość</Button>
+                        </>}
+                    </div>
+                </div>
+            </AjaxLoader>
+        </div>
     </PageContainer>
 }
 
