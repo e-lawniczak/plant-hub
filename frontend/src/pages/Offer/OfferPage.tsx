@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { PageContainer } from "../../common/layouts/PageContainer";
 import { logout, selectUser } from "../../common/Redux/Slices/userSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { callDelete, callGet, callPatch, callPost, callPostFiles } from "../../common/Fetch";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import edit from '../../common/img/edit.svg';
@@ -110,8 +110,13 @@ export const OfferPage = () => {
         handleEdit = (offer: Offer) => {
             setIsEdit(true);
         },
-        handleChat = () => {
-            alert("chat not implemented")
+        handleChat = (id: number, email: string, first: string, last: string) => {
+            navigate("/message", {state: 
+                {
+                    id: String(id),
+                    email: email,
+                    name: `${first} ${last}`
+                }});
         },
         repuser = async (userToRep: UserObj) => {
             let req = await callPost(apiRoutes.userRep + `/${user.email}/${userToRep.email}`, null)
@@ -247,8 +252,9 @@ export const OfferPage = () => {
                         <p>
                             Likes: {offerOwner?.votes}
                         </p>
+                        <Button type="button" onClick={() => handleChat(offerOwner?.id,offerOwner?.email, offerOwner?.firstName, offerOwner?.lastName)}>Send a chat</Button>
                         {offerOwner?.id !== user?.id && <>
-                            <Button type="button" onClick={() => handleChat()}>Send a chat</Button>
+                            <Button type="button" onClick={() => handleChat(offerOwner?.id,offerOwner?.email, offerOwner?.firstName, offerOwner?.lastName)}>Send a chat</Button>
                             {!isRepped && offerOwner !== user && <Button type="button" onClick={() => repuser(offerOwner)}>Rep user</Button>}
                         </>}
                     </div>
