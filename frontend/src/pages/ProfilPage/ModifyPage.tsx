@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "../../common/Redux/Slices/userSlice";
 import { apiRoutes } from "../../common/ApiRoutes";
 import { callPut } from "../../common/Fetch";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { IModifyInputs} from "../../common/models";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, TextInput } from "carbon-components-react";
@@ -52,13 +52,13 @@ export const ModifyPage = () => {
 
     return <PageContainer title="Update information">
             <AjaxLoader isAjax={isAjax}>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <Form onSubmit={handleSubmit(onSubmit)}>
                     <TextInput id={"firstName"} labelText={"First Name"}  placeholder="First name" {...register("firstName")}/>
                     <TextInput id={"lastName"} labelText={"Last Name"}  placeholder="Last name" {...register("lastName")}/>
                     <TextInput id={"phone"} labelText={"Phone"}  placeholder="Phone" {...register("phone")}/>
                     <TextInput id={"city"} labelText={"City"}  placeholder="City" {...register("city")}/>
-                    <Button type="submit" value="Update">Update </Button>
-                </form>
+                    <Button className="custom-button" type="submit" value="Update">Update </Button>
+                </Form>
             </AjaxLoader>
 </PageContainer>
 } 

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import { PageContainer } from "../../common/layouts/PageContainer"
 import { useEffect, useState } from "react";
@@ -39,14 +39,13 @@ export const LoginPage = () => {
 
     }
 
-    return <PageContainer>
-        <h1>Login</h1>
+    return <PageContainer title="Login">
         <AjaxLoader isAjax={isAjax}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)}>
                 <TextInput id={"email"} labelText={"Email"} placeholder="Email" {...register("email")} />
                 <TextInput id={"password"} labelText={"Hasło"} placeholder="Hasło" type="password" {...register("password")} />
-                <Button type="submit" value="Login">Login</Button>
-            </form>
+                <Button className="custom-button" type="submit" value="Login">Login</Button>
+            </Form>
         </AjaxLoader>
     </PageContainer>
 }

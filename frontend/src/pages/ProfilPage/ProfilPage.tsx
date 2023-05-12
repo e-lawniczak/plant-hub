@@ -6,7 +6,7 @@ import { callDelete } from "../../common/Fetch";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import { apiRoutes } from "../../common/ApiRoutes";
 import { useState } from "react";
-import { Button } from "carbon-components-react";
+import { Button, Content, Grid, ListItem } from "carbon-components-react";
 
 export const ProfilPage = () => {
 
@@ -37,19 +37,28 @@ export const ProfilPage = () => {
     }
 
     return <PageContainer title="Mój profil">
-        {user != null && <section className="profile-page">
-            <h1>Email: {user.email}</h1>
-            <h1>Name: {user.firstName} {user.lastName}</h1>
-            <h1>Phone: {user.phone}</h1>
-            <p>City: {user.city}</p>
-            <p>Votes: {user.votes}</p>
-            <AjaxLoader isAjax={isAjax}>
-                <div className="profile-buttons">
-                    <Button onClick={modifyUser}>Modify</Button>
-                    <Button onClick={deleteUser}>Delete</Button>
-                </div>
-            </AjaxLoader>
-        </section>}
+        <section className="profile-page">
+            <section className="profile-page-left">
+                <h2>Email:</h2>
+                <h2>Name:</h2>
+                <h2>Phone:</h2>
+                <h2>City:</h2>
+                <h2>Votes:</h2>
+            </section>
+            <section className="profile-page-right">
+                <h2>{user.email}</h2>
+                <h2>{user.firstName} {user.lastName}</h2>
+                <h2>{user.phone}</h2>
+                <h2>{user.city}</h2>
+                <h2>{user.votes}</h2>
+            </section>
+        </section>
+        <AjaxLoader isAjax={isAjax}>
+            <div className="profile-page-buttons">
+                <Button className="custom-button" onClick={modifyUser}>Modify</Button>
+                <Button className="custom-button" kind='danger' onClick={deleteUser}>Delete</Button>
+            </div>
+        </AjaxLoader>
     </PageContainer>
 }
 
