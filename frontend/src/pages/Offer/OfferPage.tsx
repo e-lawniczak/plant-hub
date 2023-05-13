@@ -252,7 +252,6 @@ export const OfferPage = () => {
                         <p>
                             Likes: {offerOwner?.votes}
                         </p>
-                        <Button type="button" onClick={() => handleChat(offerOwner?.id,offerOwner?.email, offerOwner?.firstName, offerOwner?.lastName)}>Send a chat</Button>
                         {offerOwner?.id !== user?.id && <>
                             <Button type="button" onClick={() => handleChat(offerOwner?.id,offerOwner?.email, offerOwner?.firstName, offerOwner?.lastName)}>Send a chat</Button>
                             {!isRepped && offerOwner !== user && <Button type="button" onClick={() => repuser(offerOwner)}>Rep user</Button>}
