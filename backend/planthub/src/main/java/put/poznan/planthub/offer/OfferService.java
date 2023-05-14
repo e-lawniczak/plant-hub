@@ -78,7 +78,7 @@ public class OfferService {
     public ResponseEntity<OfferDto> updateOffer(Long id, UpdateOfferDto offerUpdate) {
         Optional<Offer> offer = offerRepository.findById(id);
 
-        if (offer.isEmpty())
+        if (offer.isEmpty() || offer.get().getDeleted().booleanValue())
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
         Offer updatedOffer = updateOffer(offer.get(), offerUpdate);
