@@ -1,4 +1,4 @@
-import { HomePage } from "../../pages/HomePage";
+import { MainPage } from "../../pages/MainPage";
 import { LoginPage } from "../../pages/LoginPage/LoginPage";
 import { ModifyPage } from "../../pages/ProfilPage/ModifyPage";
 import { ProfilPage } from "../../pages/ProfilPage/ProfilPage";
@@ -12,8 +12,8 @@ import { CreateOffer } from "../../pages/Offer/CreateOffer";
 import { OfferPage } from "../../pages/Offer/OfferPage";
 
 export const ProjectComponents =[
-    { name: "Main page", path: "/", element: <HomePage />, auth: false },
-    { name: "Main page", path: "/", element: <HomePage />, auth: true },
+    { name: "Main page", path: "/", element: <MainPage />, auth: false },
+    { name: "Main page", path: "/", element: <MainPage />, auth: true },
     { name: "Test", path: "/test", element: <TestPage1 />, auth: true },
     { name: "My offers", path: "/offers", element: <MyOffers />, auth: true},
     { name: "Add offer", path: "/add-offer", element: <CreateOffer  />, auth: true},

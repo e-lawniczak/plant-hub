@@ -6,6 +6,7 @@ import { callDelete } from "../../common/Fetch";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import { apiRoutes } from "../../common/ApiRoutes";
 import { useState } from "react";
+import { callPost } from '../../common/Fetch';
 import { Button, Content, Grid, ListItem } from "carbon-components-react";
 
 export const ProfilPage = () => {
@@ -36,6 +37,16 @@ export const ProfilPage = () => {
         }
     }
 
+    const logoutUser = async () => {
+        if (user) {
+            setAjax(true)
+            await callPost(apiRoutes.user + '/' + user.email + '/logout', null, user.accessToken, false)
+            setAjax(false)
+            dispatch(logout())
+            navigate('/');
+        }
+    }
+
     return <PageContainer title="Mój profil">
         <section className="profile-page">
             <section className="profile-page-left">
@@ -56,6 +67,7 @@ export const ProfilPage = () => {
         <AjaxLoader isAjax={isAjax}>
             <div className="profile-page-buttons">
                 <Button className="custom-button" onClick={modifyUser}>Modify</Button>
+                <Button className="custom-button" onClick={logoutUser}>Log out</Button>
                 <Button className="custom-button" kind='danger' onClick={deleteUser}>Delete</Button>
             </div>
         </AjaxLoader>
