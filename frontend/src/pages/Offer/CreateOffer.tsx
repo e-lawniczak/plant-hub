@@ -57,12 +57,10 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
             }
             else {
                 req = await callPost(apiRoutes.addOffer + `/${user.email}`, body)
+                if (req.ok && !isEdit && uploaded.length < 0) {
+                    let addImg = await callPostFiles(apiRoutes.uploadFile + `/${user.email}` + `/${(req.body)}`, uploaded)
+                }
             };
-            console.log(req);
-            if (req.ok && !isEdit) {
-                let addImg = await callPostFiles(apiRoutes.uploadFile + `/${user.email}` + `/${(req.body)}`, uploaded)
-                console.log(addImg);
-            }
             setAjax(false);
         },
         handleDropdown = (item: { id: string, text: string }) => {
