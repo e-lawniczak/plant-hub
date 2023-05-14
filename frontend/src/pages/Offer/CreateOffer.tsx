@@ -93,11 +93,11 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
 
     return <PageContainer className="offer-create" title={<div className="offer-create-header"><h1>{isEdit ? "Edit offer" : "Add offer"}</h1> {isEdit && <div className="close" onClick={() => setEdit(false)}>X</div>}</div>}>
         <form onSubmit={handleSubmit((data) => handleForm(data))}>
-        <FormItem>
+            <FormItem>
                 <TextInput id={"title"} labelText={"Title"} placeholder="title" {...register("title")} />
             </FormItem>
             <FormItem>
-                <TextArea id={"description"} labelText={"Description"} maxCount={1000}  placeholder="description" {...register("description")} />
+                <TextArea id={"description"} labelText={"Description"} maxCount={1000} placeholder="description" {...register("description")} />
             </FormItem>
             <FormItem>
                 <Dropdown items={categories} selectedItem={currentItem} id="categoryDropdown" label={"Pick category"} placeholder="pick category" itemToString={(item) => (item ? item.text : '')} onChange={({ selectedItem }) => handleDropdown(selectedItem as any)} />
@@ -105,20 +105,21 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
             <FormItem>
                 <Checkbox id={"active"} labelText={"Activate offer?"} {...register("active")} />
             </FormItem>
-            <FormItem>
-                <FileUploaderDropContainer
-                    accept={[
-                        'image/jpeg',
-                        'image/png'
-                    ]}
-                    labelText={`Drag and drop files here or click to upload files for offer`}
-                    multiple
-                    onAddFiles={(e, x) => handleFileAdd(e, x)}
-                    onChange={(e) => { console.log(e) }}
-                    tabIndex={0}
+            {!isEdit &&
+                <FormItem>
+                    <FileUploaderDropContainer
+                        accept={[
+                            'image/jpeg',
+                            'image/png'
+                        ]}
+                        labelText={`Drag and drop files here or click to upload files for offer`}
+                        multiple
+                        onAddFiles={(e, x) => handleFileAdd(e, x)}
+                        onChange={(e) => { console.log(e) }}
+                        tabIndex={0}
 
-                />
-            </FormItem>
+                    />
+                </FormItem>}
             <Button type='submit'>{isEdit ? "Aktualizuj ofertę" : "Dodaj ofertę"}</Button>
         </form>
         {!isEdit &&

@@ -27,7 +27,7 @@ export const MessagePage = (props: any = null) => {
               const session = new Talk.Session({
                 appId: 'tFS6jO4a',
                 me: currentUser,
-                signature: crypto.createHmac('sha256', "sk_test_Ll6S8AaOALijGH2NDdHXGnxd6cGPUhQd").update(String(user.id)).digest('hex').toUpperCase()
+                // signature: crypto.createHmac('sha256', "sk_test_Ll6S8AaOALijGH2NDdHXGnxd6cGPUhQd").update(String(user.id)).digest('hex').toUpperCase()
               });
               
               if(location.state && location.state.email !== user.email) {
