@@ -100,7 +100,9 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
                 setValue("active", offer.active);
                 setValue("title", offer.title);
                 setValue("description", offer.description);
-    
+                let tmp = { ...formData }
+                tmp.category = curr[0].text;
+                setFormData(tmp);
             }
         
     }, [categories])

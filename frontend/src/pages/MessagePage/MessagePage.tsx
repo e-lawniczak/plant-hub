@@ -3,7 +3,7 @@ import Talk from 'talkjs';
 import { selectUser } from "../../common/Redux/Slices/userSlice";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 
 export const MessagePage = (props: any = null) => {
     const inboxEl = useRef<HTMLDivElement | null>(null);
@@ -27,7 +27,7 @@ export const MessagePage = (props: any = null) => {
               const session = new Talk.Session({
                 appId: 'tFS6jO4a',
                 me: currentUser,
-                signature: CryptoJS.HmacSHA256(String(user.id), "sk_test_Ll6S8AaOALijGH2NDdHXGnxd6cGPUhQd").toString(CryptoJS.enc.Hex).toUpperCase()
+                // signature: CryptoJS.HmacSHA256(String(user.id), "sk_test_Ll6S8AaOALijGH2NDdHXGnxd6cGPUhQd").toString(CryptoJS.enc.Hex).toUpperCase()
               });
               
               if(location.state && location.state.email !== user.email) {
