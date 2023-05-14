@@ -11,10 +11,10 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import put.poznan.planthub.file.File;
 import put.poznan.planthub.file.FileService;
+import put.poznan.planthub.offer.category.Category;
+import put.poznan.planthub.offer.category.CategoryRepository;
 import put.poznan.planthub.offer.projections.AllOffersDto;
 import put.poznan.planthub.offer.projections.OfferDto;
 import put.poznan.planthub.offer.projections.UpdateOfferDto;
@@ -27,6 +27,9 @@ public class OfferService {
     private OfferRepository offerRepository;
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public OfferService(OfferRepository offerRepository, UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -52,7 +55,7 @@ public class OfferService {
         // offer.setFiles(null);
         offer.setActive(offerDto.getActive());
         offer.setDeleted(false);
-        offer.setCategory(offerDto.getCategory());
+        offer.setCategory(categoryRepository.findCategoryByName(offerDto.getCategory()));
         offer.setUser(user.get());
         offer.setLikes(0);
 
@@ -75,14 +78,21 @@ public class OfferService {
     public ResponseEntity<OfferDto> updateOffer(Long id, UpdateOfferDto offerUpdate) {
         Optional<Offer> offer = offerRepository.findById(id);
 
-        if (offer.isEmpty())
+        if (offer.isEmpty() || offer.get().getDeleted().booleanValue())
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
-        offerUpdate.updateOffer(offer.get());
-        offerRepository.save(offer.get());
-        return new ResponseEntity<>(OfferDto.of(offer.get()), HttpStatus.OK);
+        Offer updatedOffer = updateOffer(offer.get(), offerUpdate);
+        offerRepository.save(updatedOffer);
+        return new ResponseEntity<>(OfferDto.of(updatedOffer), HttpStatus.OK);
     }
+    private Offer updateOffer(Offer offer, UpdateOfferDto offerUpdate){
+        offer.setActive(offerUpdate.getActive());
+        offer.setTitle(offerUpdate.getTitle());
+        offer.setCategory(categoryRepository.findCategoryByName(offerUpdate.getCategory()));
+        offer.setDescription(offerUpdate.getDescription());
 
+        return offer;
+    }
     public ResponseEntity<OfferDto> deleteOffer(Long id) {
         Optional<Offer> offer = offerRepository.findById(id);
 
@@ -120,5 +130,11 @@ public class OfferService {
         Collections.sort(offers, Comparator.comparing(Offer::getActive).thenComparingLong(Offer::getId));
         List<AllOffersDto> response = offers.stream().map(o -> AllOffersDto.of(o)).collect(Collectors.toList());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    // Category change
+    public ResponseEntity<List<Category>> getAllCategories() {
+        return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
     }
 }

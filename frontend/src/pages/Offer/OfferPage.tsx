@@ -160,7 +160,7 @@ export const OfferPage = () => {
                         {isOfferOwner ?
                             <div className="offer-opt">
                                 <h5>{offer?.active ? "Offer is active" : "Offer is inactive"}</h5>
-                                <Button onClick={() => handleDeactivate(offer)}>{offer?.active ? "Activate" : "Deactivate"}</Button>
+                                <Button onClick={() => handleDeactivate(offer)}>{!offer?.active ? "Activate" : "Deactivate"}</Button>
                                 <div className="img-container icon edit" onClick={() => handleEdit(offer)}>
                                     <img src={edit} alt="" />
                                 </div>

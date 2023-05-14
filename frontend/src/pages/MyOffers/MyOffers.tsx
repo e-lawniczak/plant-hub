@@ -30,7 +30,7 @@ export const MyOffers = () => {
     
 
     return <PageContainer>
-        {offers.map(
+        {offers?.map(
             (offer) => (
                 <MyOffer offer={offer}></MyOffer>
             )
