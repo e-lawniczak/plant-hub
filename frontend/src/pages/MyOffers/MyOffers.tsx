@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { selectUser } from '../../common/Redux/Slices/userSlice';
 import { callDelete, callGet, callPatch, callPost, callPostFiles, callPut } from '../../common/Fetch';
 import { apiRoutes } from '../../common/ApiRoutes';
-import { MyOffer } from "../../common/components/MyOffer";
+import { Offer } from "../../common/components/Offer";
 
 export const MyOffers = () => {
 
@@ -32,7 +32,7 @@ export const MyOffers = () => {
     return <PageContainer>
         {offers.map(
             (offer) => (
-                <MyOffer offer={offer}></MyOffer>
+                <Offer offer={offer}></Offer>
             )
         )}
     </PageContainer>
