@@ -92,7 +92,7 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
     }, [])
 
     useEffect(() => {
-        if (isEdit && !!offer) {
+        if (isEdit && !!offer && categories.length > 0) {
             let curr = categories.filter(c => c.text === offer.category)
             console.log(curr);
             if (curr.length > 0)
