@@ -22,3 +22,8 @@ export interface IOfferInputs{
     date: Date,
     active: boolean,
 }
+
+export interface CategoryData{
+    id: string,
+    text: string
+}
