@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { PageContainer } from "../../common/layouts/PageContainer";
 import { logout, selectUser } from "../../common/Redux/Slices/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { callDelete, callGet, callPatch, callPost, callPostFiles } from "../../common/Fetch";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import { apiRoutes } from "../../common/ApiRoutes";
@@ -109,7 +109,7 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
 
 
     return <PageContainer className="offer-create" title={<div className="offer-create-header"><h1>{isEdit ? "Edit offer" : "Add offer"}</h1> {isEdit && <div className="close" onClick={() => setEdit(false)}>X</div>}</div>}>
-        <form onSubmit={handleSubmit((data) => handleForm(data))}>
+        <Form onSubmit={handleSubmit((data) => handleForm(data))}>
             <FormItem>
                 <TextInput id={"title"} labelText={"Title"} placeholder="title" {...register("title")} />
             </FormItem>
@@ -138,7 +138,7 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
                     />
                 </FormItem>}
             <Button type='submit'>{isEdit ? "Aktualizuj ofertę" : "Dodaj ofertę"}</Button>
-        </form>
+        </Form>
         {!isEdit &&
             <div className="uploaded-files">
                 {uploaded.map((f, idx) => <div className="mini-img" key={"f" + idx}>

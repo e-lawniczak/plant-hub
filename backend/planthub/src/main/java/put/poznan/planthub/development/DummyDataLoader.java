@@ -27,6 +27,8 @@ public class DummyDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         try{
+            roleRepository.save(new Role(1L, "ADMIN"));
+            roleRepository.save(new Role(2L, "USER"));
 
             userService.register(new RegisterDto("jasonmomoa@o2.pl", "1234", "Jason", "Momoa", "123123123", "Poznań"));
             userService.register(new RegisterDto("dzejzi@o2.pl", "1234", "Dzej", "Zi", "123123123", "Wrocław"));
@@ -40,11 +42,6 @@ public class DummyDataLoader implements CommandLineRunner {
             categoryRepository.save(new Category(6L, "Field plant"));
             categoryRepository.save(new Category(7L, "Decoration"));
             categoryRepository.save(new Category(8L, "Other"));
-
-            roleRepository.save(new Role(1L, "ADMIN"));
-            roleRepository.save(new Role(2L, "USER"));
-
-
         }
         catch (Exception e) {
             throw new Exception(e.getMessage());

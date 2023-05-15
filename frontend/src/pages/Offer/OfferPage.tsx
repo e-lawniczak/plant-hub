@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { PageContainer } from "../../common/layouts/PageContainer";
 import { logout, selectUser } from "../../common/Redux/Slices/userSlice";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Form, Link, useNavigate, useParams } from "react-router-dom";
 import { callDelete, callGet, callPatch, callPost, callPostFiles } from "../../common/Fetch";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import edit from '../../common/img/edit.svg';
@@ -204,7 +204,7 @@ export const OfferPage = () => {
                                 <div className="upload-col">
                                     <h4>Upload photos</h4>
                                     <div className="upload-img">
-                                        <form onSubmit={handleSubmit((data) => handleForm(data))}>
+                                        <Form onSubmit={handleSubmit((data) => handleForm(data))}>
                                             <FormItem>
                                                 <FileUploaderDropContainer
                                                     accept={[
@@ -220,7 +220,7 @@ export const OfferPage = () => {
                                                 />
                                             </FormItem>
                                             {uploaded.length > 0 && <Button type='submit'>Dodaj zdjęcia</Button>}
-                                        </form>
+                                        </Form>
                                         <div className="uploaded-files">
                                             {uploaded.map((f, idx) => <div className="mini-img" key={"f" + idx}>
                                                 <div className=" img-container">
