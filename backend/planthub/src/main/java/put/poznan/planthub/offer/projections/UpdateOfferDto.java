@@ -1,9 +1,11 @@
 package put.poznan.planthub.offer.projections;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import lombok.*;
 import put.poznan.planthub.offer.Offer;
+import put.poznan.planthub.offer.category.Category;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,13 +23,6 @@ public class UpdateOfferDto {
 
     private Boolean active;
 
-    public void updateOffer(Offer offer){
-        offer.setActive(active);
-        offer.setTitle(title);
-        offer.setCategory(category);
-        offer.setDescription(description);
-    }
-    
     public static UpdateOfferDto of(Offer offer) {
         if (offer == null) {
             return null;
@@ -38,7 +33,7 @@ public class UpdateOfferDto {
     private UpdateOfferDto(Offer offer) {
         title = offer.getTitle();
         description = offer.getDescription();
-        category = offer.getCategory();
+        category = offer.getCategory().getName();
         active = offer.getActive();
     }
 }

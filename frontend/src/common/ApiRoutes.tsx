@@ -23,6 +23,7 @@ export const apiRoutes = {
    register: rootRoute.auth + '/register',
    login: rootRoute.auth + '/login',
    getOffers: rootRoute.offers + '/all',
+   getCategories: rootRoute.offers + '/all/categories',
    addOffer: rootRoute.offers + '/add' ,
    updateOffer: rootRoute.offers + '/update',
    deleteOffer: rootRoute.offers + '/delete',
