@@ -3,10 +3,13 @@ package put.poznan.planthub.offer;
 import lombok.*;
 
 import put.poznan.planthub.file.File;
-import put.poznan.planthub.offer.category.Category;
+import put.poznan.planthub.file.projections.FileDto;
 import put.poznan.planthub.user.User;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.Date;
 import java.util.List;
@@ -27,8 +30,7 @@ public class Offer  {
 
     private String description;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Category category;
+    private String category;
 
     private Date date;
 
