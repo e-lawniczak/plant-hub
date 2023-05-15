@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.*;
 import put.poznan.planthub.file.File;
 import put.poznan.planthub.offer.Offer;
-import put.poznan.planthub.offer.category.Category;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,7 +36,7 @@ public class OfferDto {
     private OfferDto(Offer offer) {
         title = offer.getTitle();
         description = offer.getDescription();
-        category = offer.getCategory().getName();
+        category = offer.getCategory();
         date = offer.getDate();
         active = offer.getActive();
     }

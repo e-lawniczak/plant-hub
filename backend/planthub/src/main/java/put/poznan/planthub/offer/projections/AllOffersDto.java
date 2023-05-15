@@ -4,7 +4,6 @@ import java.util.Date;
 
 import lombok.*;
 import put.poznan.planthub.offer.Offer;
-import put.poznan.planthub.offer.category.Category;
 import put.poznan.planthub.user.User;
 import put.poznan.planthub.user.projections.UserDto;
 
@@ -40,7 +39,7 @@ public class AllOffersDto {
         id = offer.getId();
         title = offer.getTitle();
         description = offer.getDescription();
-        category = offer.getCategory().getName();
+        category = offer.getCategory();
         date = offer.getDate();
         likes = offer.getLikes();
         active = offer.getActive();

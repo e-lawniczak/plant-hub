@@ -1,18 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { PageContainer } from "../../common/layouts/PageContainer";
 import { logout, selectUser } from "../../common/Redux/Slices/userSlice";
-import { Form, useNavigate } from "react-router-dom";
-import { callDelete, callGet, callPatch, callPost, callPostFiles } from "../../common/Fetch";
+import { useNavigate } from "react-router-dom";
+import { callDelete, callPatch, callPost, callPostFiles } from "../../common/Fetch";
 import { AjaxLoader } from "../../common/AjaxLoader"
 import { apiRoutes } from "../../common/ApiRoutes";
 import { useEffect, useState } from "react";
 import { Button, Checkbox, Dropdown, FileUploaderDropContainer, FormItem, TextArea, TextInput } from "carbon-components-react";
-import { CategoryData, IOfferInputs, Offer, OfferData } from "./models";
+import { IOfferInputs, Offer, OfferData } from "./models";
 import { useForm } from "react-hook-form";
-import { error } from "console";
-import { key } from "localforage";
 
-/*
 const categories = [
     { id: '1', text: "Pot plant" },
     { id: '2', text: "Garden plant" },
@@ -23,7 +20,7 @@ const categories = [
     { id: '7', text: "Decoration" },
     { id: '8', text: "Other" },
 ]
-*/
+
 export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?: any, setEdit?: any }) => {
 
     const
@@ -33,7 +30,6 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
         user = useSelector(selectUser),
         [isAjax, setAjax] = useState(false),
         [formData, setFormData] = useState<OfferData>({ category: "", date: new Date(), description: "", title: "" }),
-        [categories, setCategories] = useState<CategoryData[]>([]),
         [currentItem, setCurrentItem] = useState(),
         { register, handleSubmit, formState, getValues, control, setValue } = useForm<IOfferInputs>(),
 
@@ -61,13 +57,16 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
             }
             else {
                 req = await callPost(apiRoutes.addOffer + `/${user.email}`, body)
-                if (req.ok && !isEdit && uploaded.length < 0) {
-                    let addImg = await callPostFiles(apiRoutes.uploadFile + `/${user.email}` + `/${(req.body)}`, uploaded)
-                }
             };
+            console.log(req);
+            if (req.ok && !isEdit) {
+                let addImg = await callPostFiles(apiRoutes.uploadFile + `/${user.email}` + `/${(req.body)}`, uploaded)
+                console.log(addImg);
+            }
             setAjax(false);
         },
         handleDropdown = (item: { id: string, text: string }) => {
+            console.log(item);
             let tmp = { ...formData }
             tmp.category = item.text;
             setFormData(tmp);
@@ -80,65 +79,48 @@ export const CreateOffer = (props: { isEdit?: boolean, offer?: Offer, getOffer?:
 
     useEffect(() => {
         console.log();
-
-        const fetchCategories = async () => {
-            const res = await callGet(apiRoutes.getCategories);
-            console.log(res.body as any)
-            setCategories((res.body as unknown as any[]).map((item) => {return {id: String(item.id), text: item.name}}) as CategoryData[]);
-        }
-        fetchCategories().catch((error) => console.log(error));
-        
-        
-    }, [])
-
-    useEffect(() => {
-        if (isEdit && !!offer && categories.length > 0) {
+        if (isEdit && !!offer) {
             let curr = categories.filter(c => c.text === offer.category)
             console.log(curr);
             if (curr.length > 0)
                 setCurrentItem(curr[0] as any)
-                setValue("active", offer.active);
-                setValue("title", offer.title);
-                setValue("description", offer.description);
-                let tmp = { ...formData }
-                tmp.category = curr[0].text;
-                setFormData(tmp);
-            }
-        
-    }, [categories])
+            setValue("active", offer.active);
+            setValue("title", offer.title);
+            setValue("description", offer.description);
 
+        }
+    }, [])
 
     return <PageContainer className="offer-create" title={<div className="offer-create-header"><h1>{isEdit ? "Edit offer" : "Add offer"}</h1> {isEdit && <div className="close" onClick={() => setEdit(false)}>X</div>}</div>}>
-        <Form onSubmit={handleSubmit((data) => handleForm(data))}>
-            <FormItem>
+        <form onSubmit={handleSubmit((data) => handleForm(data))}>
+        <FormItem>
                 <TextInput id={"title"} labelText={"Title"} placeholder="title" {...register("title")} />
             </FormItem>
             <FormItem>
-                <TextArea id={"description"} labelText={"Description"} maxCount={1000} placeholder="description" {...register("description")} />
+                <TextArea id={"description"} labelText={"Description"} maxCount={1000}  placeholder="description" {...register("description")} />
             </FormItem>
             <FormItem>
-                {categories.length > 0 && <Dropdown items={categories} selectedItem={currentItem} id="categoryDropdown" label={"Pick category"} placeholder="pick category" itemToString={(item) => (item ? item.text : '')} onChange={({ selectedItem }) => handleDropdown(selectedItem as any)} />}
+                <Dropdown items={categories} selectedItem={currentItem} id="categoryDropdown" label={"Pick category"} placeholder="pick category" itemToString={(item) => (item ? item.text : '')} onChange={({ selectedItem }) => handleDropdown(selectedItem as any)} />
             </FormItem>
             <FormItem>
                 <Checkbox id={"active"} labelText={"Activate offer?"} {...register("active")} />
             </FormItem>
-            {!isEdit &&
-                <FormItem>
-                    <FileUploaderDropContainer
-                        accept={[
-                            'image/jpeg',
-                            'image/png'
-                        ]}
-                        labelText={`Drag and drop files here or click to upload files for offer`}
-                        multiple
-                        onAddFiles={(e, x) => handleFileAdd(e, x)}
-                        onChange={(e) => { console.log(e) }}
-                        tabIndex={0}
+            <FormItem>
+                <FileUploaderDropContainer
+                    accept={[
+                        'image/jpeg',
+                        'image/png'
+                    ]}
+                    labelText={`Drag and drop files here or click to upload files for offer`}
+                    multiple
+                    onAddFiles={(e, x) => handleFileAdd(e, x)}
+                    onChange={(e) => { console.log(e) }}
+                    tabIndex={0}
 
-                    />
-                </FormItem>}
+                />
+            </FormItem>
             <Button type='submit'>{isEdit ? "Aktualizuj ofertę" : "Dodaj ofertę"}</Button>
-        </Form>
+        </form>
         {!isEdit &&
             <div className="uploaded-files">
                 {uploaded.map((f, idx) => <div className="mini-img" key={"f" + idx}>
