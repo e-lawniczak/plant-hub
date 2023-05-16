@@ -1,28 +1,18 @@
-import {
-  Button,
-  DatePicker,
-  DatePickerInput,
-  Dropdown,
-  TextInput,
-} from "carbon-components-react";
+import { Dropdown, TextInput } from "carbon-components-react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { AjaxLoader } from "../common/AjaxLoader";
-import { apiRoutes } from "../common/ApiRoutes";
-import { Offer } from "../common/components/Offer";
-import { callGet, callPost } from "../common/Fetch";
-import { PageContainer } from "../common/layouts/PageContainer";
-import { logout, selectUser } from "../common/Redux/Slices/userSlice";
-import { CategoryData, OfferData } from "../pages/Offer/models";
+import { apiRoutes } from "../../common/ApiRoutes";
+import { Offer } from "../../common/components/Offer";
+import { callGet } from "../../common/Fetch";
+import { PageContainer } from "../../common/layouts/PageContainer";
+import { selectUser } from "../../common/Redux/Slices/userSlice";
+import { CategoryData, OfferData } from "../../pages/Offer/models";
 
-export const MainPage = (props: any) => {
+export const MainPage = () => {
   const user = useSelector(selectUser),
     [offers, setOffers] = useState<any[]>([]),
     [isAjax, setAjax] = useState(false),
-    navigate = useNavigate(),
-    dispatch = useDispatch(),
     [searchTitle, setSearchTitle] = useState(""),
     [searchUser, setSearchUser] = useState(""),
     [formData, setFormData] = useState<OfferData>({
@@ -44,7 +34,7 @@ export const MainPage = (props: any) => {
   };
 
   const dropdownStyle = {
-    width: '300px   ',
+    width: "300px",
   };
 
   const handleDropdown = (item: { id: string; text: string }) => {
@@ -63,14 +53,12 @@ export const MainPage = (props: any) => {
     console.log(res.body as any);
     const allCategory = { id: "all", text: "All" };
     setSearchCategory(allCategory);
-    setCategories(
-        [
-        allCategory,
-        ...(res.body as unknown as any[]).map((item) => {
-            return { id: String(item.id), text: item.name };
-        })
-        ] as CategoryData[]
-    );
+    setCategories([
+      allCategory,
+      ...(res.body as unknown as any[]).map((item) => {
+        return { id: String(item.id), text: item.name };
+      }),
+    ] as CategoryData[]);
   };
 
   const getOffers = async () => {
@@ -122,7 +110,7 @@ export const MainPage = (props: any) => {
         <div>
           {categories.length > 0 && (
             <Dropdown
-                style={dropdownStyle}
+              style={dropdownStyle}
               items={categories}
               selectedItem={searchCategory}
               id="categoryDropdown"
@@ -137,22 +125,22 @@ export const MainPage = (props: any) => {
           )}
         </div>
       </div>
-      {offers.map(
-        (offer) =>
-          offer.title.toLowerCase().includes(searchTitle.toLowerCase()) &&
-          (
-            offer.user.firstName.toLowerCase() +
-            " " +
-            offer.user.lastName.toLowerCase()
-          ).includes(searchUser.toLowerCase()) &&
-          (offer.category === searchCategory?.text ||
-            searchCategory?.text === "All") &&
-          offer.user.city.toLowerCase().includes(searchCity.toLowerCase()) && 
-          (
-            <Offer offer={offer} />
-          )
-      )}
-
+      <div className="grid-3">
+        {offers.map(
+          (offer) =>
+            offer.title.toLowerCase().includes(searchTitle.toLowerCase()) &&
+            (
+              offer.user.firstName.toLowerCase() +
+              " " +
+              offer.user.lastName.toLowerCase()
+            ).includes(searchUser.toLowerCase()) &&
+            (offer.category === searchCategory?.text ||
+              searchCategory?.text === "All") &&
+            offer.user.city
+              .toLowerCase()
+              .includes(searchCity.toLowerCase()) && <Offer offer={offer} />
+        )}
+      </div>
     </PageContainer>
   );
 };

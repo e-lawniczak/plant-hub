@@ -19,8 +19,6 @@
 @import './partials/createOffer';
 @import './partials/offerPage';
 
-
-
 .obrazki {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -31,4 +29,9 @@
 }
 .d-flex{
     display: flex;
+    justify-content: center;
+}
+.grid-3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }

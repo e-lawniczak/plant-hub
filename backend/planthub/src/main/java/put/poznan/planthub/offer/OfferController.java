@@ -1,5 +1,6 @@
 package put.poznan.planthub.offer;
 
+import java.awt.*;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
