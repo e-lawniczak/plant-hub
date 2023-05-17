@@ -1,32 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { IUserModel } from '../models';
-import { redirect, useLocation } from 'react-router-dom';
-
+import { createSlice } from "@reduxjs/toolkit";
+import { IUserModel } from "../models";
 
 export interface IUserSlice {
-    user: IUserModel | null,
+  user: IUserModel | null;
 }
 
-const initialState =  {    
-    user: null,
-} as IUserSlice
+const initialState = {
+  user: null,
+} as IUserSlice;
 
 export const userSlice = createSlice({
-    name: 'user',
-    initialState : initialState,
-    reducers: {
-        login: (state, action) => {
-            console.log("login");
-            state.user = action.payload;
-        },
-        logout: (state) => {
-            console.log("logout");
-            state.user = null;
-        }
-    }
-})
+  name: "user",
+  initialState: initialState,
+  reducers: {
+    login: (state, action) => {
+      console.log("login");
+      state.user = action.payload;
+    },
+    logout: (state) => {
+      console.log("logout");
+      state.user = null;
+    },
+  },
+});
 
-export const {login, logout} = userSlice.actions
+export const { login, logout } = userSlice.actions;
 export const selectUser = (state: any) => state.user;
 
-export default userSlice.reducer
+export default userSlice.reducer;

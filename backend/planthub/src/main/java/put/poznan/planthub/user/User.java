@@ -51,19 +51,19 @@ public class User implements UserDetails {
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
-        CascadeType.REFRESH })
+            CascadeType.REFRESH })
     private List<Offer> offers;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "user_rep", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rep_user_id", referencedColumnName = "id"))
-    private List<User> reppingUsers; 
+    private List<User> reppingUsers;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "user_likedOffers", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"))
-    private List<Offer> likedOffers; 
+    private List<Offer> likedOffers;
 
 
-    
+
 
     @Override
     public boolean equals(Object o) {

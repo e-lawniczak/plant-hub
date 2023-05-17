@@ -1,10 +1,11 @@
-export const AjaxLoader = (props:{isAjax: boolean, children: any}) =>{
-    const {children, isAjax} = props;
+export const AjaxLoader = (props: { isAjax: boolean; children: any }) => {
+  const { children, isAjax } = props;
 
-    return isAjax ? 
+  return isAjax ? (
     <div className="ajax-loader">
-        <div className="loader"></div>
+      <div className="loader"></div>
     </div>
-    :
+  ) : (
     <>{children}</>
-}
+  );
+};

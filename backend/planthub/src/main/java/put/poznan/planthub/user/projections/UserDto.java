@@ -30,12 +30,12 @@ public class UserDto {
     }
 
     private UserDto(User user) {
-                id = user.getId();
-                email = user.getEmail();
-                firstName = user.getFirstName();
-                lastName = user.getLastName();
-                phone = user.getPhone();
-                city = user.getCity();
-                votes = user.getVotes();
+        id = user.getId();
+        email = user.getEmail();
+        firstName = user.getFirstName();
+        lastName = user.getLastName();
+        phone = user.getPhone();
+        city = user.getCity();
+        votes = user.getVotes();
     }
 }

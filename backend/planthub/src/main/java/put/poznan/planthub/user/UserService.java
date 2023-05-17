@@ -39,8 +39,8 @@ public class UserService implements UserDetailsService {
     private OfferRepository offerRepository;
 
     public UserService(RoleRepository roleRepository, UserRepository userRepository, OfferRepository offerRepository,
-            PasswordEncoder passwordEncoder,
-            JwtGenerator jwtGenerator) {
+                       PasswordEncoder passwordEncoder,
+                       JwtGenerator jwtGenerator) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.offerRepository = offerRepository;
