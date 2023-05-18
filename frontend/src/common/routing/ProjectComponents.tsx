@@ -14,7 +14,6 @@ import { OfferPage } from "../../pages/Offer/OfferPage";
 export const ProjectComponents = [
   { name: "Main page", path: "/", element: <MainPage />, auth: false },
   { name: "Main page", path: "/", element: <MainPage />, auth: true },
-  { name: "Test", path: "/test", element: <TestPage1 />, auth: true },
   { name: "My offers", path: "/offers", element: <MyOffers />, auth: true },
   {
     name: "Add offer",
@@ -29,7 +28,6 @@ export const ProjectComponents = [
     auth: true,
     hideInMenu: true,
   },
-  { name: "Liked offers", path: "/test2", element: <TestPage2 />, auth: true },
   {
     name: "Register",
     path: "/register",
@@ -37,7 +35,7 @@ export const ProjectComponents = [
     auth: false,
   },
   { name: "Login", path: "/login", element: <LoginPage />, auth: false },
-  { name: "Profil", path: "/profile", element: <ProfilPage />, auth: true },
+  { name: "Profil", path: "/profile", element: <ProfilPage />, auth: true, hideInMenu: true },
   {
     name: "Modify",
     path: "/profile/modify",
@@ -46,4 +44,9 @@ export const ProjectComponents = [
     hideInMenu: true,
   },
   { name: "Message", path: "/message", element: <MessagePage />, auth: true },
+
+
+  // test tmp pages
+  { name: "Test", path: "/test", element: <TestPage1 />, auth: true, hideInMenu: true },
+  { name: "Liked offers", path: "/test2", element: <TestPage2 />, auth: true, hideInMenu: true },
 ] as IRouteElement[];

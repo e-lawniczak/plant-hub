@@ -74,7 +74,11 @@ public class FileService {
 
         List<File> data = fileRepository.findAllByOffer(offer.get());
         List<FileDto> response = data.stream().map(d -> FileDto.of(d)).collect(Collectors.toList());
-
+        response = response.stream().map(d -> {
+            FileDto f = d;
+            f.setType(d.getType().replace("_", "/"));
+            return f;
+        }).collect(Collectors.toList());
         return response;
     }
 

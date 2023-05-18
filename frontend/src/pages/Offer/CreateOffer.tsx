@@ -29,13 +29,14 @@ export const CreateOffer = (props: {
   setEdit?: any;
 }) => {
   const {
-      isEdit = false,
-      offer = null,
-      getOffer = () => {},
-      setEdit = () => {},
-    } = props,
+    isEdit = false,
+    offer = null,
+    getOffer = () => { },
+    setEdit = () => { },
+  } = props,
     user = useSelector(selectUser),
     [isAjax, setAjax] = useState(false),
+    navigate = useNavigate(),
     [formData, setFormData] = useState<OfferData>({
       category: "",
       date: new Date(),
@@ -70,11 +71,17 @@ export const CreateOffer = (props: {
         setEdit(false);
       } else {
         req = await callPost(apiRoutes.addOffer + `/${user.email}`, body);
-        if (req.ok && !isEdit && uploaded.length < 0) {
+        if (req.ok && !isEdit && uploaded.length > 0) {
           let addImg = await callPostFiles(
             apiRoutes.uploadFile + `/${user.email}` + `/${req.body}`,
             uploaded
           );
+          if (addImg.ok) {
+            navigate('/offers')
+          }
+        }
+        else if (req.ok) {
+          navigate('/offers')
         }
       }
       setAjax(false);
@@ -187,12 +194,17 @@ export const CreateOffer = (props: {
             />
           </FormItem>
         )}
-        <Button type="submit">
-          {isEdit ? "Aktualizuj ofertę" : "Dodaj ofertę"}
-        </Button>
+        <FormItem className="btn-container">
+          <Button type="submit">
+            {isEdit ? "Aktualizuj ofertę" : "Dodaj ofertę"}
+          </Button>
+        </FormItem>
       </form>
       {!isEdit && (
-        <div className="uploaded-files">
+        <div className="img-to-upload">
+          <div className="divide-line-h"></div>
+          <h4>Offer images</h4>
+          <div className="uploaded-files">
           {uploaded.map((f, idx) => (
             <div className="mini-img" key={"f" + idx}>
               <div className=" img-container">
@@ -207,6 +219,7 @@ export const CreateOffer = (props: {
               </div>
             </div>
           ))}
+        </div>
         </div>
       )}
     </PageContainer>

@@ -9,13 +9,13 @@ export const PageContainer = (props: IPageContainer) => {
   return (
     <div className={["page-container", className].join(" ")}>
       {title && (
-        <>
+        <div className="page-header">
           {typeof title == typeof "" ? (
             <h1 className="page-title">{title}</h1>
           ) : (
             title
           )}
-        </>
+        </div>
       )}
       {children}
     </div>

@@ -1,6 +1,8 @@
 .main-menu {
     display: flex;
     gap: 5px;
+    align-items: flex-end;
+
 
     .menu-opt {
         border-bottom: 2px solid transparent;

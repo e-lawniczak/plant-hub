@@ -59,3 +59,26 @@
         margin-top: 0;
     }
 }
+.offer-create{
+    form{
+        width: 98%;
+        margin: 0 auto;
+        max-width: 800px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        .cds--form-item{
+            width: 100%;
+        }
+        .btn-container{
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+    }
+    .img-to-upload{
+       h4{
+           margin: 0.67em 0;
+       }
+    }
+}
