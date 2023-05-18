@@ -10,6 +10,7 @@ import { IRouteElement } from "./models";
 import { MyOffers } from "../../pages/MyOffers/MyOffers";
 import { CreateOffer } from "../../pages/Offer/CreateOffer";
 import { OfferPage } from "../../pages/Offer/OfferPage";
+import { LikedOffers } from "../../pages/Offer/LikedOffers";
 
 export const ProjectComponents = [
   { name: "Main page", path: "/", element: <MainPage />, auth: false },
@@ -43,6 +44,7 @@ export const ProjectComponents = [
     auth: true,
     hideInMenu: true,
   },
+  { name: "Liked offers", path: "/liked-offers", element: <LikedOffers />, auth: true },
   { name: "Message", path: "/message", element: <MessagePage />, auth: true },
 
 

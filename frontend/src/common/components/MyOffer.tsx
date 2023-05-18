@@ -6,7 +6,8 @@ import { apiRoutes } from "../../common/ApiRoutes";
 import { NavLink } from "react-router-dom";
 
 export const MyOffer = (props: any) => {
-  const user = useSelector(selectUser);
+  const user = useSelector(selectUser),
+  {isLiked, dislikeOffer} = props;
 
   const handleDeactivate = () => {
     alert("click");
@@ -32,6 +33,7 @@ export const MyOffer = (props: any) => {
           <Button onClick={handleDeactivate}>End offer</Button>
         )}
         <Button onClick={handleDelete}>Delete</Button>
+        {isLiked && <Button onClick={() => dislikeOffer(props.offer)}>dislike offer</Button>}
       </Tile>
     </Content>
   );
