@@ -8,7 +8,7 @@ import { callGet, callPost } from "../../common/Fetch";
 import { ILoginInputs } from "../../common/models";
 import { login, logout } from "../../common/Redux/Slices/userSlice";
 import { useDispatch } from "react-redux";
-import { Button, TextInput } from "carbon-components-react";
+import { Button, FormGroup, TextInput } from "carbon-components-react";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export const LoginPage = () => {
   }, []);
 
   const [isAjax, setAjax] = useState(false);
-  const { register, handleSubmit } = useForm<ILoginInputs>();
+  const { register, handleSubmit, formState: { errors } } = useForm<ILoginInputs>();
 
   const onSubmit: SubmitHandler<ILoginInputs> = async (data: any) => {
     setAjax(true);
@@ -41,19 +41,25 @@ export const LoginPage = () => {
     <PageContainer title="Login">
       <AjaxLoader isAjax={isAjax}>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <TextInput
-            id={"email"}
-            labelText={"Email"}
-            placeholder="Email"
-            {...register("email")}
-          />
-          <TextInput
-            id={"password"}
-            labelText={"Hasło"}
-            placeholder="Hasło"
-            type="password"
-            {...register("password")}
-          />
+        <FormGroup legendText={""}>
+            <TextInput
+              id={"email"}
+              labelText={"Email"}
+              placeholder="Email"
+              {...register("email", {required: "Email is required"})}
+            />
+            {errors.email && <span className="error">{errors.email.message}</span>}
+          </FormGroup>
+          <FormGroup legendText={""}>
+            <TextInput
+              id={"password"}
+              labelText={"Password"}
+              placeholder="Password"
+              type="password"
+              {...register("password", {required: "Password is required"})}
+            />
+            {errors.password && <span className="error">{errors.password.message}</span>}
+          </FormGroup>
           <Button className="custom-button" type="submit" value="Login">
             Login
           </Button>

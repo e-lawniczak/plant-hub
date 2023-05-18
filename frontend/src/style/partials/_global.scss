@@ -66,6 +66,16 @@
    margin-top: 1em;
 
  }
+ .error {
+    background-color: #fce4e4;
+    border: 1px solid #fcc2c3;
+    float: left;
+    padding: 0.1em 0.1em;
+    color: red;
+    width: 100%;
+    text-align: center;
+    font-size: small;
+ }
 
  .text-display {
    display: flex;

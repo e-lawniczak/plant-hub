@@ -1,5 +1,6 @@
 package put.poznan.planthub.user;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,16 +32,17 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
 
+    @NotNull
     private String firstName;
-
+    @NotNull
     private String lastName;
-
+    @NotNull
     private String phone;
-
+    @NotNull
     private String password;
-
+    @NotNull
     private String city;
-
+    @NotNull
     private Long votes;
 
     @Column(columnDefinition = "varchar(255) default ''")
