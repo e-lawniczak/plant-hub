@@ -11,7 +11,7 @@ export const Header = () => {
   return (
     <header>
       <div className="logo">
-        <img src={logo} style={logoStyle} />
+        <img src={logo} alt="Planthub logo" style={logoStyle} />
       </div>
       <MainMenu />
       <UserBubble />

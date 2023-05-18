@@ -19,7 +19,7 @@ export const MessagePage = () => {
         id: user.id,
         name: user.firstName + " " + user.lastName,
         email: user.email,
-        photoUrl: "../../common/img/avatar.png",
+        photoUrl: `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&color=FFFFFF&background=000000`,
         welcomeMessage: "Hello!",
         role: "default",
       });
@@ -38,9 +38,9 @@ export const MessagePage = () => {
       if (location.state && location.state.email !== user.email) {
         const otherUser = new Talk.User({
           id: location.state.id,
-          name: location.state.name,
-          email: location.state.name,
-          photoUrl: "../../common/img/avatar.png",
+          name: `${location.state.first} ${location.state.last}`,
+          email: location.state.email,
+          photoUrl: `https://ui-avatars.com/api/?name=${location.state.first}+${location.state.last}&color=FFFFFF&background=000000`,
           welcomeMessage: "Hello!",
           role: "default",
         });
@@ -53,6 +53,11 @@ export const MessagePage = () => {
         const inbox = session.createInbox();
         inbox.select(conversation);
         inbox.mount(inboxEl.current);
+        
+        conversation.sendMessage(location.state.offer);
+        conversation.sendMessage("I would like to talk about that offer. Is it still available?");
+
+        window.history.replaceState(null, "");
       } else {
         const inbox = session.createInbox();
         inbox.mount(inboxEl.current);

@@ -117,7 +117,9 @@ export const OfferPage = () => {
         state: {
           id: String(id),
           email: email,
-          name: `${first} ${last}`,
+          first: first,
+          last: last,
+          offer: window.location.href
         },
       });
     },
