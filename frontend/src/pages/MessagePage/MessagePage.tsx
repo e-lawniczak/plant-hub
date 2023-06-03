@@ -4,6 +4,7 @@ import { selectUser } from "../../common/Redux/Slices/userSlice";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import { PageContainer } from "../../common/layouts/PageContainer";
 
 export const MessagePage = () => {
   const inboxEl = useRef<HTMLDivElement | null>(null);
@@ -67,5 +68,7 @@ export const MessagePage = () => {
     }
   }, [talkLoaded]);
 
-  return <div style={{ height: "100%" }} ref={inboxEl} />;
+  return <PageContainer title="Massage">
+      <div className="messager" ref={inboxEl} />;
+  </PageContainer>
 };
