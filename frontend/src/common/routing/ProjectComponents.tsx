@@ -13,15 +13,9 @@ import { OfferPage } from "../../pages/Offer/OfferPage";
 import { LikedOffers } from "../../pages/Offer/LikedOffers";
 
 export const ProjectComponents = [
-  { name: "Main page", path: "/", element: <MainPage />, auth: false },
-  { name: "Main page", path: "/", element: <MainPage />, auth: true },
+  { name: "Search offers", path: "/", element: <MainPage />, auth: false },
+  { name: "Search offers", path: "/", element: <MainPage />, auth: true },
   { name: "My offers", path: "/offers", element: <MyOffers />, auth: true },
-  {
-    name: "Add offer",
-    path: "/add-offer",
-    element: <CreateOffer />,
-    auth: true,
-  },
   {
     name: "OfferPage",
     path: "/offer/:user/:id",
@@ -45,6 +39,12 @@ export const ProjectComponents = [
     hideInMenu: true,
   },
   { name: "Liked offers", path: "/liked-offers", element: <LikedOffers />, auth: true },
+  {
+    name: "Add offer",
+    path: "/add-offer",
+    element: <CreateOffer />,
+    auth: true,
+  },
   { name: "Message", path: "/message", element: <MessagePage />, auth: true },
 
 

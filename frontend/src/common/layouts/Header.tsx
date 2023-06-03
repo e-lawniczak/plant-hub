@@ -9,7 +9,7 @@ export const Header = () => {
     width: 100,
   };
   return (
-    <header>
+    <header className="header">
       <div className="logo">
         <img src={logo} alt="Planthub logo" style={logoStyle} />
       </div>
@@ -23,9 +23,11 @@ const UserBubble = () => {
   const user = useSelector(selectUser);
   return (
     <div className="user-bubble d-flex">
-     {user != null &&  <NavLink className={"profile-link"} to={"/profile"}>
-        {user?.firstName[0]?.toUpperCase() + user?.lastName[0]?.toUpperCase()}
-      </NavLink>}
+      {user != null && (
+        <NavLink className={"profile-link"} to={"/profile"}>
+          {user?.firstName[0]?.toUpperCase() + user?.lastName[0]?.toUpperCase()}
+        </NavLink>
+      )}
     </div>
   );
 };

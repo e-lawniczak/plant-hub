@@ -19,7 +19,7 @@ import {
   FileUploaderDropContainer,
   FormItem,
 } from "carbon-components-react";
-import { IOfferInputs, Offer } from "./models";
+import { IOfferInputs, IOffer } from "./models";
 import { useForm } from "react-hook-form";
 import { UserObj } from "../ProfilPage/models";
 import { CreateOffer } from "./CreateOffer";
@@ -30,7 +30,7 @@ export const OfferPage = () => {
     user = useSelector(selectUser),
     [isAjax, setAjax] = useState(false),
     [isOfferOwner, setIsOwner] = useState(false),
-    [offer, setOffer] = useState<Offer>(null as any),
+    [offer, setOffer] = useState<IOffer>(null as any),
     [offerOwner, setOwner] = useState<UserObj>(null as any),
     [images, setImages] = useState<any[]>(),
     [isEdit, setIsEdit] = useState(false),
@@ -43,22 +43,22 @@ export const OfferPage = () => {
       let req = await callGet(apiRoutes.getSingle + `/${id}`);
       if (req.ok) {
         setOffer(req.body as any);
-        setOwner((req.body as unknown as Offer).user);
+        setOwner((req.body as unknown as IOffer).user);
         let reqImg = await callGet(apiRoutes.getOfferFiles + `/${id}`);
         if (reqImg.ok) {
           setImages(reqImg.body as any);
         }
-        if ((req.body as unknown as Offer).user.id === user.id) {
+        if ((req.body as unknown as IOffer).user.id === user.id) {
           setIsOwner(true);
         } else {
           setIsOwner(false);
-          checkRep((req.body as unknown as Offer).user);
-          checkFav(req.body as unknown as Offer);
+          checkRep((req.body as unknown as IOffer).user);
+          checkFav(req.body as unknown as IOffer);
         }
       }
       setAjax(false);
     },
-    handleDeactivate = async (offer: Offer) => {
+    handleDeactivate = async (offer: IOffer) => {
       if (!isOfferOwner) return;
       let req = await callPatch(
         apiRoutes.deactivateOffer + `/${offer.user.email}` + `/${offer.id}`,
@@ -68,7 +68,7 @@ export const OfferPage = () => {
         getOffer();
       }
     },
-    handleDelete = async (offer: Offer) => {
+    handleDelete = async (offer: IOffer) => {
       if (!isOfferOwner) return;
       let req = await callDelete(
         apiRoutes.deleteOffer + `/${offer.user.email}` + `/${offer.id}`,
@@ -109,7 +109,7 @@ export const OfferPage = () => {
         getOffer();
       }
     },
-    handleEdit = (offer: Offer) => {
+    handleEdit = (offer: IOffer) => {
       setIsEdit(true);
     },
     handleChat = (id: number, email: string, first: string, last: string) => {
@@ -150,7 +150,7 @@ export const OfferPage = () => {
       );
       setIsRepped(req.body as any);
     },
-    checkFav = async (offerToCheck: Offer) => {
+    checkFav = async (offerToCheck: IOffer) => {
       let req = await callGet(
         apiRoutes.checkFavOffer + `/${user.email}/${offerToCheck.id}`
       );
@@ -199,7 +199,7 @@ export const OfferPage = () => {
   );
 };
 
-const OfferInfo = (props: { isOfferOwner: any, offer: Offer, handleDeactivate: any, handleEdit: any, handleDelete: any, isFaved: any, dislikeOffer: any, likeOffer: any }) => {
+const OfferInfo = (props: { isOfferOwner: any, offer: IOffer, handleDeactivate: any, handleEdit: any, handleDelete: any, isFaved: any, dislikeOffer: any, likeOffer: any }) => {
   const { isOfferOwner, offer, handleDeactivate, handleEdit, handleDelete, isFaved, dislikeOffer, likeOffer } = props;
   return <>
     {isOfferOwner ? (

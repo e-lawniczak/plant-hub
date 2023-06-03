@@ -3,7 +3,6 @@
     gap: 5px;
     align-items: flex-end;
 
-
     .menu-opt {
         border-bottom: 2px solid transparent;
         transition: all .3s;
@@ -19,7 +18,10 @@
         a {
             padding: 8px 16px;
             border-bottom: 1px solid blue;
-           
+        }
+
+        @media (max-width: 767px) {
+            flex-direction: column;
         }
     }
 }

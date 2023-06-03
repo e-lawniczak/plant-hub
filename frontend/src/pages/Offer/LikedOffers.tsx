@@ -1,30 +1,24 @@
-import { Button } from 'carbon-components-react';
+import { Console } from 'console';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { apiRoutes } from '../../common/ApiRoutes';
-import { callGet, callPatch } from '../../common/Fetch';
+import { Offer } from '../../common/components/Offer';
+import { callGet } from '../../common/Fetch';
 import { PageContainer } from '../../common/layouts/PageContainer';
 import { selectUser } from '../../common/Redux/Slices/userSlice';
-import { Offer } from './models';
-import { MyOffer } from '../../common/components/MyOffer';
+import { IOffer } from './models';
 
 
 export const LikedOffers = () => {
     const user = useSelector(selectUser),
-        [isAjax, setAjax] = useState(false),
-        [favs, setFavs] = useState<Offer[]>([])
+        [favs, setFavs] = useState<IOffer[]>([])
 
     const getFavs = async () => {
         let req = await callGet(apiRoutes.getFavs + `/${user.email}`)
         setFavs(req.body as any)
-    }
-    const dislikeOffer = async (offer: any) => {
-        let req = await callPatch(apiRoutes.dislikeOffer + `/${user.email}/${offer.id}`, null)
-        if (req.ok) {
-            getFavs();
-        }
+        console.log(req.body)
     }
     useEffect(() => {
         getFavs();
@@ -33,7 +27,7 @@ export const LikedOffers = () => {
     return <PageContainer title={"Liked offers"}>
         <div className="grid-3">
             {favs.map(f => <div >
-                <MyOffer offer={f} isLiked={true} dislikeOffer={dislikeOffer} />
+                <Offer offer={f}/>
 
             </div>)}
         </div>

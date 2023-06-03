@@ -6,12 +6,12 @@ import { callGet, callPatch } from "../common/Fetch"
 import { apiRoutes } from "../common/ApiRoutes"
 import { Button } from "carbon-components-react"
 import { NavLink } from "react-router-dom"
-import { Offer } from "./Offer/models"
+import { IOffer } from "./Offer/models"
 
 export const TestPage2 = () => {
     const user = useSelector(selectUser),
         [isAjax, setAjax] = useState(false),
-        [favs, setFavs] = useState<Offer[]>([])
+        [favs, setFavs] = useState<IOffer[]>([])
 
     const getFavs = async () => {
         let req = await callGet(apiRoutes.getFavs + `/${user.email}`)

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { selectUser } from "../../common/Redux/Slices/userSlice";
 import { callGet } from "../../common/Fetch";
 import { apiRoutes } from "../../common/ApiRoutes";
-import { MyOffer } from "../../common/components/MyOffer";
+import { Offer } from "../../common/components/Offer";
 
 export const MyOffers = () => {
   const user = useSelector(selectUser),
@@ -23,10 +23,10 @@ export const MyOffers = () => {
   }, []);
 
   return (
-    <PageContainer>
+    <PageContainer title="My Offers">
       <div className="grid-3">
         {offers?.map((offer) => (
-          <MyOffer offer={offer}></MyOffer>
+          <Offer offer={offer}></Offer>
         ))}
       </div>
     </PageContainer>

@@ -1,12 +1,12 @@
 import { UserObj } from "../ProfilPage/models";
 
-export interface OfferData {
+export interface IOfferData {
   category: string;
   description: string;
   date: Date;
   title: string;
 }
-export interface Offer {
+export interface IOffer {
   active: boolean;
   category: string;
   date: Date;
@@ -23,7 +23,7 @@ export interface IOfferInputs {
   active: boolean;
 }
 
-export interface CategoryData {
+export interface ICategoryData {
   id: string;
   text: string;
 }

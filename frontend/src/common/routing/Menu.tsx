@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ProjectComponents } from "./ProjectComponents";
 import { useSelector } from "react-redux";
@@ -18,5 +19,7 @@ export const MainMenu = () => {
     );
   }).filter((c) => c);
 
-  return <div className="main-menu">{menuElements}</div>;
+  return (
+    <div className="main-menu">{menuElements}</div>
+  );
 };

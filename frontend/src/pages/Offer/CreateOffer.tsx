@@ -19,12 +19,12 @@ import {
   TextArea,
   TextInput,
 } from "carbon-components-react";
-import { CategoryData, IOfferInputs, Offer, OfferData } from "./models";
+import { ICategoryData, IOfferInputs, IOffer, IOfferData } from "./models";
 import { useForm } from "react-hook-form";
 
 export const CreateOffer = (props: {
   isEdit?: boolean;
-  offer?: Offer;
+  offer?: IOffer;
   getOffer?: any;
   setEdit?: any;
 }) => {
@@ -37,13 +37,13 @@ export const CreateOffer = (props: {
     user = useSelector(selectUser),
     [isAjax, setAjax] = useState(false),
     navigate = useNavigate(),
-    [formData, setFormData] = useState<OfferData>({
+    [formData, setFormData] = useState<IOfferData>({
       category: "",
       date: new Date(),
       description: "",
       title: "",
     }),
-    [categories, setCategories] = useState<CategoryData[]>([]),
+    [categories, setCategories] = useState<ICategoryData[]>([]),
     [currentItem, setCurrentItem] = useState(),
     { register, handleSubmit, setValue } = useForm<IOfferInputs>(),
     [uploaded, setFiles] = useState<any[]>([]),
@@ -59,7 +59,7 @@ export const CreateOffer = (props: {
         date: new Date(),
         filesReq: uploaded,
         ...data,
-      } as OfferData;
+      } as IOfferData;
       body.category = formData.category;
       let req;
       if (isEdit && !!offer) {
@@ -106,7 +106,7 @@ export const CreateOffer = (props: {
       setCategories(
         (res.body as unknown as any[]).map((item) => {
           return { id: String(item.id), text: item.name };
-        }) as CategoryData[]
+        }) as ICategoryData[]
       );
     };
     fetchCategories().catch((error) => console.log(error));

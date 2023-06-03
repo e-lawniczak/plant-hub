@@ -7,7 +7,7 @@ import { Offer } from "../../common/components/Offer";
 import { callGet } from "../../common/Fetch";
 import { PageContainer } from "../../common/layouts/PageContainer";
 import { selectUser } from "../../common/Redux/Slices/userSlice";
-import { CategoryData, OfferData } from "../../pages/Offer/models";
+import { ICategoryData, IOfferData } from "../../pages/Offer/models";
 
 export const MainPage = () => {
   const user = useSelector(selectUser),
@@ -15,14 +15,14 @@ export const MainPage = () => {
     [isAjax, setAjax] = useState(false),
     [searchTitle, setSearchTitle] = useState(""),
     [searchUser, setSearchUser] = useState(""),
-    [formData, setFormData] = useState<OfferData>({
+    [formData, setFormData] = useState<IOfferData>({
       category: "",
       date: new Date(),
       description: "",
       title: "",
     }),
-    [searchCategory, setSearchCategory] = useState<CategoryData>(),
-    [categories, setCategories] = useState<CategoryData[]>([]),
+    [searchCategory, setSearchCategory] = useState<ICategoryData>(),
+    [categories, setCategories] = useState<ICategoryData[]>([]),
     [searchCity, setSearchCity] = useState("");
 
   const handleUpdateSearchTitle = (event: any) => {
@@ -31,10 +31,6 @@ export const MainPage = () => {
 
   const handleUpdateSearchUser = (event: any) => {
     setSearchUser(event.target.value);
-  };
-
-  const dropdownStyle = {
-    width: "300px",
   };
 
   const handleDropdown = (item: { id: string; text: string }) => {
@@ -58,7 +54,7 @@ export const MainPage = () => {
       ...(res.body as unknown as any[]).map((item) => {
         return { id: String(item.id), text: item.name };
       }),
-    ] as CategoryData[]);
+    ] as ICategoryData[]);
   };
 
   const getOffers = async () => {
@@ -75,8 +71,8 @@ export const MainPage = () => {
   }, []);
 
   return (
-    <PageContainer>
-      <div className="main-menu">
+    <PageContainer title="Search Offers">
+      <div className="searchbar">
         <div>
           <TextInput
             id={"title"}
@@ -108,9 +104,10 @@ export const MainPage = () => {
           ></TextInput>
         </div>
         <div>
+          <label className="cds--label">Category</label>
           {categories.length > 0 && (
             <Dropdown
-              style={dropdownStyle}
+              className="dropdown"
               items={categories}
               selectedItem={searchCategory}
               id="categoryDropdown"
@@ -136,9 +133,10 @@ export const MainPage = () => {
             ).includes(searchUser.toLowerCase()) &&
             (offer.category === searchCategory?.text ||
               searchCategory?.text === "All") &&
-            offer.user.city
-              .toLowerCase()
-              .includes(searchCity.toLowerCase()) && <Offer offer={offer} />
+            offer.user.city.toLowerCase().includes(searchCity.toLowerCase()) &&
+            ((user !== null && user.id !== offer.user.id) || user === null) && (
+              <Offer offer={offer} />
+            )
         )}
       </div>
     </PageContainer>
