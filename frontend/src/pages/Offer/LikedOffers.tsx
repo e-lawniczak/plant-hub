@@ -22,7 +22,7 @@ export const LikedOffers = () => {
     }
     useEffect(() => {
         getFavs();
-    }, [])
+    }, []) 
 
     return <PageContainer title={"Liked offers"}>
         <div className="grid-3">
