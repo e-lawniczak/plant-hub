@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ProjectComponents } from "./ProjectComponents";
 import { useSelector } from "react-redux";
@@ -18,8 +18,41 @@ export const MainMenu = () => {
       </div>
     );
   }).filter((c) => c);
+  const
+    menuRef = useRef(null),
+    [menuActive, setmenuActive] = useState(false),
+    handleMenuClick = () => {
+      setmenuActive(!menuActive);
+    },
+    menuListener = (e: any) => {
+      var x = [...e.target.classList].filter((c: string) => c == "line")[0];
+      console.log(x);
+      if (menuRef.current != e.target && !x) {
+        setmenuActive(false);
+      }
+    }
 
-  return (
+  useEffect(() => {
+    window.addEventListener("click", menuListener);
+
+    return () => {
+      window.removeEventListener("click", menuListener);
+    };
+  })
+
+  return (<>
     <div className="main-menu">{menuElements}</div>
+    <div className="mobile-menu">
+      <div ref={menuRef} onClick={handleMenuClick} className="hamburger">
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+      </div>
+    </div>
+    <div className={`main-menu mobile ${menuActive ? "active" : ""}`}>
+      {menuElements}
+    </div>
+  </>
+
   );
 };
