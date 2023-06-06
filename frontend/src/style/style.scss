@@ -14,6 +14,15 @@
 //pages
 @import "./partials/createOffer";
 @import "./partials/offerPage";
+@import "./partials/carbonOverride";
+
+
+:root{
+  --main-color:#006b00;
+  --header-height: 80px;
+  --main-color-tile:#006b0033;
+  --main-color-tile-hover:#006b0055;
+}
 
 .obrazki {
   display: grid;
@@ -63,10 +72,10 @@
 }
 
 .offer-tile {
-  background-color: var(--cds-layer);
-  transition: background-color 0.5s ease;
+  background-color: var(--main-color-tile);
+  transition: all 0.5s ease;
 
   &:hover {
-    background-color: white;
+    background-color: var(--main-color-tile-hover);
   }
 }

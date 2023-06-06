@@ -39,15 +39,20 @@
         .overlay {
             position: absolute;
             display: none;
-            background-color: #eeeeeeaa;
-            color: #000;
+            background-color: var(--main-color-tile-hover);
+            color: #fff;
             width: 50px;
             height: 50px;
             top: 0;
             left: 0;
-            font-size: 2em;
-            font-weight: bold;
+            font-size: 3em;
             cursor: pointer;
+            span{
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                transform: rotate(45deg);
+            }
         }
 
         &:hover .overlay {

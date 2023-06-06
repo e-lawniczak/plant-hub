@@ -196,7 +196,7 @@ export const CreateOffer = (props: {
         )}
         <FormItem className="btn-container">
           <Button type="submit">
-            {isEdit ? "Aktualizuj ofertę" : "Dodaj ofertę"}
+            {isEdit ? "Edit offer" : "Add offer"}
           </Button>
         </FormItem>
       </form>

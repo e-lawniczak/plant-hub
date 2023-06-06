@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { selectUser } from "../Redux/Slices/userSlice";
 import { MainMenu } from "../routing/Menu";
-import logo from "../img/logo.png";
+import logo from "../img/logo_white.png";
 
 export const Header = () => {
   const logoStyle = {

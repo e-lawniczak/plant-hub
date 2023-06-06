@@ -11,13 +11,13 @@
 
 
         &:hover {
-            border-color: blue;
+            border-color: var(--main-color);
             transform: scale(1);
         }
 
         a {
             padding: 8px 16px;
-            border-bottom: 1px solid blue;
+            border-bottom: 1px solid var(--main-color);
         }
 
         @media (max-width: 767px) {

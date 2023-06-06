@@ -1,0 +1,21 @@
+.cds--btn.cds--btn--primary {
+    background-color: var(--main-color) !important;
+}
+.cds--btn{
+    padding: 8px 22px !important;
+    height: fit-content;
+    min-height: unset;
+    min-width: unset;
+}
+
+:root {
+    --cds-focus: var(--main-color-tile);
+}
+
+.cds--checkbox:checked+.cds--checkbox-label::before {
+    background-color: var(--main-color);
+}
+
+.cds--file-browse-btn {
+    color: black;
+}

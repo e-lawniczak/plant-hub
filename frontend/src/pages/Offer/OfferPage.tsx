@@ -262,7 +262,7 @@ const ImageRow = (props: { className: string, images?: any[], isOfferOwner: any,
                   className="overlay"
                   onClick={() => deleteImgFromOffer(i)}
                 >
-                  X
+                  <span>+</span>
                 </div>
               )}
               <div className="img-container">
