@@ -79,3 +79,25 @@
     background-color: var(--main-color-tile-hover);
   }
 }
+.offer-img-container{
+  width: fit-content;
+  height: fit-content;
+}
+.offer-img{
+  width: 10vw;
+  height: 10vw;
+
+  @media (max-width: 767px) {
+    width: 15vh;
+    height: 15vh;
+ }
+}
+.offer-alt{
+  text-align: center;
+}
+.offer-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,8 +1,14 @@
 package put.poznan.planthub.offer.projections;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import lombok.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import put.poznan.planthub.file.File;
+import put.poznan.planthub.file.projections.FileDto;
+import put.poznan.planthub.file.projections.FileSimpleDto;
 import put.poznan.planthub.offer.Offer;
 import put.poznan.planthub.offer.category.Category;
 import put.poznan.planthub.user.User;
@@ -27,7 +33,10 @@ public class AllOffersDto {
     private Boolean active;
 
     private Integer likes;
+
     private UserDto user;
+
+    private FileSimpleDto file;
 
     public static AllOffersDto of(Offer offer) {
         if (offer == null) {
@@ -45,6 +54,11 @@ public class AllOffersDto {
         likes = offer.getLikes();
         active = offer.getActive();
         user = UserDto.of(offer.getUser());
-    }
 
+        if (offer.getFiles().size() != 0) {
+            file = FileSimpleDto.of(offer.getFiles().get(0));
+        } else {
+            file = new FileSimpleDto();
+        }
+    }
 }

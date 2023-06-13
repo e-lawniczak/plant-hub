@@ -100,6 +100,7 @@ public class OfferService {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
         offer.get().setDeleted(true);
+        offer.get().setActive(false);
         offerRepository.save(offer.get());
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

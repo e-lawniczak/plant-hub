@@ -1,4 +1,5 @@
 import { Dropdown, TextInput } from "carbon-components-react";
+import { Console } from "console";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -7,11 +8,11 @@ import { Offer } from "../../common/components/Offer";
 import { callGet } from "../../common/Fetch";
 import { PageContainer } from "../../common/layouts/PageContainer";
 import { selectUser } from "../../common/Redux/Slices/userSlice";
-import { ICategoryData, IOfferData } from "../../pages/Offer/models";
+import { ICategoryData, IOffer, IOfferData } from "../../pages/Offer/models";
 
 export const MainPage = () => {
   const user = useSelector(selectUser),
-    [offers, setOffers] = useState<any[]>([]),
+    [offers, setOffers] = useState<IOffer[]>([]),
     [isAjax, setAjax] = useState(false),
     [searchTitle, setSearchTitle] = useState(""),
     [searchUser, setSearchUser] = useState(""),

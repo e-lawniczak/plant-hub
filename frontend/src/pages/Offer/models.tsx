@@ -15,7 +15,10 @@ export interface IOffer {
   likes: number;
   title: string;
   user: UserObj;
+  file: any;
 }
+
+
 export interface IOfferInputs {
   title: string;
   description: string;
