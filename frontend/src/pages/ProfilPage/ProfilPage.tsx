@@ -79,9 +79,9 @@ export const ProfilPage = () => {
           <Button className="custom-button" onClick={logoutUser}>
             Log out
           </Button>
-          <Button className="custom-button" kind="danger" onClick={deleteUser}>
+          {/* <Button className="custom-button" kind="danger" onClick={deleteUser}>
             Delete
-          </Button>
+          </Button> */}
         </div>
       </AjaxLoader>
     </PageContainer>

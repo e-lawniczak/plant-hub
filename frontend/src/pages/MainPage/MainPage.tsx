@@ -56,6 +56,9 @@ export const MainPage = () => {
         return { id: String(item.id), text: item.name };
       }),
     ] as ICategoryData[]);
+    if(res.ok){
+      getOffers()
+    }
   };
 
   const getOffers = async () => {
@@ -67,9 +70,10 @@ export const MainPage = () => {
   };
 
   useEffect(() => {
-    getOffers().catch((error) => console.log(error));
     getCategories().catch((error) => console.log(error));
+    getOffers().catch((error) => console.log(error));
   }, []);
+
 
   return (
     <PageContainer title="Search Offers">
@@ -125,19 +129,21 @@ export const MainPage = () => {
       </div>
       <div className="grid-3">
         {offers && offers.length > 0 &&
-          offers.filter(o =>{
-            if(
+          offers.filter(o => {
+            if (
+              o.user !== null &&
               o.title.toLowerCase().includes(searchTitle.toLowerCase()) &&
-              o.user.firstName.toLowerCase() + " " + o.user.lastName.toLowerCase() &&
+              (o.user?.firstName.toLowerCase() + " " + o.user?.lastName.toLowerCase()).includes(searchUser.toLowerCase()) &&
               searchCategory !== undefined &&
               (o.category === searchCategory?.text || searchCategory?.text === "All") &&
-              o.user.city.toLowerCase().includes(searchCity.toLowerCase()) &&
+              o.user?.city.toLowerCase().includes(searchCity?.toLowerCase().trim() || "" ) &&
               ((user !== null && user.id !== o.user.id) || user === null)
             )
-            return true
+              return true
             return false
+
           }
-          
+
           ).map(
             (offer, idx) => {
 

@@ -25,8 +25,8 @@ export const MyOffers = () => {
   return (
     <PageContainer title="My Offers">
       <div className="grid-3">
-        {offers && offers.length > 0 && offers?.map((offer) => (
-          <Offer offer={offer}></Offer>
+        {offers && offers.length > 0 && offers?.map((offer, idx) => (
+          <Offer key={idx} offer={offer}></Offer>
         ))}
       </div>
     </PageContainer>
