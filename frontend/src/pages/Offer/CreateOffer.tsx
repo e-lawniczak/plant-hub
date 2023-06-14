@@ -50,11 +50,11 @@ export const CreateOffer = (props: {
     handleFileAdd = (event: any, file: any) => {
       let tmpUpload = [...uploaded];
       tmpUpload.push(file.addedFiles[0]);
-      console.log(file.addedFiles[0]);
       setFiles(tmpUpload);
     },
     handleForm = async (data: any) => {
       setAjax(true);
+      if(!formData.category) return;
       let body = {
         date: new Date(),
         filesReq: uploaded,
@@ -98,11 +98,9 @@ export const CreateOffer = (props: {
     };
 
   useEffect(() => {
-    console.log();
 
     const fetchCategories = async () => {
       const res = await callGet(apiRoutes.getCategories);
-      console.log(res.body as any);
       setCategories(
         (res.body as unknown as any[]).map((item) => {
           return { id: String(item.id), text: item.name };
@@ -115,7 +113,6 @@ export const CreateOffer = (props: {
   useEffect(() => {
     if (isEdit && !!offer && categories.length > 0) {
       let curr = categories.filter((c) => c.text === offer.category);
-      console.log(curr);
       if (curr.length > 0) setCurrentItem(curr[0] as any);
       setValue("active", offer.active);
       setValue("title", offer.title);
@@ -188,7 +185,6 @@ export const CreateOffer = (props: {
               multiple
               onAddFiles={(e, x) => handleFileAdd(e, x)}
               onChange={(e) => {
-                console.log(e);
               }}
               tabIndex={0}
             />

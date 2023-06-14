@@ -26,7 +26,6 @@ export const MainMenu = () => {
     },
     menuListener = (e: any) => {
       var x = [...e.target.classList].filter((c: string) => c == "line")[0];
-      console.log(x);
       if (menuRef.current != e.target && !x) {
         setmenuActive(false);
       }

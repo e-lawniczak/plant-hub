@@ -14,8 +14,8 @@ export const MainPage = () => {
   const user = useSelector(selectUser),
     [offers, setOffers] = useState<IOffer[]>([]),
     [isAjax, setAjax] = useState(false),
-    [searchTitle, setSearchTitle] = useState(""),
-    [searchUser, setSearchUser] = useState(""),
+    [searchTitle, setSearchTitle] = useState<string>(""),
+    [searchUser, setSearchUser] = useState<string>(""),
     [formData, setFormData] = useState<IOfferData>({
       category: "",
       date: new Date(),
@@ -24,7 +24,7 @@ export const MainPage = () => {
     }),
     [searchCategory, setSearchCategory] = useState<ICategoryData>(),
     [categories, setCategories] = useState<ICategoryData[]>([]),
-    [searchCity, setSearchCity] = useState("");
+    [searchCity, setSearchCity] = useState<string>("");
 
   const handleUpdateSearchTitle = (event: any) => {
     setSearchTitle(event.target.value);
@@ -62,7 +62,7 @@ export const MainPage = () => {
     setAjax(true);
     let req = await callGet(apiRoutes.getOffers);
     setOffers(req.body as any);
-    setSearchCity(user.city);
+    setSearchCity(user?.city);
     setAjax(false);
   };
 
@@ -124,21 +124,26 @@ export const MainPage = () => {
         </div>
       </div>
       <div className="grid-3">
-        {offers.map(
-          (offer) =>
-            offer.title.toLowerCase().includes(searchTitle.toLowerCase()) &&
-            (
-              offer.user.firstName.toLowerCase() +
-              " " +
-              offer.user.lastName.toLowerCase()
-            ).includes(searchUser.toLowerCase()) &&
-            (offer.category === searchCategory?.text ||
-              searchCategory?.text === "All") &&
-            offer.user.city.toLowerCase().includes(searchCity.toLowerCase()) &&
-            ((user !== null && user.id !== offer.user.id) || user === null) && (
-              <Offer offer={offer} />
+        {offers && offers.length > 0 &&
+          offers.filter(o =>{
+            if(
+              o.title.toLowerCase().includes(searchTitle.toLowerCase()) &&
+              o.user.firstName.toLowerCase() + " " + o.user.lastName.toLowerCase() &&
+              searchCategory !== undefined &&
+              (o.category === searchCategory?.text || searchCategory?.text === "All") &&
+              o.user.city.toLowerCase().includes(searchCity.toLowerCase()) &&
+              ((user !== null && user.id !== o.user.id) || user === null)
             )
-        )}
+            return true
+            return false
+          }
+          
+          ).map(
+            (offer, idx) => {
+
+              return <Offer key={idx} offer={offer} />
+            }
+          )}
       </div>
     </PageContainer>
   );

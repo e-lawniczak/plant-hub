@@ -48,7 +48,7 @@ export const OfferPage = () => {
         if (reqImg.ok) {
           setImages(reqImg.body as any);
         }
-        if ((req.body as unknown as IOffer).user.id === user.id) {
+        if (user && (req.body as unknown as IOffer).user.id === user.id) {
           setIsOwner(true);
         } else {
           setIsOwner(false);
@@ -61,7 +61,7 @@ export const OfferPage = () => {
     handleDeactivate = async (offer: IOffer) => {
       if (!isOfferOwner) return;
       let req = await callPatch(
-        apiRoutes.deactivateOffer + `/${offer.user.email}` + `/${offer.id}`,
+        apiRoutes.deactivateOffer + `/${offer?.user?.email}` + `/${offer.id}`,
         null
       );
       if (req.ok) {
@@ -145,14 +145,16 @@ export const OfferPage = () => {
       getOffer();
     },
     checkRep = async (offerOwnerLocal: UserObj) => {
+      if(!user) return;
       let req = await callGet(
-        apiRoutes.isUserRep + `/${user.email}/${offerOwnerLocal.email}`
+        apiRoutes.isUserRep + `/${user?.email}/${offerOwnerLocal.email}`
       );
       setIsRepped(req.body as any);
     },
     checkFav = async (offerToCheck: IOffer) => {
+      if(!user) return;
       let req = await callGet(
-        apiRoutes.checkFavOffer + `/${user.email}/${offerToCheck.id}`
+        apiRoutes.checkFavOffer + `/${user?.email}/${offerToCheck.id}`
       );
       setIsFaved(req.body as any);
     };
@@ -161,9 +163,7 @@ export const OfferPage = () => {
     getOffer();
   }, []);
 
-  useEffect(() => {
-    console.log(uploaded);
-  }, [uploaded]);
+
 
   return (
     <PageContainer
@@ -243,7 +243,8 @@ const OfferInfo = (props: {
     isFaved,
     dislikeOffer,
     likeOffer,
-  } = props;
+  } = props,
+  user = useSelector(selectUser);
   return (
     <>
       {isOfferOwner ? (
@@ -266,13 +267,15 @@ const OfferInfo = (props: {
           </div>
         </div>
       ) : (
-        <div className="offer-opt">
+        <>
+        {user &&  <div className="offer-opt">
           {isFaved ? (
             <Button onClick={() => dislikeOffer(offer)}>dislike offer</Button>
           ) : (
             <Button onClick={() => likeOffer(offer)}>like offer</Button>
           )}
-        </div>
+        </div>}
+        </>
       )}
       <div className="text">
         <h4>Description</h4>
@@ -306,9 +309,7 @@ const ImageRow = (props: {
     } = props,
     { register, handleSubmit } = useForm<IOfferInputs>();
 
-  // useEffect(()=>{
-  //   console.log(uploaded);
-  // },[uploaded])
+
   return (
     <div className={className}>
       {images && (
@@ -421,24 +422,27 @@ const UserColumn = (props: {
           <p>Likes: {offerOwner?.votes}</p>
           {offerOwner?.id !== user?.id && (
             <>
+             {user && 
+             <>
               <Button
-                type="button"
-                onClick={() =>
-                  handleChat(
-                    offerOwner?.id,
-                    offerOwner?.email,
-                    offerOwner?.firstName,
-                    offerOwner?.lastName
-                  )
-                }
-              >
-                Send a chat
-              </Button>
+              type="button"
+              onClick={() =>
+                handleChat(
+                  offerOwner?.id,
+                  offerOwner?.email,
+                  offerOwner?.firstName,
+                  offerOwner?.lastName
+                )
+              }
+            >
+              Send a chat
+            </Button>
               {!isRepped && offerOwner !== user && (
                 <Button type="button" onClick={() => repUser(offerOwner)}>
                   Rep user
                 </Button>
               )}
+             </>}
             </>
           )}
         </div>

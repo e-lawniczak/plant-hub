@@ -18,7 +18,6 @@ export const LikedOffers = () => {
     const getFavs = async () => {
         let req = await callGet(apiRoutes.getFavs + `/${user.email}`)
         setFavs(req.body as any)
-        console.log(req.body)
     }
     useEffect(() => {
         getFavs();

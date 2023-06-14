@@ -149,7 +149,6 @@ const callApi = async (
   let authorizationToken = (store.getState().user as any)?.accessToken;
   if (isAuth) {
     requestBody.headers["Authorization"] = `Bearer ${authorizationToken}`;
-    console.log(requestBody);
   }
   const response = await fetch(url, requestBody);
   let responseObject = {

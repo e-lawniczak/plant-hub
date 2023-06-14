@@ -100,4 +100,14 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 5px;
+  .desc, .title{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+  .title{
+    max-width: unset;
+  }
 }

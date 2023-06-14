@@ -20,6 +20,13 @@ export const ProjectComponents = [
     name: "OfferPage",
     path: "/offer/:user/:id",
     element: <OfferPage />,
+    auth: false,
+    hideInMenu: true,
+  },
+  {
+    name: "OfferPage",
+    path: "/offer/:user/:id",
+    element: <OfferPage />,
     auth: true,
     hideInMenu: true,
   },

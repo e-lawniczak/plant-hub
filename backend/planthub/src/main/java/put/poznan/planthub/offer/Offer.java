@@ -25,6 +25,7 @@ public class Offer  {
 
     private String title;
 
+    @Lob
     private String description;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
