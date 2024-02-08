@@ -1,5 +1,2 @@
 # plant-hub
- 
-## TODO Eryk
-- CRUD ofert wymiany
-- Zapisywanie ofert do ulubionych
+Projekt studencki realizujący pomysł, jakim było stworzenie platformy do wymiany roślin.
